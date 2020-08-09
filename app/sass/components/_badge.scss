@@ -30,7 +30,12 @@
   }
 }
 
-button.badge {
+a.badge {
+  display: inline-flex;
+  text-decoration: none;
+}
+
+button.badge, a.badge {
   cursor: pointer;
 
   .badge-right {
