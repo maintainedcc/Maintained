@@ -22,7 +22,8 @@ for await (const req of s) {
 
   // Get type
   let type = "";
-  switch (req.url.split('.')[req.url.split('.').length - 1]) {
+  const splitUrl = req.url.split('.');
+  switch (splitUrl[splitUrl.length - 1]) {
     case "css":
       type = "text/css";
       break;

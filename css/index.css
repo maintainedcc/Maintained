@@ -3,6 +3,7 @@
 }
 
 ::-webkit-scrollbar {
+  height: 12px;
   width: 12px;
 }
 
@@ -49,8 +50,7 @@ body {
 .hero .title {
   font-size: 2rem;
   font-weight: 100;
-  width: 900px;
-  margin: auto;
+  padding: 0 20px;
   padding-bottom: 20vh;
 }
 .hero .title h1 {
@@ -62,6 +62,13 @@ body {
 }
 .hero .title .badge {
   margin-top: 30px;
+}
+@media (min-width: 768px) {
+  .hero .title {
+    max-width: 900px;
+    width: 100%;
+    margin: auto;
+  }
 }
 .hero svg {
   position: absolute;
@@ -82,7 +89,6 @@ body {
 }
 
 .section {
-  width: 900px;
   margin: auto;
   position: relative;
 }
