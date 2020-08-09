@@ -23,34 +23,6 @@ body {
   margin: 0;
 }
 
-.badge {
-  border: none;
-  border-radius: 0;
-  background-color: #000;
-  color: #fff;
-  display: flex;
-  line-height: 50px;
-  height: 50px;
-  padding: 0;
-}
-.badge .badge-left, .badge .badge-right {
-  font-size: 1rem;
-  padding: 0 20px;
-  text-transform: uppercase;
-}
-.badge .badge-left {
-  font-family: roboto, sans-serif;
-  font-weight: 500;
-}
-.badge .badge-right {
-  background-color: #662d91;
-  flex: 1 0;
-  letter-spacing: 3px;
-  font-family: montserrat, sans-serif;
-  font-weight: 800;
-  text-align: center;
-}
-
 .hero {
   background-color: #c1272d;
   display: flex;
@@ -110,6 +82,35 @@ body {
   font-weight: 500;
   text-align: center;
   text-transform: uppercase;
+  text-shadow: #0006 5px 5px 10px;
+}
+
+.badge {
+  border: none;
+  border-radius: 0;
+  background-color: #000;
+  color: #fff;
+  display: flex;
+  line-height: 50px;
+  height: 50px;
+  padding: 0;
+}
+.badge .badge-left, .badge .badge-right {
+  font-size: 1rem;
+  padding: 0 20px;
+  text-transform: uppercase;
+}
+.badge .badge-left {
+  font-family: roboto, sans-serif;
+  font-weight: 500;
+}
+.badge .badge-right {
+  background-color: #662d91;
+  flex: 1 0;
+  letter-spacing: 3px;
+  font-family: montserrat, sans-serif;
+  font-weight: 800;
+  text-align: center;
 }
 
 .steps {
@@ -121,16 +122,20 @@ body {
   padding-left: 0;
 }
 .steps .step {
-  box-shadow: #000a 0 0 10px;
+  box-shadow: #0006 5px 5px 10px;
   width: 350px;
   height: 300px;
   position: relative;
 }
 .steps .step h3 {
-  box-shadow: #000a 0 0 10px;
+  box-shadow: #0006 5px 5px 10px;
   position: absolute;
   top: -40px;
+  right: -20px;
+}
+.steps .step h3.left {
   left: -20px;
+  right: unset;
 }
 .steps > :nth-child(2) {
   padding-top: 200px;
