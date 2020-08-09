@@ -5,7 +5,12 @@ const s = serve({ port: 8000 });
 console.log("http://localhost:8000/");
 
 for await (const req of s) {
-  const decoder = new TextDecoder("utf-8");
+  // Parse any API routes
+  switch (req.url) {
+    case "/api/ping":
+      req.respond({ body: "Pong!", status: 200 });
+      continue;
+  }
 
   // Root index or parse as relative URL
   if (req.url === "/") {
@@ -13,6 +18,25 @@ for await (const req of s) {
   }
   else if (!req.url.startsWith(".")) {
     req.url = `.${req.url}`;
+  }
+
+  // Get type
+  let type = "";
+  switch (req.url.split('.')[req.url.split('.').length - 1]) {
+    case "css":
+      type = "text/css";
+      break;
+    case "ico":
+      type = "image/x-icon";
+      break;
+    case "html":
+      type = "text/html";
+      break;
+    case "svg":
+      type = "image/svg+xml";
+      break;
+    default:
+      type = "text/plain";
   }
 
   // Check if file exists
@@ -24,7 +48,10 @@ for await (const req of s) {
 
   console.log(`Parse: ${req.url}`);
 
+  const decoder = new TextDecoder("utf-8");
   const content = decoder.decode(await Deno.readFile(req.url));
 
-  req.respond({ body: content });
+  const headers = new Headers();
+  headers.set("content-type", type);
+  req.respond({ body: content, status: 200, headers: headers });
 }
