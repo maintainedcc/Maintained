@@ -7,6 +7,15 @@ console.log("http://localhost:8000/");
 for await (const req of s) {
   const decoder = new TextDecoder("utf-8");
 
+  // Root index or parse as relative URL
+  if (req.url === "/") {
+    req.url = "index.html";
+  }
+  else if (!req.url.startsWith(".")) {
+    req.url = `.${req.url}`;
+  }
+
+  // Check if file exists
   if (!(await exists(req.url))) {
     req.respond({ status: 404 });
     console.warn(`URL Not Found: ${req.url}`);
@@ -14,10 +23,6 @@ for await (const req of s) {
   }
 
   console.log(`Parse: ${req.url}`);
-
-  if (req.url === "/") {
-    req.url = "index.html";
-  }
 
   const content = decoder.decode(await Deno.readFile(req.url));
 

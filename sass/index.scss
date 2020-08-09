@@ -1,0 +1,108 @@
+:root {
+  scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #662d91;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #000;
+}
+
+html {
+  font-family: acumin-pro, sans-serif;
+}
+
+body {
+  background-color: #c1272d;
+  margin: 0;
+}
+
+.badge {
+  border: none;
+  border-radius: 0;
+  background-color: #000;
+  color: #fff;
+  display: flex;
+  line-height: 50px;
+  height: 50px;
+  padding: 0;
+
+  .badge-left, .badge-right {
+    font-size: 1rem;
+    padding: 0 20px;
+    text-transform: uppercase;
+  }
+
+  .badge-left {
+    font-family: roboto, sans-serif;
+    font-weight: 500;
+  }
+
+  .badge-right {
+    letter-spacing: 3px;
+    font-family: montserrat, sans-serif;
+    font-weight: 800;
+    background-color: #662d91;
+  }
+}
+
+.hero {
+  background-color: #c1272d;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  color: #fff;
+  margin: 0 auto;
+
+  .title {
+    font-size: 2rem;
+    font-weight: 100;
+    width: 900px;
+    margin: auto;
+    padding-bottom: 20vh;
+
+    h1 {
+      font-weight: 100;
+      margin: 0;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .badge {
+      margin-top: 30px;
+    }
+  }
+
+  svg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+}
+
+.content {
+  background-color: #fff;
+  min-height: 100vh;
+  
+  position: absolute;
+  top: 100vh;
+  left: 0;
+  right: 0;
+}
