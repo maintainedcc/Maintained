@@ -23,6 +23,16 @@ body {
   margin: 0;
 }
 
+.cta {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 50px 0;
+}
+.cta .badge .badge-right {
+  background-color: #f15a24;
+}
+
 .hero {
   background-color: #c1272d;
   display: flex;
@@ -72,8 +82,9 @@ body {
 }
 
 .section {
-  width: 850px;
+  width: 900px;
   margin: auto;
+  position: relative;
 }
 .section .header {
   letter-spacing: 3px;
@@ -113,36 +124,19 @@ body {
   text-align: center;
 }
 
-.steps {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  list-style: none;
-  margin-top: 150px;
-  padding-left: 0;
+button.badge {
+  cursor: pointer;
 }
-.steps .step {
-  box-shadow: #0006 5px 5px 10px;
-  width: 350px;
-  height: 300px;
-  position: relative;
+button.badge .badge-right {
+  background-image: linear-gradient(45deg, #662d91 49.9%, #f15a24 50%);
+  background-size: 300%;
+  background-repeat: repeat-x;
+  transition: background;
+  transition-duration: 0.6s;
+  min-width: 80px;
 }
-.steps .step h3 {
-  box-shadow: #0006 5px 5px 10px;
-  position: absolute;
-  top: -40px;
-  right: -20px;
-}
-.steps .step h3.left {
-  left: -20px;
-  right: unset;
-}
-.steps > :nth-child(2) {
-  padding-top: 200px;
-}
-.steps > :nth-child(3) {
-  padding-top: 200px;
-  padding-left: 100px;
+button.badge:hover .badge-right {
+  background-position-x: -220px;
 }
 
 /*# sourceMappingURL=index.css.map */

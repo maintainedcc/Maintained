@@ -7,3 +7,14 @@ body {
   background-color: #c1272d;
   margin: 0;
 }
+
+.cta {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 50px 0;
+
+  .badge .badge-right {
+    background-color: #f15a24;
+  }
+}
