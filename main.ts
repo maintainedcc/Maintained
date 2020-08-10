@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.64.0/http/server.ts";
 import { exists } from "https://deno.land/std/fs/exists.ts";
+import { getCookies } from 'https://deno.land/std@0.64.0/http/cookie.ts';
 
 import { ApiService } from './api.ts';
 import { IdentityService } from './identity.ts';
@@ -25,9 +26,9 @@ for await (const req of s) {
       continue;
 
     case "/oauth/login":
-      const cookies = req.headers.get("cookie");
-      const tokenCookie = cookies?.match(/token=.+$/);
-      if (tokenCookie) {
+      const cookies = getCookies(req);
+      console.log(cookies["token"]);
+      if (cookies["token"] && identity.isAuthorized(cookies["token"])) {
         req.respond({ 
           status: 302, 
           headers: new Headers({ "Location": "/dashboard" })
