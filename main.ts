@@ -1,10 +1,14 @@
 import { serve } from "https://deno.land/std@0.64.0/http/server.ts";
 import { exists } from "https://deno.land/std/fs/exists.ts";
 
-import { config } from './environment.ts';
+import { ApiService } from './api.ts';
+import { IdentityService } from './identity.ts';
 
 const s = serve({ port: 8000 });
 console.log("http://localhost:8000/");
+
+const api = new ApiService();
+const identity = new IdentityService();
 
 for await (const req of s) {
   // Separate query parameters
@@ -17,34 +21,40 @@ for await (const req of s) {
     case "/api/ping":
       req.respond({ body: "Pong!", status: 200 });
       continue;
+
     case "/oauth/callback":
-      if (params.get("state") != "pog") {
-        req.respond({ status: 401 });
+      const code = params.get("code") ?? "";
+      const state = params.get("state") ?? "";
+
+      if (!code || state != "pog") {
+        req.respond({ status: 400 });
+        continue;
       }
-      else {
-        const url = "https://github.com/login/oauth/access_token";
-        fetch(`${url}?client_id=${config.client_id}&client_secret=${config.client_secret}&code=${params.get("code")}&state=pog`, { method: "POST" })
-        .then(res => res.text())
-        .then(res => {
-          const authParams = new URLSearchParams(res);
-          const headers = new Headers();
-          headers.set("set-cookie", `token=${authParams.get("access_token")}`);
-          headers.set("location", "/dashboard");
-          req.respond({ status: 302, headers: headers});
-        });
-      }
+      
+      const token = await api.getAccessToken(code, state);
+
+      // Allow this token to make database edits
+      const uuid = await api.getUserUUID(token);
+      identity.authorizeToken(token, uuid);
+
+      req.respond({ 
+        status: 302, 
+        headers: new Headers({
+          "Set-Cookie": `token=${token}; Max-Age=86400; SameSite=Strict;`,
+          "Location": "/dashboard"
+        })
+      });
       continue;
   }
 
-  // Root index, dashboard or parse as relative URL
-  if (req.url === "/") {
-    req.url = "app/index.html";
-  }
-  else if (req.url === "/dashboard") {
-    req.url = "app/dashboard.html";
-  }
-  else {
-    req.url = `app${req.url}`;
+  // Use /app folder as scope, route pages
+  switch (req.url) {
+    case "/":
+      req.url = "/index.html";
+    case "/dashboard":
+      req.url = "/dashboard.html";
+    default:
+      req.url = `app${req.url}`;
   }
 
   // Check if file exists
