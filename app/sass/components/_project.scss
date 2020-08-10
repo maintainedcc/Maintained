@@ -20,12 +20,19 @@
   }
 
   .badge-editor {
+    display: flex;
+    flex-wrap: wrap;
     margin-bottom: 20px;
 
     .badge-left, .badge-right {
+      background-color: #655;
       border: none;
       border-radius: 0;
       flex: 1 1;
+    }
+
+    .badge-right {
+      background-color: #AB2;
     }
   }
 
@@ -44,5 +51,9 @@
   
       min-width: 60px;
     }
+  }
+
+  .badge-options {
+    width: 100%;
   }
 }

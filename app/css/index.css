@@ -129,13 +129,13 @@ footer {
 .badge, .badge-editor {
   display: flex;
   line-height: 50px;
-  height: 50px;
 }
 .badge .badge-left, .badge .badge-right, .badge-editor .badge-left, .badge-editor .badge-right {
   background-color: #000;
   color: #fff;
   font-size: 1rem;
   padding: 0 20px;
+  text-shadow: #0006 1px 1px 5px;
   text-transform: uppercase;
 }
 .badge .badge-left, .badge-editor .badge-left {
@@ -143,7 +143,6 @@ footer {
   font-weight: 500;
 }
 .badge .badge-right, .badge-editor .badge-right {
-  background-color: #662d91;
   letter-spacing: 3px;
   font-family: montserrat, sans-serif;
   font-weight: 800;
@@ -202,12 +201,18 @@ button.badge:hover .badge-right, a.badge:hover .badge-right {
   padding-left: 0;
 }
 .project .badge-editor {
+  display: flex;
+  flex-wrap: wrap;
   margin-bottom: 20px;
 }
 .project .badge-editor .badge-left, .project .badge-editor .badge-right {
+  background-color: #655;
   border: none;
   border-radius: 0;
   flex: 1 1;
+}
+.project .badge-editor .badge-right {
+  background-color: #AB2;
 }
 .project .badge-actions {
   display: flex;
@@ -221,6 +226,9 @@ button.badge:hover .badge-right, a.badge:hover .badge-right {
   font-weight: 700;
   font-size: 1.5rem;
   min-width: 60px;
+}
+.project .badge-options {
+  width: 100%;
 }
 
 .loader .loader-title {
