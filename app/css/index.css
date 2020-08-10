@@ -28,6 +28,10 @@ main {
   padding: 0 20px;
 }
 
+footer {
+  line-height: 30px;
+}
+
 .cta {
   display: flex;
   flex-direction: row;
@@ -78,6 +82,7 @@ main {
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: -1;
 }
 .hero.bg {
   z-index: -1;
@@ -110,17 +115,15 @@ main {
   background-color: #fff;
   border-radius: 5px;
   max-width: 700px;
-  margin: 20px auto;
+  margin: 50px auto;
   padding: 30px;
-}
-.dashboard-section:first-of-type {
-  margin-top: 60px;
 }
 
 .dashboard-nav {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .badge {
@@ -174,6 +177,7 @@ button.badge:hover .badge-right, a.badge:hover .badge-right {
 .badge-editable .badge-right {
   border: #000 1px solid;
   color: #fff;
+  text-align: left;
 }
 .badge-editable .badge-action {
   background-color: #000;
@@ -210,6 +214,36 @@ button.badge:hover .badge-right, a.badge:hover .badge-right {
 }
 .project .badge .badge-left, .project .badge .badge-right {
   flex: 1 1;
+}
+
+.loader .loader-title {
+  animation: bg-loader 2s linear infinite forwards;
+  background-image: linear-gradient(45deg, #eee 20%, #ddd 50%, #eee 80%);
+  background-size: 500px;
+  display: block;
+  height: 30px;
+  width: 200px;
+  margin-bottom: 20px;
+}
+.loader .loader-badge {
+  animation: bg-loader 2s linear infinite forwards;
+  background-image: linear-gradient(45deg, #eee 20%, #ddd 50%, #eee 80%);
+  background-size: 500px;
+  display: block;
+  height: 50px;
+  width: 100%;
+}
+.loader .loader-badge:not(:last-of-type) {
+  margin-bottom: 20px;
+}
+
+@keyframes bg-loader {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: 500px;
+  }
 }
 
 /*# sourceMappingURL=index.css.map */

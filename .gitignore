@@ -1,2 +1,4 @@
 
 environment.ts
+app/js/*.js
+app/js/*.js.map
