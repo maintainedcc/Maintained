@@ -40,7 +40,7 @@ for await (const req of s) {
       req.respond({ 
         status: 302, 
         headers: new Headers({
-          "Set-Cookie": `token=${token}; Max-Age=86400; SameSite=Strict;`,
+          "Set-Cookie": `token=${token}; Max-Age=86400; SameSite=None; Path=/;`,
           "Location": "/dashboard"
         })
       });
@@ -50,9 +50,11 @@ for await (const req of s) {
   // Use /app folder as scope, route pages
   switch (req.url) {
     case "/":
-      req.url = "/index.html";
+      req.url = "app/index.html";
+      break;
     case "/dashboard":
-      req.url = "/dashboard.html";
+      req.url = "app/dashboard.html";
+      break;
     default:
       req.url = `app${req.url}`;
   }
