@@ -126,31 +126,37 @@ footer {
   justify-content: space-between;
 }
 
-.badge {
-  border: none;
-  border-radius: 0;
-  background-color: #000;
-  color: #fff;
+.badge, .badge-editor {
   display: flex;
   line-height: 50px;
   height: 50px;
-  padding: 0;
 }
-.badge .badge-left, .badge .badge-right {
+.badge .badge-left, .badge .badge-right, .badge-editor .badge-left, .badge-editor .badge-right {
+  background-color: #000;
+  color: #fff;
   font-size: 1rem;
   padding: 0 20px;
   text-transform: uppercase;
 }
-.badge .badge-left {
+.badge .badge-left, .badge-editor .badge-left {
   font-family: roboto, sans-serif;
   font-weight: 500;
+}
+.badge .badge-right, .badge-editor .badge-right {
+  background-color: #662d91;
+  letter-spacing: 3px;
+  font-family: montserrat, sans-serif;
+  font-weight: 800;
+}
+
+.badge {
+  border: none;
+  border-radius: 0;
+  padding: 0;
 }
 .badge .badge-right {
   background-color: #662d91;
   flex: 1 0;
-  letter-spacing: 3px;
-  font-family: montserrat, sans-serif;
-  font-weight: 800;
   text-align: center;
 }
 
@@ -174,20 +180,6 @@ button.badge:hover .badge-right, a.badge:hover .badge-right {
   background-position-x: -220px;
 }
 
-.badge-editable .badge-right {
-  border: #000 1px solid;
-  color: #fff;
-  text-align: left;
-}
-.badge-editable .badge-action {
-  background-color: #000;
-  border: #000 1px solid;
-  color: #fff;
-  font-weight: 700;
-  font-size: 1.5rem;
-  min-width: 60px;
-}
-
 .profile-icon img {
   width: 35px;
   height: 35px;
@@ -209,11 +201,26 @@ button.badge:hover .badge-right, a.badge:hover .badge-right {
   list-style: none;
   padding-left: 0;
 }
-.project .badges li {
-  margin-bottom: 10px;
+.project .badge-editor {
+  margin-bottom: 20px;
 }
-.project .badge .badge-left, .project .badge .badge-right {
+.project .badge-editor .badge-left, .project .badge-editor .badge-right {
+  border: none;
+  border-radius: 0;
   flex: 1 1;
+}
+.project .badge-actions {
+  display: flex;
+}
+.project .badge-actions button {
+  background-color: #000;
+  border: #000 1px solid;
+  border-right-color: #fff;
+  border-radius: 0;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.5rem;
+  min-width: 60px;
 }
 
 .loader .loader-title {

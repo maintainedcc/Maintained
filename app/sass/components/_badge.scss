@@ -1,15 +1,13 @@
 
-.badge {
-  border: none;
-  border-radius: 0;
-  background-color: #000;
-  color: #fff;
+.badge, .badge-editor {
   display: flex;
+
   line-height: 50px;
   height: 50px;
-  padding: 0;
 
   .badge-left, .badge-right {
+    background-color: #000;
+    color: #fff;
     font-size: 1rem;
     padding: 0 20px;
     text-transform: uppercase;
@@ -22,10 +20,20 @@
 
   .badge-right {
     background-color: #662d91;
-    flex: 1 0;
     letter-spacing: 3px;
     font-family: montserrat, sans-serif;
     font-weight: 800;
+  }
+}
+
+.badge {
+  border: none;
+  border-radius: 0;
+  padding: 0;
+
+  .badge-right {
+    background-color: #662d91;
+    flex: 1 0;
     text-align: center;
   }
 }
@@ -51,24 +59,5 @@ button.badge, a.badge {
     .badge-right {
       background-position-x: -220px;
     }
-  }
-}
-
-.badge-editable {
-  .badge-right {
-    border: #000 1px solid;
-    color: #fff;
-    text-align: left;
-  }
-
-  .badge-action {
-    background-color: #000;
-    border: #000 1px solid;
-    color: #fff;
-
-    font-weight: 700;
-    font-size: 1.5rem;
-
-    min-width: 60px;
   }
 }
