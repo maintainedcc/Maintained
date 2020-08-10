@@ -15,11 +15,12 @@ export class ApiService {
       ]
       const paramString = new URLSearchParams(tokenParams).toString();
 
-      fetch(`${url}?${paramString}`, { method: "POST" })
+      const headers = new Headers({ "Accept": "application/json" });
+      fetch(`${url}?${paramString}`, { method: "POST", headers: headers })
       .then(res => res.text())
       .then(res => {
-        const authParams = new URLSearchParams(res);
-        resolve(authParams.get("access_token") ?? "");
+        const authRes = JSON.parse(res);
+        resolve(authRes["access_token"]);
       })
       .catch(ex => reject(ex));
     });

@@ -21,7 +21,7 @@ export class IdentityService {
   }
 
   isAuthorized(token: string): boolean {
-    if (this.users[token].expires > new Date()) {
+    if (this.users[token]?.expires.valueOf() > Date.now()) {
       return true;
     }
     else {

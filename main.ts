@@ -4,6 +4,8 @@ import { exists } from "https://deno.land/std/fs/exists.ts";
 import { ApiService } from './api.ts';
 import { IdentityService } from './identity.ts';
 
+import { config } from './environment.ts';
+
 const s = serve({ port: 8000 });
 console.log("http://localhost:8000/");
 
@@ -22,6 +24,29 @@ for await (const req of s) {
       req.respond({ body: "Pong!", status: 200 });
       continue;
 
+    case "/oauth/login":
+      const cookies = req.headers.get("cookie");
+      const tokenCookie = cookies?.match(/token=.+$/);
+      if (tokenCookie) {
+        req.respond({ 
+          status: 302, 
+          headers: new Headers({ "Location": "/dashboard" })
+        });
+      }
+      else {
+        const authUrl = "https://github.com/login/oauth/authorize";
+        const authParams: string[][] = [
+          ["client_id", config.client_id],
+          ["redirect_uri", config.redirect_uri],
+          ["state", "pog"]
+        ];
+        const authParamString = new URLSearchParams(authParams).toString();
+        req.respond({ 
+          status: 302, 
+          headers: new Headers({ "Location": `${authUrl}?${authParamString}` })
+        });
+      }
+
     case "/oauth/callback":
       const code = params.get("code") ?? "";
       const state = params.get("state") ?? "";
@@ -35,6 +60,7 @@ for await (const req of s) {
 
       // Allow this token to make database edits
       const uuid = await api.getUserUUID(token);
+      console.log(uuid);
       identity.authorizeToken(token, uuid);
 
       req.respond({ 
