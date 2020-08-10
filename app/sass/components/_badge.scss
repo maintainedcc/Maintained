@@ -53,3 +53,21 @@ button.badge, a.badge {
     }
   }
 }
+
+.badge-editable {
+  .badge-right {
+    border: #000 1px solid;
+    color: #fff;
+  }
+
+  .badge-action {
+    background-color: #000;
+    border: #000 1px solid;
+    color: #fff;
+
+    font-weight: 700;
+    font-size: 1.5rem;
+
+    min-width: 60px;
+  }
+}

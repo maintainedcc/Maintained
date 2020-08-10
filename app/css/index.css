@@ -24,6 +24,10 @@ body {
   margin: 0;
 }
 
+main {
+  padding: 0 20px;
+}
+
 .cta {
   display: flex;
   flex-direction: row;
@@ -50,7 +54,6 @@ body {
 .hero .title {
   font-size: 2rem;
   font-weight: 100;
-  padding: 0 20px;
   padding-bottom: 20vh;
 }
 .hero .title h1 {
@@ -75,12 +78,14 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
+}
+.hero.bg {
   z-index: -1;
 }
 
 .content {
   background-color: #fff;
-  padding: 50px 10px;
+  padding: 50px 0;
   position: absolute;
   top: 100vh;
   left: 0;
@@ -101,18 +106,21 @@ body {
   text-shadow: #0006 5px 5px 10px;
 }
 
-.dashboard {
+.dashboard-section {
   background-color: #fff;
   border-radius: 5px;
-  min-height: 100px;
   max-width: 700px;
-  width: 100%;
-  margin: 50px auto;
+  margin: 20px auto;
   padding: 30px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  z-index: 1;
+}
+.dashboard-section:first-of-type {
+  margin-top: 60px;
+}
+
+.dashboard-nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 .badge {
@@ -161,6 +169,47 @@ button.badge .badge-right, a.badge .badge-right {
 }
 button.badge:hover .badge-right, a.badge:hover .badge-right {
   background-position-x: -220px;
+}
+
+.badge-editable .badge-right {
+  border: #000 1px solid;
+  color: #fff;
+}
+.badge-editable .badge-action {
+  background-color: #000;
+  border: #000 1px solid;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.5rem;
+  min-width: 60px;
+}
+
+.profile-icon img {
+  width: 35px;
+  height: 35px;
+}
+
+.project h2 {
+  display: flex;
+  align-items: center;
+  margin-top: 0;
+}
+.project h2 .droplet {
+  background-color: #f60;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  margin-right: 10px;
+}
+.project .badges {
+  list-style: none;
+  padding-left: 0;
+}
+.project .badges li {
+  margin-bottom: 10px;
+}
+.project .badge .badge-left, .project .badge .badge-right {
+  flex: 1 1;
 }
 
 /*# sourceMappingURL=index.css.map */

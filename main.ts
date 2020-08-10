@@ -1,4 +1,4 @@
-import { serve } from "https://deno.land/std@0.63.0/http/server.ts";
+import { serve } from "https://deno.land/std@0.64.0/http/server.ts";
 import { exists } from "https://deno.land/std/fs/exists.ts";
 
 import { config } from './environment.ts';
@@ -28,7 +28,7 @@ for await (const req of s) {
         .then(res => {
           const authParams = new URLSearchParams(res);
           const headers = new Headers();
-          headers.set("cookie", authParams.toString());
+          headers.set("set-cookie", `token=${authParams.get("access_token")}`);
           headers.set("location", "/dashboard");
           req.respond({ status: 302, headers: headers});
         });
@@ -56,8 +56,7 @@ for await (const req of s) {
 
   console.log(`Parse: ${route}`);
 
-  const decoder = new TextDecoder("utf-8");
-  const content = decoder.decode(await Deno.readFile(req.url));
+  const content = await Deno.readFile(req.url);
 
   // Get type
   let type = getMimeType(req.url);
@@ -76,6 +75,8 @@ function getMimeType(url: string) {
       return "image/x-icon";
     case "html":
       return "text/html";
+    case "png":
+      return "image/png";
     case "svg":
       return "image/svg+xml";
     default:
