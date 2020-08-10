@@ -29,4 +29,10 @@ export class IdentityService {
       return false;
     }
   }
+
+  getAuthorization(token: string): string {
+    if (this.users[token])
+      return this.users[token].userName;
+    else return "";
+  }
 }

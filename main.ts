@@ -3,6 +3,7 @@ import { exists } from "https://deno.land/std/fs/exists.ts";
 import { getCookies } from 'https://deno.land/std@0.64.0/http/cookie.ts';
 
 import { ApiService } from './api.ts';
+import { DataService } from './data.ts';
 import { IdentityService } from './identity.ts';
 
 import { config } from './environment.ts';
@@ -11,6 +12,7 @@ const s = serve({ port: 8000 });
 console.log("http://localhost:8000/");
 
 const api = new ApiService();
+const data = new DataService();
 const identity = new IdentityService();
 
 for await (const req of s) {
@@ -24,10 +26,19 @@ for await (const req of s) {
     case "/api/ping":
       req.respond({ body: "Pong!", status: 200 });
       continue;
+    
+    case "/api/data":
+      let id = identity.getAuthorization(getCookies(req)["token"]);
+      if (!id) {
+        req.respond({ status: 401 });
+        continue;
+      }
+      let userData = data.getUserInfo(id);
+      req.respond({ body: JSON.stringify(userData), status: 200 });
+      continue;
 
     case "/oauth/login":
       const cookies = getCookies(req);
-      console.log(cookies["token"]);
       if (cookies["token"] && identity.isAuthorized(cookies["token"])) {
         req.respond({ 
           status: 302, 
@@ -61,13 +72,13 @@ for await (const req of s) {
 
       // Allow this token to make database edits
       const uuid = await api.getUserUUID(token);
-      console.log(uuid);
       identity.authorizeToken(token, uuid);
+      data.ensureUser(uuid);
 
       req.respond({ 
         status: 302, 
         headers: new Headers({
-          "Set-Cookie": `token=${token}; Max-Age=86400; SameSite=None; Path=/;`,
+          "Set-Cookie": `token=${token}; Max-Age=86400; SameSite=Strict; Path=/;`,
           "Location": "/dashboard"
         })
       });
