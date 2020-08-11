@@ -1,20 +1,19 @@
 
 interface User {
-  projects: Project[];
+  name: string,
+  projects: Project[]
 }
 
 interface Project {
-  [id: string]: {
-    badges: Badge[]
-  }
+  title: string,
+  badges: Badge[]
 }
 
 interface Badge {
-  [id: string]: {
-    value: string,
-    valueSource: string | null,
-    style: BadgeStyle
-  }
+  title: string,
+  value: string,
+  valueSource: string | null,
+  style: BadgeStyle
 }
 
 enum BadgeStyle {
@@ -29,30 +28,31 @@ export class DataService {
     this.users = {};
   }
 
-  ensureUser(id: string): void {
+  ensureUser(userId: string): void {
     // Make sure the user doesn't exist already
-    if (this.users[id]) return;
+    if (this.users[userId]) return;
 
     // Create default project and badges
     const starterBadge: Badge = {
-      "Welcome to": {
-        value: "Maintained.cc",
-        valueSource: null,
-        style: BadgeStyle.ForTheBadge
-      }
+      title: "Welcome to",
+      value: "Maintained",
+      valueSource: null,
+      style: BadgeStyle.ForTheBadge
     }
     const starterProject: Project = {
-      id: { badges: [ starterBadge ] }
-    }
+      title: userId,
+      badges: [ starterBadge ]
+    };
     const newUser: User = {
+      name: userId,
       projects: [ starterProject ]
     }
 
-    this.users[id] = newUser;
+    this.users[userId] = newUser;
   }
 
-  getUserInfo(id: string): User | undefined {
-    const info = this.users[id];
+  getUserInfo(userId: string): User | undefined {
+    const info = this.users[userId];
     if (info) return info;
     else return undefined;
   }

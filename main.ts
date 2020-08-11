@@ -21,10 +21,6 @@ for await (const req of s) {
 
   // Parse any API routes
   switch (req.url) {
-    case "/api/ping":
-      req.respond({ body: "Pong!", status: 200 });
-      continue;
-    
     case "/api/data":
       let id = identity.getAuthorization(getCookies(req)["token"]);
       if (!id) {
@@ -34,28 +30,6 @@ for await (const req of s) {
       let userData = data.getUserInfo(id);
       req.respond({ body: JSON.stringify(userData), status: 200 });
       continue;
-
-    case "/oauth/login":
-      const cookies = getCookies(req);
-      if (cookies["token"] && identity.isAuthorized(cookies["token"])) {
-        req.respond({ 
-          status: 302, 
-          headers: new Headers({ "Location": "/dashboard" })
-        });
-      }
-      else {
-        const authUrl = "https://github.com/login/oauth/authorize";
-        const authParams: string[][] = [
-          ["client_id", config.client_id],
-          ["redirect_uri", config.redirect_uri],
-          ["state", "pog"]
-        ];
-        const authParamString = new URLSearchParams(authParams).toString();
-        req.respond({ 
-          status: 302, 
-          headers: new Headers({ "Location": `${authUrl}?${authParamString}` })
-        });
-      }
 
     case "/oauth/callback":
       const code = params.get("code") ?? "";
@@ -79,6 +53,36 @@ for await (const req of s) {
           "Set-Cookie": `token=${token}; Max-Age=86400; SameSite=Strict; Path=/;`,
           "Location": "/dashboard"
         })
+      });
+      continue;
+
+    case "/oauth/login":
+      const cookies = getCookies(req);
+      if (cookies["token"] && identity.isAuthorized(cookies["token"])) {
+        req.respond({ 
+          status: 302, 
+          headers: new Headers({ "Location": "/dashboard" })
+        });
+      }
+      else {
+        const authUrl = "https://github.com/login/oauth/authorize";
+        const authParams: string[][] = [
+          ["client_id", config.client_id],
+          ["redirect_uri", config.redirect_uri],
+          ["state", "pog"]
+        ];
+        const authParamString = new URLSearchParams(authParams).toString();
+        req.respond({ 
+          status: 302, 
+          headers: new Headers({ "Location": `${authUrl}?${authParamString}` })
+        });
+      }
+      continue;
+
+    case "/oauth/manage":
+      req.respond({
+        status: 302,
+        headers: new Headers({ "Location": api.getManagementURL() })
       });
       continue;
   }

@@ -8,6 +8,7 @@
   <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
   <link rel="stylesheet" href="https://use.typekit.net/xam1axd.css">
   <link rel="stylesheet" type="text/css" href="css/index.css">
+  <script src="js/dashboard.js"></script>
 </head>
 <body>
   <main>
@@ -18,52 +19,28 @@
       <nav class="dashboard-nav">
         <button class="badge"><span class="badge-left">Create</span><span class="badge-right">New</span></button>
         <div class="profile-icon">
-          <img src="img/favicon.png" alt="Icon">
+          <button onclick="toggleProfileDropdown()"><img src="img/favicon.png" alt="Icon"></button>
+          <div id="profileDropdown" class="profile-options collapsed">
+            <h2>Account</h2>
+            <br>
+            <a class="badge" href="/oauth/manage"><span class="badge-left">Manage Token</span></a>
+            <button class="badge"><span class="badge-left">Log Out</span></button>
+          </div>
         </div>
       </nav>
     </header>
-    <section class="dashboard-section loader">
+    <section id="loader" class="dashboard-section loader">
       <span class="loader-title"></span>
       <span class="loader-badge"></span>
       <span class="loader-badge"></span>
     </section>
+    <div id="projects"></div>
     <section class="dashboard-section project">
       <h2><span class="droplet"></span>SDBagel/Turbodrive</h2>
       <ul class="badges">
         <li><div class="badge-editor">
           <span class="badge-left">Maintained</span>
           <input type="text" class="badge-right" value="Yes" spellcheck="false">
-          <div class="badge-actions">
-            <button>⚙</button>
-            <button>&lt;&gt;</button>
-            <button>X</button>
-          </div>
-          <div class="badge-options">
-            <label for="style">Style:</label>
-            <select name="" id="style">
-              <option value="">For the Badge</option>
-            </select>
-            <label for="style">Value:</label>
-            <select name="" id="style">
-              <option value="">Static</option>
-              <option value="">Dynamic</option>
-            </select>
-            <label for="style">Value Source:</label>
-            <input type="text">
-          </div>
-        </div></li>
-        <li><div class="badge-editor">
-          <span class="badge-left">Pull Requests</span>
-          <input type="text" class="badge-right" value="Welcome" spellcheck="false">
-          <div class="badge-actions">
-            <button>⚙</button>
-            <button>&lt;&gt;</button>
-            <button>X</button>
-          </div>
-        </div></li>
-        <li><div class="badge-editor">
-          <span class="badge-left">Contains</span>
-          <input type="text" class="badge-right" value="Msg" spellcheck="false">
           <div class="badge-actions">
             <button>⚙</button>
             <button>&lt;&gt;</button>

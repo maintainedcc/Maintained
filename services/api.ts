@@ -16,6 +16,10 @@ export class ApiService {
     return `${authUrl}?${authParamString}`;
   }
 
+  getManagementURL(): string {
+    return `https://github.com/settings/connections/applications/${config.client_id}`;
+  }
+
   async getAccessToken(code: string, state: string): Promise<string> {
     return new Promise((resolve, reject) => {
       const url = "https://github.com/login/oauth/access_token";
