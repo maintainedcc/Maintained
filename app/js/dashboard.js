@@ -76,7 +76,6 @@ function hideProfileDropdwown() {
     profileDropdown.classList.add("collapsed");
 }
 
-function preventDefault(e) {
-  e.preventDefault(e);
+function stopPropagation(e) {
   e.stopPropagation();
 }

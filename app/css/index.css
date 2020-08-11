@@ -146,6 +146,7 @@ footer {
   bottom: 0;
   right: 0;
   left: 0;
+  z-index: 2;
   margin: auto;
   width: 100vmax;
   height: 100vmax;
@@ -226,7 +227,7 @@ button.badge .badge-right, a.badge .badge-right {
   transition-duration: 0.6s;
   min-width: 80px;
 }
-button.badge:hover .badge-right, a.badge:hover .badge-right {
+button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover .badge-right, a.badge:focus .badge-right {
   background-position-x: -220px;
 }
 
@@ -239,6 +240,7 @@ button.badge:hover .badge-right, a.badge:hover .badge-right {
   border: none;
   border-radius: 50%;
   position: absolute;
+  z-index: 1;
   width: 35px;
   height: 35px;
   padding: 0;

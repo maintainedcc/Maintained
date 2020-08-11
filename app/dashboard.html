@@ -18,13 +18,13 @@
     <header class="dashboard-section">
       <nav class="dashboard-nav">
         <button class="badge" onclick="toggleCreationDialog()"><span class="badge-left">Create</span><span class="badge-right">New</span></button>
-        <div class="profile-icon" onclick="preventDefault(event);">
+        <div class="profile-icon" onclick="stopPropagation(event);">
           <button onclick="toggleProfileDropdown(event)"><img src="img/favicon.png" alt="Icon"></button>
           <div id="profileDropdown" class="profile-options collapsed">
             <h2>Account</h2>
             <br>
             <a class="badge" href="/oauth/manage"><span class="badge-left">Manage Token</span></a>
-            <button class="badge"><span class="badge-left">Log Out</span></button>
+            <a class="badge" href="/oauth/logout"><span class="badge-left">Log Out</span></a>
           </div>
         </div>
       </nav>
@@ -49,7 +49,7 @@
       </ul>
     </section>
     <section id="dov" class="collapsed" onclick="toggleCreationDialog()">
-      <div class="dialog" onclick="preventDefault(event)">
+      <div class="dialog" onclick="stopPropagation(event)">
         <h2>New Project</h2>
         <input type="text" placeholder="Title">
       </div>

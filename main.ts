@@ -79,6 +79,16 @@ for await (const req of s) {
       }
       continue;
 
+    case "/oauth/logout":
+      req.respond({
+        status: 302,
+        headers: new Headers({
+          "Set-Cookie": "token=; Path=/; Max-Age=0;",
+          "Location": "/" 
+        })
+      });
+      continue;
+
     case "/oauth/manage":
       req.respond({
         status: 302,

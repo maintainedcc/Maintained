@@ -54,7 +54,7 @@ button.badge, a.badge {
     min-width: 80px;
   }
 
-  &:hover {
+  &:hover, &:focus {
     .badge-right {
       background-position-x: -220px;
     }
