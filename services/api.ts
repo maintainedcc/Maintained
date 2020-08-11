@@ -1,8 +1,20 @@
 
-import { config } from './environment.ts';
+import { config } from '../environment.ts';
 
 export class ApiService {
   constructor() {}
+
+  getAuthURL(): string {
+    const authUrl = "https://github.com/login/oauth/authorize";
+    const authParams: string[][] = [
+      ["client_id", config.client_id],
+      ["redirect_uri", config.redirect_uri],
+      ["state", "pog"]
+    ];
+    const authParamString = new URLSearchParams(authParams).toString();
+
+    return `${authUrl}?${authParamString}`;
+  }
 
   async getAccessToken(code: string, state: string): Promise<string> {
     return new Promise((resolve, reject) => {

@@ -2,9 +2,7 @@ import { serve } from "https://deno.land/std@0.64.0/http/server.ts";
 import { exists } from "https://deno.land/std/fs/exists.ts";
 import { getCookies } from 'https://deno.land/std@0.64.0/http/cookie.ts';
 
-import { ApiService } from './api.ts';
-import { DataService } from './data.ts';
-import { IdentityService } from './identity.ts';
+import { ApiService, DataService, IdentityService } from './services/mod.ts';
 
 import { config } from './environment.ts';
 
