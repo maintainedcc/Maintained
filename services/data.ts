@@ -10,6 +10,7 @@ interface Project {
 }
 
 interface Badge {
+  id: number;
   title: string,
   value: string,
   valueSource: string | null,
@@ -34,6 +35,7 @@ export class DataService {
 
     // Create default project and badges
     const starterBadge: Badge = {
+      id: 0,
       title: "Welcome to",
       value: "Maintained",
       valueSource: null,
@@ -57,12 +59,13 @@ export class DataService {
     else return undefined;
   }
 
-  getBadge(userId: string, project: string, badge: string): string {
-    const userData = this.users[userId].projects;
+  getBadge(userId: string, project: string, badgeId: number): [string, string] | undefined {
+    const userData = this.users[userId]?.projects;
+    if (!userData) return undefined;
     const userProj = userData.find(p => p.title === project);
-    if (!userProj) return "";
-    const userBadge = userProj.badges.find(b => b.title === decodeURI(badge));
-    if (!userBadge) return "";
-    else return userBadge.value;
+    if (!userProj) return undefined;
+    const userBadge = userProj.badges.find(b => b.id === badgeId);
+    if (!userBadge) return undefined;
+    else return [userBadge.title, userBadge.value];
   }
 }

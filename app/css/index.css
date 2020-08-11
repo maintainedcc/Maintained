@@ -180,6 +180,7 @@ footer {
 
 .badge, .badge-editor {
   display: flex;
+  height: 50px;
   line-height: 50px;
 }
 .badge .badge-left, .badge .badge-right, .badge-editor .badge-left, .badge-editor .badge-right {

@@ -1,9 +1,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Fetches user data
-  fetch("/api/data")
-  .then(res => res.text())
-  .then(res => buildDashboard(JSON.parse(res)));
+  // Build dashboard using refresh function
+  refresh();
 
   document.addEventListener("click", hideProfileDropdown);
 });
@@ -13,7 +11,7 @@ function templator() {
     badgeEditor: (label, value) => {
       return `
       <li><div class="badge-editor">
-        <span class="badge-left">${label}</span>
+          <input type="text" class="badge-left" value="${label}" spellcheck="false">
         <input type="text" class="badge-right" value="${value}" spellcheck="false">
         <div class="badge-actions">
           <button>⚙</button>
@@ -57,7 +55,7 @@ function getBadges(project) {
 
 function refresh() {
   // Fetches user data
-  fetch("/api/data")
+  fetch("/api/user/data")
   .then(res => res.text())
   .then(res => buildDashboard(JSON.parse(res)));
 }

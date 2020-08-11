@@ -19,9 +19,9 @@ for await (const req of s) {
   req.url = route[0];
   const params = new URLSearchParams(route[1]);
 
-  // Parse any API routes
+  // High-tech router module
   switch (req.url) {
-    case "/api/data":
+    case "/api/user/data":
       let id = identity.getAuthorization(getCookies(req)["token"]);
       if (!id) {
         req.respond({ status: 401 });
@@ -95,17 +95,17 @@ for await (const req of s) {
         headers: new Headers({ "Location": api.getManagementURL() })
       });
       continue;
-  }
-
-  // Use /app folder as scope, route pages
-  switch (req.url) {
-    case "/":
-      req.url = "app/index.html";
-      break;
+    
     case "/dashboard":
       req.url = "app/dashboard.html";
       break;
+
+    case "/":
+      req.url = "app/index.html";
+      break;
+
     default:
+      // app folder is serve workspace
       req.url = `app${req.url}`;
   }
 
@@ -115,10 +115,14 @@ for await (const req of s) {
     // TEMP returns badge value plaintext
     const badgeParams = req.url.split("/");
     if (badgeParams.length === 4) {
-      const badge = data.getBadge(badgeParams[1], badgeParams[2], badgeParams[3]);
-      console.log(badge);
-      if (badge) {
-        req.respond({ body: badge, status: 200, headers: new Headers({"Content-Type": "text/plain"}) });
+      const badgeData = data.getBadge(badgeParams[1], badgeParams[2], parseInt(badgeParams[3]));
+      if (badgeData) {
+        const badge = badger(badgeData[0], badgeData[1]);
+        req.respond({ 
+          body: badge, 
+          status: 200, 
+          headers: new Headers({"Content-Type": "image/svg+xml"}) 
+        });
         continue;
       }
     }
@@ -131,16 +135,37 @@ for await (const req of s) {
   console.log(`Parse: ${route}`);
 
   const content = await Deno.readFile(req.url);
-
-  // Get type
   let type = getMimeType(req.url);
-  const headers = new Headers();
-  headers.set("Content-Type", type);
-
-  req.respond({ body: content, status: 200, headers: headers });
+  req.respond({ 
+    body: content, 
+    status: 200, 
+    headers: new Headers({ "Content-Type": type })
+  });
 }
 
-function getMimeType(url: string) {
+function badger(key: string, value: string): string {
+  const keyWidth = key.length * 10;
+  const valueWidth = value.length * 8;
+  return `
+  <svg xmlns="http://www.w3.org/2000/svg" width="${keyWidth + valueWidth}" height="20">
+    <linearGradient id="a" x2="0" y2="100%">
+      <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
+      <stop offset="1" stop-opacity=".1"/>
+    </linearGradient>
+    <rect rx="3" width="${keyWidth + valueWidth}" height="20" fill="#555"/>
+    <rect rx="3" x="${keyWidth}" width="${valueWidth}" height="20" fill="#4c1"/>
+    <rect rx="3" width="${keyWidth + valueWidth}" height="20" fill="url(#a)"/>
+    <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
+      <text x="${keyWidth / 2}" y="15" fill="#010101" fill-opacity=".3">${key}</text>
+      <text x="${keyWidth / 2}" y="14">${key}</text>
+      <text x="${keyWidth + (valueWidth / 2)}" y="15" fill="#010101" fill-opacity=".3">${value}</text>
+      <text x="${keyWidth + (valueWidth / 2)}" y="14">${value}</text>
+    </g>
+  </svg>
+  `
+}
+
+function getMimeType(url: string): string {
   const splitUrl = url.split('.');
   switch (splitUrl[splitUrl.length - 1]) {
     case "css":
