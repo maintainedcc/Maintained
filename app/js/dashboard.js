@@ -20,10 +20,10 @@ function templator() {
         </div>
       </div></li>`
     },
-    project: (title, badges) => {
+    project: (user, title, badges) => {
       return `
       <section class="dashboard-section project">
-      <h2><span class="droplet"></span>${title}</h2>
+      <h2><span class="droplet"></span>${user}/${title}</h2>
       <ul class="badges">
       ${badges}
       </ul>
@@ -36,7 +36,7 @@ function buildDashboard(data) {
   const template = templator();
   let projectsHtml = "";
   data.projects.forEach(project => {
-    projectsHtml += template.project(project.title, getBadges(project));
+    projectsHtml += template.project(data.name, project.title, getBadges(project));
   });
   document.getElementById("projects").innerHTML = projectsHtml;
 
