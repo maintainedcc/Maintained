@@ -56,4 +56,13 @@ export class DataService {
     if (info) return info;
     else return undefined;
   }
+
+  getBadge(userId: string, project: string, badge: string): string {
+    const userData = this.users[userId].projects;
+    const userProj = userData.find(p => p.title === project);
+    if (!userProj) return "";
+    const userBadge = userProj.badges.find(b => b.title === decodeURI(badge));
+    if (!userBadge) return "";
+    else return userBadge.value;
+  }
 }

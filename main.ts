@@ -111,6 +111,18 @@ for await (const req of s) {
 
   // Check if file exists
   if (!(await exists(req.url))) {
+    // Check if badge exists
+    // TEMP returns badge value plaintext
+    const badgeParams = req.url.split("/");
+    if (badgeParams.length === 4) {
+      const badge = data.getBadge(badgeParams[1], badgeParams[2], badgeParams[3]);
+      console.log(badge);
+      if (badge) {
+        req.respond({ body: badge, status: 200, headers: new Headers({"Content-Type": "text/plain"}) });
+        continue;
+      }
+    }
+
     req.respond({ status: 404 });
     console.warn(`Resource Not Found: ${req.url}`);
     continue;
@@ -123,7 +135,7 @@ for await (const req of s) {
   // Get type
   let type = getMimeType(req.url);
   const headers = new Headers();
-  headers.set("content-type", type);
+  headers.set("Content-Type", type);
 
   req.respond({ body: content, status: 200, headers: headers });
 }

@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   .then(res => res.text())
   .then(res => buildDashboard(JSON.parse(res)));
 
-  document.addEventListener("click", hideProfileDropdwown);
+  document.addEventListener("click", hideProfileDropdown);
 });
 
 function templator() {
@@ -18,7 +18,7 @@ function templator() {
         <div class="badge-actions">
           <button>⚙</button>
           <button>&lt;&gt;</button>
-          <button>X</button>
+          <button>x</button>
         </div>
       </div></li>`
     },
@@ -70,7 +70,7 @@ function toggleProfileDropdown() {
   document.getElementById("profileDropdown").classList.toggle("collapsed");
 }
 
-function hideProfileDropdwown() {
+function hideProfileDropdown() {
   const profileDropdown = document.getElementById("profileDropdown");
   if (!profileDropdown.classList.contains("collapsed"))
     profileDropdown.classList.add("collapsed");
