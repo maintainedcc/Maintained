@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", () => {
   fetch("/api/data")
   .then(res => res.text())
   .then(res => buildDashboard(JSON.parse(res)));
+
+  document.addEventListener("click", hideProfileDropdwown);
 });
 
 function templator() {
@@ -60,6 +62,21 @@ function refresh() {
   .then(res => buildDashboard(JSON.parse(res)));
 }
 
+function toggleCreationDialog() {
+  document.getElementById("dov").classList.toggle("collapsed");
+}
+
 function toggleProfileDropdown() {
   document.getElementById("profileDropdown").classList.toggle("collapsed");
+}
+
+function hideProfileDropdwown() {
+  const profileDropdown = document.getElementById("profileDropdown");
+  if (!profileDropdown.classList.contains("collapsed"))
+    profileDropdown.classList.add("collapsed");
+}
+
+function preventDefault(e) {
+  e.preventDefault(e);
+  e.stopPropagation();
 }
