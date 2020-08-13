@@ -1,4 +1,21 @@
 
+// Debouncer, MIT License
+// Underscore.js https://github.com/jashkenas/underscore
+function debounce(func, wait, immediate) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		var later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		var callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   // Build dashboard using refresh function
   refresh();
@@ -11,8 +28,10 @@ function templator() {
     badgeEditor: (project, id, label, value) => {
       return `
       <li><div class="badge-editor">
-          <input type="text" class="badge-left" value="${label}" spellcheck="false">
-        <input type="text" class="badge-right" value="${value}" spellcheck="false">
+        <input type="text" class="badge-left" value="${label}" spellcheck="false" 
+          oninput="updateBadge('${project}', ${id}, this.value)" onchange="hideSaveBadge('${project}')">
+        <input type="text" class="badge-right" value="${value}" spellcheck="false" 
+          oninput="updateBadge('${project}', ${id}, '', this.value)" onchange="hideSaveBadge('${project}')">
         <div class="badge-actions">
           <button>⚙</button>
           <button>&lt;&gt;</button>
@@ -24,7 +43,7 @@ function templator() {
       return `
       <section class="dashboard-section project">
       <div class="project-header">
-        <h2><span class="droplet"></span>${user}/${title}</h2>
+        <h2><span class="droplet"></span>${user}/${title} <span id="save-${title}" class="project-save">Saved</span></h2>
         <div class="project-actions">
           <button class="icon-close" title="Delete Project" onclick="deleteProject('${title}')"></button>
           <button class="icon-add" title="Add Badge" onclick="createBadge('${title}')"></button>
@@ -67,6 +86,19 @@ function createBadge(project) {
 function deleteBadge(project, badgeId) {
   fetch(`/api/badges/delete?project=${project}&id=${badgeId}`)
   .then(refresh());
+}
+
+function updateBadge(project, badgeId, newKey = "", newVal = "") {
+  debounce(() => {
+    fetch(`/api/badges/update?project=${project}&id=${badgeId}&key=${newKey}&val=${newVal}`)
+    .then(document.getElementById(`save-${project}`).classList.add("shown"));
+  }, 1000, false)();
+}
+
+function hideSaveBadge(project) {
+  debounce(() => {
+    document.getElementById(`save-${project}`).classList.remove("shown");
+  }, 2000, false)();
 }
 
 function deleteProject(project) {

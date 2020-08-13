@@ -34,26 +34,6 @@
       <p>Welcome to Maintained! This is your dashboard. Create and manage projects, badges, and settings from here.</p>
     </section>
     <div id="projects"></div>
-    <section class="dashboard-section project">
-      <div class="project-header">
-        <h2><span class="droplet"></span>SDBagel/Turbodrive</h2>
-        <div class="project-actions">
-          <button class="icon-close" title="Delete Project" onclick="deleteProject('SDBagel')"></button>
-          <button class="icon-add" title="Add Badge" onclick="createBadge('SDBagel')"></button>
-        </div>
-      </div>
-      <ul class="badges">
-        <li><div class="badge-editor">
-          <input type="text" class="badge-left" value="Contains" spellcheck="false">
-          <input type="text" class="badge-right" value="Msg" spellcheck="false">
-          <div class="badge-actions">
-            <button>⚙</button>
-            <button>&lt;&gt;</button>
-            <button class="icon-close" onclick="deleteBadge('SDBagel', 0)"></button>
-          </div>
-        </div></li>
-      </ul>
-    </section>
     <section id="dov" class="collapsed" onclick="toggleCreationDialog()">
       <div class="dialog" onclick="stopPropagation(event)">
         <h2>New Project</h2>

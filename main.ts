@@ -29,6 +29,15 @@ for await (const req of s) {
       req.respond({ body: JSON.stringify(badge), status: 200 });
       continue;
 
+    case "/api/badges/update":
+      if (!id) { req.respond({ status: 401 }); continue; }
+      let updatedBadge = data.updateBadge(id, params.get("project") ?? "",
+        parseInt(params.get("id") ?? ""), params.get("key") ?? undefined, 
+        params.get("val") ?? undefined);
+      if (!updatedBadge) { req.respond({ status: 400 }); continue; }
+      req.respond({ body: JSON.stringify(updatedBadge), status: 200 });
+      continue;
+
     case "/api/badges/delete":
       if (!id) { req.respond({ status: 401 }); continue; }
       const projectId = params.get("project") ?? "";
@@ -138,8 +147,7 @@ for await (const req of s) {
 
   // Check if file exists
   if (!(await exists(req.url))) {
-    // Check if badge exists
-    // TEMP returns badge value plaintext
+    // TEMP Check if badge exists, returns badge
     const badgeParams = req.url.split("/");
     if (badgeParams.length === 4) {
       const badgeData = data.getBadge(badgeParams[1], badgeParams[2], parseInt(badgeParams[3]));

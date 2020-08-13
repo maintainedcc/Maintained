@@ -29,9 +29,9 @@ export class DataService {
     this.users = {};
   }
 
-  ensureUser(userId: string): void {
+  ensureUser(uId: string): void {
     // Make sure the user doesn't exist already
-    if (this.users[userId]) return;
+    if (this.users[uId]) return;
 
     // Create default project and badges
     const starterBadge: Badge = {
@@ -42,25 +42,25 @@ export class DataService {
       style: BadgeStyle.ForTheBadge
     }
     const starterProject: Project = {
-      title: userId,
+      title: uId,
       badges: [ starterBadge ]
     };
     const newUser: User = {
-      name: userId,
+      name: uId,
       projects: [ starterProject ]
     }
 
-    this.users[userId] = newUser;
+    this.users[uId] = newUser;
   }
 
-  getUserInfo(userId: string): User | undefined {
-    const info = this.users[userId];
+  getUserInfo(uId: string): User | undefined {
+    const info = this.users[uId];
     if (info) return info;
     else return undefined;
   }
 
-  createBadge(userId: string, project: string): Badge | undefined {
-    const userData = this.users[userId]?.projects;
+  createBadge(uId: string, project: string): Badge | undefined {
+    const userData = this.users[uId]?.projects;
     const userProj = userData?.find(p => p.title === project);
     if (!userProj) return undefined;
 
@@ -77,27 +77,40 @@ export class DataService {
     return newBadge;
   }
 
-  deleteBadge(userId: string, project: string, badgeId: number): void {
-    const userData = this.users[userId]?.projects;
+  deleteBadge(uId: string, project: string, bId: number): void {
+    const userData = this.users[uId]?.projects;
     const userProj = userData?.find(p => p.title === project);
     if (!userProj) return;
 
-    const badgeIndex = userProj.badges.findIndex(b => b.id === badgeId);
+    const badgeIndex = userProj.badges.findIndex(b => b.id === bId);
     userProj.badges.splice(badgeIndex, 1);
   }
 
-  getBadge(userId: string, project: string, badgeId: number): Badge | undefined {
-    const userData = this.users[userId]?.projects;
+  getBadge(uId: string, project: string, bId: number): Badge | undefined {
+    const userData = this.users[uId]?.projects;
     const userProj = userData?.find(p => p.title === project);
     if (!userProj) return undefined;
 
-    const userBadge = userProj.badges.find(b => b.id === badgeId);
+    const userBadge = userProj.badges.find(b => b.id === bId);
     if (!userBadge) return undefined;
     else return userBadge;
   }
 
-  createProject(userId: string, project: string): Project | undefined {
-    const user = this.users[userId];
+  updateBadge(uId: string, project: string, bId: number, newKey = "", newVal = ""): Badge | undefined {
+    const userData = this.users[uId]?.projects;
+    const userProj = userData?.find(p => p.title === project);
+    if (!userProj) return undefined;
+
+    const userBadge = userProj.badges.find(b => b.id === bId);
+    if (!userBadge) return undefined;
+
+    if (newKey) userBadge.title = newKey;
+    if (newVal) userBadge.value = newVal;
+    return userBadge;
+  }
+
+  createProject(uId: string, project: string): Project | undefined {
+    const user = this.users[uId];
     if (!user) return undefined;
 
     if (user.projects.find(p => p.title === project)) return undefined;
@@ -120,8 +133,8 @@ export class DataService {
     return newProject;
   }
 
-  deleteProject(userId: string, project: string): void {
-    const user = this.users[userId];
+  deleteProject(uId: string, project: string): void {
+    const user = this.users[uId];
     if (!user || !project) return;
 
     const projectIndex = user.projects.findIndex(p => p.title === project);
