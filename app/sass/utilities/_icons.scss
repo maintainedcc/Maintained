@@ -1,0 +1,28 @@
+
+.icon-add, .icon-close {
+  position: relative;
+
+  &:before, &:after {
+    content: "";
+    position: absolute;
+    background-color: #000;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 4px;
+    height: 16px;
+    margin: auto;
+  }
+
+  &:after {
+    height: 4px;
+    width: 16px;
+  }
+}
+
+.icon-close {
+  &:before, &:after {
+    transform: rotate(45deg);
+  }
+}

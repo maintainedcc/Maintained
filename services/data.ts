@@ -64,8 +64,9 @@ export class DataService {
     const userProj = userData?.find(p => p.title === project);
     if (!userProj) return undefined;
 
+    const lastId = userProj.badges[userProj.badges.length - 1]?.id;
     const newBadge: Badge = {
-      id: userProj.badges[userProj.badges.length - 1].id + 1,
+      id: (lastId ?? 0) + 1,
       title: "New",
       value: "Badge",
       valueSource: null,
@@ -76,19 +77,30 @@ export class DataService {
     return newBadge;
   }
 
-  getBadge(userId: string, project: string, badgeId: number): [string, string] | undefined {
+  deleteBadge(userId: string, project: string, badgeId: number): void {
+    const userData = this.users[userId]?.projects;
+    const userProj = userData?.find(p => p.title === project);
+    if (!userProj) return;
+
+    const badgeIndex = userProj.badges.findIndex(b => b.id === badgeId);
+    userProj.badges.splice(badgeIndex, 1);
+  }
+
+  getBadge(userId: string, project: string, badgeId: number): Badge | undefined {
     const userData = this.users[userId]?.projects;
     const userProj = userData?.find(p => p.title === project);
     if (!userProj) return undefined;
 
     const userBadge = userProj.badges.find(b => b.id === badgeId);
     if (!userBadge) return undefined;
-    else return [userBadge.title, userBadge.value];
+    else return userBadge;
   }
 
   createProject(userId: string, project: string): Project | undefined {
     const user = this.users[userId];
     if (!user) return undefined;
+
+    if (user.projects.find(p => p.title === project)) return undefined;
 
     const newBadge: Badge = {
       id: 0,
@@ -106,5 +118,13 @@ export class DataService {
     user.projects.sort((a, b) => 
       ('' + a.title).localeCompare(b.title));
     return newProject;
+  }
+
+  deleteProject(userId: string, project: string): void {
+    const user = this.users[userId];
+    if (!user || !project) return;
+
+    const projectIndex = user.projects.findIndex(p => p.title === project);
+    user.projects.splice(projectIndex, 1);
   }
 }

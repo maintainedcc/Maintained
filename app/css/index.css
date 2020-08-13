@@ -15,6 +15,30 @@
   background-color: #000;
 }
 
+.icon-add, .icon-close {
+  position: relative;
+}
+.icon-add:before, .icon-add:after, .icon-close:before, .icon-close:after {
+  content: "";
+  position: absolute;
+  background-color: #000;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 4px;
+  height: 16px;
+  margin: auto;
+}
+.icon-add:after, .icon-close:after {
+  height: 4px;
+  width: 16px;
+}
+
+.icon-close:before, .icon-close:after {
+  transform: rotate(45deg);
+}
+
 html {
   font-family: acumin-pro, sans-serif;
 }
@@ -329,21 +353,22 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
   width: 20px;
   margin-right: 10px;
 }
-.project .project-add {
+.project .project-actions button {
   border: none;
   border-radius: 2px;
   background-color: transparent;
   box-shadow: #0006 3px 3px 10px;
-  font-size: 2rem;
   margin-left: auto;
-  line-height: 30px;
   height: 30px;
   width: 30px;
   transition-duration: 0.1s;
 }
-.project .project-add:hover, .project .project-add:focus {
+.project .project-actions button:hover, .project .project-actions button:focus {
   background-color: #eee;
   outline: none;
+}
+.project .project-actions button:not(:last-of-type) {
+  margin-right: 10px;
 }
 .project .badges {
   list-style: none;
@@ -379,6 +404,9 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
   font-weight: 700;
   font-size: 1.5rem;
   min-width: 60px;
+}
+.project .badge-actions button:before, .project .badge-actions button:after {
+  background-color: #fff;
 }
 .project .badge-options {
   width: 100%;

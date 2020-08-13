@@ -37,7 +37,10 @@
     <section class="dashboard-section project">
       <div class="project-header">
         <h2><span class="droplet"></span>SDBagel/Turbodrive</h2>
-        <button class="project-add" onclick="createBadge('SDBagel')">+</button>
+        <div class="project-actions">
+          <button class="icon-close" title="Delete Project" onclick="deleteProject('SDBagel')"></button>
+          <button class="icon-add" title="Add Badge" onclick="createBadge('SDBagel')"></button>
+        </div>
       </div>
       <ul class="badges">
         <li><div class="badge-editor">
@@ -46,7 +49,7 @@
           <div class="badge-actions">
             <button>⚙</button>
             <button>&lt;&gt;</button>
-            <button>x</button>
+            <button class="icon-close" onclick="deleteBadge('SDBagel', 0)"></button>
           </div>
         </div></li>
       </ul>

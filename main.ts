@@ -29,11 +29,27 @@ for await (const req of s) {
       req.respond({ body: JSON.stringify(badge), status: 200 });
       continue;
 
+    case "/api/badges/delete":
+      if (!id) { req.respond({ status: 401 }); continue; }
+      const projectId = params.get("project") ?? "";
+      const badgeId = parseInt(params.get("id") ?? "");
+      if (!projectId || !params.get("id")) { req.respond({ status: 400 }); continue; }
+      data.deleteBadge(id, projectId, badgeId);
+      req.respond({ status: 204 });
+      continue;
+
     case "/api/projects/create":
       if (!id) { req.respond({ status: 401 }); continue; }
       let project = data.createProject(id, params.get("project") ?? "");
       if (!project) { req.respond({ status: 400 }); continue; }
       req.respond({ body: JSON.stringify(project), status: 200 });
+      continue;
+
+    case "/api/projects/delete":
+      if (!id) { req.respond({ status: 401 }); continue; }
+      if (!params.get("project")) { req.respond({ status: 400 }); continue; }
+      data.deleteProject(id, params.get("project") ?? "");
+      req.respond({ status: 204 });
       continue;
 
     case "/api/user/data":
@@ -128,7 +144,7 @@ for await (const req of s) {
     if (badgeParams.length === 4) {
       const badgeData = data.getBadge(badgeParams[1], badgeParams[2], parseInt(badgeParams[3]));
       if (badgeData) {
-        const badge = badger(badgeData[0], badgeData[1]);
+        const badge = badger(badgeData.title, badgeData.value);
         req.respond({ 
           body: badge, 
           status: 200, 

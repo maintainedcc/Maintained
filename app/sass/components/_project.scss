@@ -19,14 +19,12 @@
     }
   }
 
-  .project-add {
+  .project-actions button {
     border: none;
     border-radius: 2px;
     background-color: transparent;
     box-shadow: #0006 3px 3px 10px;
-    font-size: 2rem;
     margin-left: auto;
-    line-height: 30px;
     height: 30px;
     width: 30px;
     transition-duration: 0.1s;
@@ -34,6 +32,10 @@
     &:hover, &:focus {
       background-color: #eee;
       outline: none;
+    }
+
+    &:not(:last-of-type) {
+      margin-right: 10px;
     }
   }
   
@@ -78,6 +80,10 @@
       font-size: 1.5rem;
   
       min-width: 60px;
+
+      &:before, &:after {
+        background-color: #fff;
+      }
     }
   }
 

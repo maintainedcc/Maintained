@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function templator() {
   return {
-    badgeEditor: (label, value) => {
+    badgeEditor: (project, id, label, value) => {
       return `
       <li><div class="badge-editor">
           <input type="text" class="badge-left" value="${label}" spellcheck="false">
@@ -16,7 +16,7 @@ function templator() {
         <div class="badge-actions">
           <button>⚙</button>
           <button>&lt;&gt;</button>
-          <button>x</button>
+          <button class="icon-close" onclick="deleteBadge('${project}', ${id})"></button>
         </div>
       </div></li>`
     },
@@ -25,7 +25,10 @@ function templator() {
       <section class="dashboard-section project">
       <div class="project-header">
         <h2><span class="droplet"></span>${user}/${title}</h2>
-        <button class="project-add" onclick="createBadge('${title}')">+</button>
+        <div class="project-actions">
+          <button class="icon-close" title="Delete Project" onclick="deleteProject('${title}')"></button>
+          <button class="icon-add" title="Add Badge" onclick="createBadge('${title}')"></button>
+        </div>
       </div>
       <ul class="badges">
       ${badges}
@@ -51,13 +54,23 @@ function buildDashboard(data) {
 function getBadges(project) {
   let badgesHtml = "";
   project.badges.forEach(badge => {
-    badgesHtml += template.badgeEditor(badge.title, badge.value);
+    badgesHtml += template.badgeEditor(project.title, badge.id, badge.title, badge.value);
   });
   return badgesHtml;
 }
 
 function createBadge(project) {
   fetch(`/api/badges/create?project=${project}`)
+  .then(refresh());
+}
+
+function deleteBadge(project, badgeId) {
+  fetch(`/api/badges/delete?project=${project}&id=${badgeId}`)
+  .then(refresh());
+}
+
+function deleteProject(project) {
+  fetch(`/api/projects/delete?project=${project}`)
   .then(refresh());
 }
 
