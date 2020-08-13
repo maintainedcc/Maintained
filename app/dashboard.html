@@ -30,8 +30,13 @@
       </nav>
     </header>
     <section id="welcome" class="dashboard-section project">
-      <h2>Welcome</h2>
-      <p>Welcome to Maintained! This is your dashboard. Create and manage projects, badges, and settings from here.</p>
+      <div class="project-header">
+        <h2>Welcome</h2>
+        <div class="project-actions">
+          <button class="icon-close" title="Hide Welcome" onclick="hideWelcome()"></button>
+        </div>
+      </div>
+      <p>Welcome to Maintained! This is your dashboard. Create and edit your items from here. Your changes automatically save, so no worries! We included a starter project to get you going - try clicking the badge fields to edit them.</p>
     </section>
     <div id="projects"></div>
     <section id="dov" class="collapsed" onclick="toggleCreationDialog()">

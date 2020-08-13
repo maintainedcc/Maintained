@@ -180,9 +180,11 @@ footer {
   display: none;
 }
 #welcome p {
-  margin-top: 0;
-  font-size: 1.4rem;
-  line-height: 2.4rem;
+  font-size: 1.2rem;
+  line-height: 2.2rem;
+}
+#welcome.shown {
+  display: block;
 }
 
 #dov {

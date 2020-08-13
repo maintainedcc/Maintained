@@ -1,6 +1,7 @@
 
 interface User {
   name: string,
+  firstTime: boolean;
   projects: Project[]
 }
 
@@ -47,6 +48,7 @@ export class DataService {
     };
     const newUser: User = {
       name: uId,
+      firstTime: true,
       projects: [ starterProject ]
     }
 
@@ -57,6 +59,11 @@ export class DataService {
     const info = this.users[uId];
     if (info) return info;
     else return undefined;
+  }
+
+  setUserWelcomed(uId: string): void {
+    this.users[uId].firstTime = false;
+    console.log(this.users[uId]);
   }
 
   createBadge(uId: string, project: string): Badge | undefined {

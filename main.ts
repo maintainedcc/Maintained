@@ -67,6 +67,12 @@ for await (const req of s) {
       req.respond({ body: JSON.stringify(userData), status: 200 });
       continue;
 
+    case "/api/user/welcome":
+      if (!id) { req.respond({ status: 401 }); continue; }
+      data.setUserWelcomed(id);
+      req.respond({ status: 204 });
+      continue;
+
     case "/oauth/callback":
       const code = params.get("code") ?? "";
       const state = params.get("state") ?? "";

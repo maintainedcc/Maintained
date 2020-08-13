@@ -68,6 +68,10 @@ function buildDashboard(data) {
 
   // Kill loader
   document.getElementById("loader").style.display = "none";
+  
+  // Display welcome if first time user
+  if (data.firstTime)
+    document.getElementById("welcome").classList.add("shown");
 }
 
 function getBadges(project) {
@@ -125,6 +129,12 @@ function hideProfileDropdown() {
   const profileDropdown = document.getElementById("profileDropdown");
   if (!profileDropdown.classList.contains("collapsed"))
     profileDropdown.classList.add("collapsed");
+}
+
+function hideWelcome() {
+  // Endpoint to hide welcome message in the future
+  fetch("/api/user/welcome");
+  document.getElementById("welcome").classList.remove("shown");
 }
 
 function stopPropagation(e) {
