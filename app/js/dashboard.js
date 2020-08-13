@@ -23,7 +23,10 @@ function templator() {
     project: (user, title, badges) => {
       return `
       <section class="dashboard-section project">
-      <h2><span class="droplet"></span>${user}/${title}</h2>
+      <div class="project-header">
+        <h2><span class="droplet"></span>${user}/${title}</h2>
+        <button class="project-add" onclick="createBadge('${title}')">+</button>
+      </div>
       <ul class="badges">
       ${badges}
       </ul>
@@ -32,8 +35,9 @@ function templator() {
   }
 }
 
+const template = templator();
+
 function buildDashboard(data) {
-  const template = templator();
   let projectsHtml = "";
   data.projects.forEach(project => {
     projectsHtml += template.project(data.name, project.title, getBadges(project));
@@ -45,12 +49,16 @@ function buildDashboard(data) {
 }
 
 function getBadges(project) {
-  const template = templator();
   let badgesHtml = "";
   project.badges.forEach(badge => {
     badgesHtml += template.badgeEditor(badge.title, badge.value);
   });
   return badgesHtml;
+}
+
+function createBadge(project) {
+  fetch(`/api/badges/create?project=${project}`)
+  .then(refresh());
 }
 
 function refresh() {

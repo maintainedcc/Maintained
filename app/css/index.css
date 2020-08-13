@@ -313,17 +313,37 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
   visibility: hidden;
 }
 
-.project h2 {
+.project .project-header {
   display: flex;
   align-items: center;
-  margin-top: 0;
+  justify-content: space-between;
+}
+.project h2 {
+  margin: 0;
 }
 .project h2 .droplet {
   background-color: #f60;
   border-radius: 50%;
+  display: inline-block;
   height: 20px;
   width: 20px;
   margin-right: 10px;
+}
+.project .project-add {
+  border: none;
+  border-radius: 2px;
+  background-color: transparent;
+  box-shadow: #0006 3px 3px 10px;
+  font-size: 2rem;
+  margin-left: auto;
+  line-height: 30px;
+  height: 30px;
+  width: 30px;
+  transition-duration: 0.1s;
+}
+.project .project-add:hover, .project .project-add:focus {
+  background-color: #eee;
+  outline: none;
 }
 .project .badges {
   list-style: none;
