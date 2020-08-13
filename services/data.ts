@@ -125,7 +125,7 @@ export class DataService {
 
   createProject(uId: string, project: string): Project | undefined {
     const user = this.users[uId];
-    if (!user) return undefined;
+    if (!user || !project) return undefined;
 
     if (user.projects.find(p => p.title === project)) return undefined;
 

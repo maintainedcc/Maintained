@@ -25,6 +25,17 @@
     font-family: montserrat, sans-serif;
     font-weight: 800;
   }
+
+  &.badge-small {
+    height: 40px;
+    line-height: 40px;
+
+    @media (max-width: 768px) {
+      .badge-left, .badge-right {
+        padding: 0 10px;
+      }
+    }
+  }
 }
 
 .badge {

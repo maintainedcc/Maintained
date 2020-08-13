@@ -78,6 +78,7 @@ footer {
   bottom: 0;
   color: #fff;
   margin: 0 auto;
+  padding: 0 10px;
 }
 .hero .title {
   font-size: 2rem;
@@ -119,8 +120,9 @@ footer {
   right: 0;
   z-index: 1;
   max-width: 900px;
-  width: 100%;
+  width: calc(100% - 20px);
   margin: auto;
+  padding: 0 10px;
 }
 .hero-nav nav {
   display: flex;
@@ -165,8 +167,14 @@ footer {
   background-color: #fff;
   border-radius: 5px;
   max-width: 700px;
-  margin: 50px auto;
-  padding: 30px;
+  margin: 30px auto;
+  padding: 20px;
+}
+@media (min-width: 768px) {
+  .dashboard-section {
+    margin: 50px auto;
+    padding: 30px;
+  }
 }
 
 .dashboard-nav {
@@ -196,8 +204,8 @@ footer {
   position: fixed;
   top: 0;
   bottom: 0;
-  right: 0;
-  left: 0;
+  right: -1000px;
+  left: -1000px;
   z-index: 2;
   margin: auto;
   width: 100vmax;
@@ -267,6 +275,15 @@ footer {
   letter-spacing: 3px;
   font-family: montserrat, sans-serif;
   font-weight: 800;
+}
+.badge.badge-small, .badge-editor.badge-small {
+  height: 40px;
+  line-height: 40px;
+}
+@media (max-width: 768px) {
+  .badge.badge-small .badge-left, .badge.badge-small .badge-right, .badge-editor.badge-small .badge-left, .badge-editor.badge-small .badge-right {
+    padding: 0 10px;
+  }
 }
 
 .badge {
@@ -358,18 +375,27 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
 
 .project .project-header {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
+}
+@media (min-width: 768px) {
+  .project .project-header {
+    flex-direction: row;
+  }
 }
 .project h2 {
   display: flex;
   flex-direction: row;
   align-items: center;
+  align-self: flex-start;
   margin: 0;
+  margin-bottom: 20px;
 }
 .project h2 .droplet {
   background-color: #f60;
   border-radius: 50%;
+  display: none;
   height: 20px;
   width: 20px;
   margin-right: 10px;
@@ -390,6 +416,14 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
   transform: translateY(0);
   opacity: 1;
   visibility: visible;
+}
+@media (min-width: 768px) {
+  .project h2 {
+    margin-bottom: 0;
+  }
+  .project h2 .droplet {
+    display: inline-flex;
+  }
 }
 .project .project-actions button {
   border: none;
@@ -419,17 +453,26 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
 }
 .project .badge-editor {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  height: unset;
 }
 .project .badge-editor .badge-left, .project .badge-editor .badge-right {
   background-color: #655;
   border: none;
   border-radius: 0;
   flex: 1 1;
+  padding: 12px;
   text-overflow: ellipsis;
 }
 .project .badge-editor .badge-right {
   background-color: #AB2;
+}
+@media (min-width: 768px) {
+  .project .badge-editor {
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 50px;
+  }
 }
 .project .badge-actions {
   display: flex;
@@ -442,6 +485,7 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
   color: #fff;
   font-weight: 700;
   font-size: 1.5rem;
+  flex: 1 1;
   min-width: 60px;
 }
 .project .badge-actions button:before, .project .badge-actions button:after {
