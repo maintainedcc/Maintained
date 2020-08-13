@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function templator() {
   return {
-    badgeEditor: (project, id, label, value) => {
+    badgeEditor: (user, project, id, label, value) => {
       return `
       <li><div class="badge-editor">
         <input type="text" class="badge-left" value="${label}" spellcheck="false" 
@@ -34,7 +34,7 @@ function templator() {
           oninput="updateBadge('${project}', ${id}, '', this.value)" onchange="hideSaveBadge('${project}')">
         <div class="badge-actions">
           <button>⚙</button>
-          <button>&lt;&gt;</button>
+          <button onclick="copyMd('${user}', '${project}', ${id})">&lt;&gt;</button>
           <button class="icon-close" onclick="deleteBadge('${project}', ${id})"></button>
         </div>
       </div></li>`
@@ -62,7 +62,7 @@ const template = templator();
 function buildDashboard(data) {
   let projectsHtml = "";
   data.projects.forEach(project => {
-    projectsHtml += template.project(data.name, project.title, getBadges(project));
+    projectsHtml += template.project(data.name, project.title, getBadges(data.name, project));
   });
   document.getElementById("projects").innerHTML = projectsHtml;
 
@@ -74,10 +74,10 @@ function buildDashboard(data) {
     document.getElementById("welcome").classList.add("shown");
 }
 
-function getBadges(project) {
+function getBadges(userName, project) {
   let badgesHtml = "";
   project.badges.forEach(badge => {
-    badgesHtml += template.badgeEditor(project.title, badge.id, badge.title, badge.value);
+    badgesHtml += template.badgeEditor(userName, project.title, badge.id, badge.title, badge.value);
   });
   return badgesHtml;
 }
@@ -156,6 +156,33 @@ function hideWelcome() {
 
 function stopPropagation(e) {
   e.stopPropagation();
+}
+
+function copyMd(userName, project, id) {
+  const url = `http://localhost:8000/${userName}/${project}/${id}`;
+  const md = `![${url}](${url})`;
+
+  let textArea = document.createElement("textarea");
+  textArea.value = md;
+  
+  // Avoid scrolling to bottom
+  textArea.style.top = "0";
+  textArea.style.left = "0";
+  textArea.style.position = "fixed";
+
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+
+  try {
+    const successful = document.execCommand('copy');
+    const msg = successful ? 'successful' : 'unsuccessful';
+    console.log('Copying text command was ' + msg);
+  } catch (err) {
+    console.error('Unable to copy', err);
+  }
+
+  document.body.removeChild(textArea);
 }
 
 function getStringPixelWidth(string, font) {
