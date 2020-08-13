@@ -331,6 +331,9 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
   margin-top: 20px;
   padding-left: 0;
 }
+.project .badges li:not(:last-of-type) {
+  margin-bottom: 20px;
+}
 .project .badge-editor {
   display: flex;
   flex-wrap: wrap;
@@ -343,9 +346,6 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
 }
 .project .badge-editor .badge-right {
   background-color: #AB2;
-}
-.project .badge-editor:not(:last-of-type) {
-  margin-bottom: 20px;
 }
 .project .badge-actions {
   display: flex;

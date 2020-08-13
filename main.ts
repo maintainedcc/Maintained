@@ -20,13 +20,24 @@ for await (const req of s) {
   const params = new URLSearchParams(route[1]);
 
   // High-tech router module
+  let id = identity.getAuthorization(getCookies(req)["token"]);
   switch (req.url) {
+    case "/api/badges/create":
+      if (!id) { req.respond({ status: 401 }); continue; }
+      let badge = data.createBadge(id, params.get("project") ?? "");
+      if (!badge) { req.respond({ status: 400 }); continue; }
+      req.respond({ body: JSON.stringify(badge), status: 200 });
+      continue;
+
+    case "/api/projects/create":
+      if (!id) { req.respond({ status: 401 }); continue; }
+      let project = data.createProject(id, params.get("project") ?? "");
+      if (!project) { req.respond({ status: 400 }); continue; }
+      req.respond({ body: JSON.stringify(project), status: 200 });
+      continue;
+
     case "/api/user/data":
-      let id = identity.getAuthorization(getCookies(req)["token"]);
-      if (!id) {
-        req.respond({ status: 401 });
-        continue;
-      }
+      if (!id) { req.respond({ status: 401 }); continue; }
       let userData = data.getUserInfo(id);
       req.respond({ body: JSON.stringify(userData), status: 200 });
       continue;
