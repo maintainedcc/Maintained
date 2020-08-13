@@ -94,7 +94,16 @@ function deleteBadge(project, badgeId) {
 
 function updateBadge(project, badgeId, newKey = "", newVal = "") {
   debounce(() => {
-    fetch(`/api/badges/update?project=${project}&id=${badgeId}&key=${newKey}&val=${newVal}`)
+    const params = {
+      project: project,
+      id: badgeId,
+      key: encodeURI(newKey),
+      val: encodeURI(newVal),
+      keyW: getStringPixelWidth(newKey, "11px Verdana") + 25,
+      valW: getStringPixelWidth(newVal, "11px Verdana") + 25
+    }
+    const paramString = new URLSearchParams(params).toString();
+    fetch(`/api/badges/update?${paramString}`)
     .then(document.getElementById(`save-${project}`).classList.add("shown"));
   }, 1000, false)();
 }
@@ -103,6 +112,14 @@ function hideSaveBadge(project) {
   debounce(() => {
     document.getElementById(`save-${project}`).classList.remove("shown");
   }, 2000, false)();
+}
+
+function createProject() {
+  const projName = document.getElementById("project-create-input");
+  fetch(`/api/projects/create?project=${projName.value}`)
+  .then(refresh())
+  .then(toggleCreationDialog())
+  .then(projName.value = "");
 }
 
 function deleteProject(project) {
@@ -139,4 +156,11 @@ function hideWelcome() {
 
 function stopPropagation(e) {
   e.stopPropagation();
+}
+
+function getStringPixelWidth(string, font) {
+  var canvas = document.createElement('canvas');
+  var ctx = canvas.getContext("2d");
+  ctx.font = font;        
+  return Math.ceil(ctx.measureText(string).width);
 }

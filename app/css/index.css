@@ -208,6 +208,8 @@ footer {
 #dov .dialog {
   background-color: #fff;
   border-radius: 5px;
+  display: flex;
+  flex-direction: column;
   margin: auto;
   padding: 20px;
   width: 280px;
@@ -217,6 +219,19 @@ footer {
 }
 #dov .dialog h2 {
   margin-top: 0;
+}
+#dov .dialog input {
+  background-color: #eee;
+  border: none;
+  border-bottom: 2px solid #555;
+  font-family: inherit;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  padding: 10px;
+  flex: 1 1;
+}
+#dov .dialog button .badge-left {
+  flex: 1 1;
 }
 #dov.collapsed {
   border-radius: 300%;
@@ -240,6 +255,7 @@ footer {
   color: #fff;
   font-size: 1rem;
   padding: 0 20px;
+  text-align: center;
   text-shadow: #0006 1px 1px 5px;
   text-transform: uppercase;
 }
@@ -297,9 +313,10 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
   width: 35px;
   height: 35px;
   padding: 0;
+  transition-duration: 0.3s;
 }
 .profile-icon > button:hover, .profile-icon > button:focus {
-  box-shadow: #F15A24 0 0 5px;
+  box-shadow: #F15A24 0 0 6px;
   outline: none;
 }
 .profile-icon img {
@@ -409,6 +426,7 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
   border: none;
   border-radius: 0;
   flex: 1 1;
+  text-overflow: ellipsis;
 }
 .project .badge-editor .badge-right {
   background-color: #AB2;

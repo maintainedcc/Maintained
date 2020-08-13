@@ -13,13 +13,15 @@ interface Project {
 interface Badge {
   id: number;
   title: string,
+  titleWidth: number,
   value: string,
+  valueWidth: number,
   valueSource: string | null,
   style: BadgeStyle
 }
 
 enum BadgeStyle {
-  ForTheBadge
+  Plastic
 }
 
 export class DataService {
@@ -38,9 +40,11 @@ export class DataService {
     const starterBadge: Badge = {
       id: 0,
       title: "Welcome to",
+      titleWidth: 90,
       value: "Maintained",
+      valueWidth: 90,
       valueSource: null,
-      style: BadgeStyle.ForTheBadge
+      style: BadgeStyle.Plastic
     }
     const starterProject: Project = {
       title: uId,
@@ -75,9 +79,11 @@ export class DataService {
     const newBadge: Badge = {
       id: (lastId ?? 0) + 1,
       title: "New",
+      titleWidth: 30,
       value: "Badge",
+      valueWidth: 50,
       valueSource: null,
-      style: BadgeStyle.ForTheBadge
+      style: BadgeStyle.Plastic
     }
 
     userProj.badges.push(newBadge);
@@ -103,7 +109,8 @@ export class DataService {
     else return userBadge;
   }
 
-  updateBadge(uId: string, project: string, bId: number, newKey = "", newVal = ""): Badge | undefined {
+  updateBadge(uId: string, project: string, bId: number, 
+      newKey = "", newVal = "", keyWidth = 0, valWidth = 0): Badge | undefined {
     const userData = this.users[uId]?.projects;
     const userProj = userData?.find(p => p.title === project);
     if (!userProj) return undefined;
@@ -111,8 +118,8 @@ export class DataService {
     const userBadge = userProj.badges.find(b => b.id === bId);
     if (!userBadge) return undefined;
 
-    if (newKey) userBadge.title = newKey;
-    if (newVal) userBadge.value = newVal;
+    if (newKey) { userBadge.title = decodeURI(newKey); userBadge.titleWidth = keyWidth; }
+    if (newVal) { userBadge.value = decodeURI(newVal); userBadge.valueWidth = valWidth; }
     return userBadge;
   }
 
@@ -125,9 +132,11 @@ export class DataService {
     const newBadge: Badge = {
       id: 0,
       title: "Created",
+      titleWidth: 50,
       value: "Successfully",
+      valueWidth: 90,
       valueSource: null,
-      style: BadgeStyle.ForTheBadge
+      style: BadgeStyle.Plastic
     }
     const newProject: Project = {
       title: project,

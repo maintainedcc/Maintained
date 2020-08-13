@@ -12,9 +12,10 @@
     width: 35px;
     height: 35px;
     padding: 0;
+    transition-duration: 0.3s;
 
     &:hover, &:focus {
-      box-shadow: #F15A24 0 0 5px;
+      box-shadow: #F15A24 0 0 6px;
       outline: none;
     }
   }

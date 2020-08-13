@@ -42,7 +42,8 @@
     <section id="dov" class="collapsed" onclick="toggleCreationDialog()">
       <div class="dialog" onclick="stopPropagation(event)">
         <h2>New Project</h2>
-        <input type="text" placeholder="Title">
+        <input id="project-create-input" type="text" placeholder="Title" aria-label="Project Title">
+        <button class="badge" onclick="createProject()"><span class="badge-left">Create Project</span></button>
       </div>
     </section>
     <section id="loader" class="dashboard-section loader">

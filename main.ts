@@ -33,7 +33,8 @@ for await (const req of s) {
       if (!id) { req.respond({ status: 401 }); continue; }
       let updatedBadge = data.updateBadge(id, params.get("project") ?? "",
         parseInt(params.get("id") ?? ""), params.get("key") ?? undefined, 
-        params.get("val") ?? undefined);
+        params.get("val") ?? undefined, parseInt(params.get("keyW") ?? ""), 
+        parseInt(params.get("valW") ?? ""));
       if (!updatedBadge) { req.respond({ status: 400 }); continue; }
       req.respond({ body: JSON.stringify(updatedBadge), status: 200 });
       continue;
@@ -158,7 +159,7 @@ for await (const req of s) {
     if (badgeParams.length === 4) {
       const badgeData = data.getBadge(badgeParams[1], badgeParams[2], parseInt(badgeParams[3]));
       if (badgeData) {
-        const badge = badger(badgeData.title, badgeData.value);
+        const badge = badger(badgeData.title, badgeData.value, badgeData.titleWidth, badgeData.valueWidth);
         req.respond({ 
           body: badge, 
           status: 200, 
@@ -184,9 +185,7 @@ for await (const req of s) {
   });
 }
 
-function badger(key: string, value: string): string {
-  const keyWidth = key.length * 10;
-  const valueWidth = value.length * 8;
+function badger(key: string, value: string, keyWidth: number, valueWidth: number): string {
   return `
   <svg xmlns="http://www.w3.org/2000/svg" width="${keyWidth + valueWidth}" height="20">
     <linearGradient id="a" x2="0" y2="100%">
