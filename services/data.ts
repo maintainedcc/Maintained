@@ -40,28 +40,24 @@ export class DataService {
   private db: Database;
   private dUsers: Collection<User>;
 
-  // Imagine this was more permanent
-  private users: { [id: string]: User};
-
   constructor() {
     const client = new MongoClient();
     client.connectWithUri("mongodb://localhost:27017");
 
     this.db = client.database("test");
     this.dUsers = this.db.collection<User>("users");
-    
-    this.users = {};
   }
 
   async dbList() {
     // Lists all users in DB
     // REMOVE THIS IN PROD -- (does not pose security risk)
+    console.log(await this.dUsers.findOne({ name: "SDBagel" }));
     (await this.dUsers.find()).forEach(u => console.log(u));
   }
 
-  ensureUser(uId: string): void {
+  async ensureUser(uId: string): Promise<void> {
     // Make sure the user doesn't exist already
-    if (this.users[uId]) return;
+    if (await this.dUsers.findOne({ name: uId })) return;
 
     // Create default project and badges
     const starterBadge: Badge = {
@@ -85,22 +81,23 @@ export class DataService {
       projects: [ starterProject ]
     }
 
-    this.users[uId] = newUser;
+    this.dUsers.insertOne(newUser);
   }
 
-  getUserInfo(uId: string): User | undefined {
-    const info = this.users[uId];
+  async getUserInfo(uId: string): Promise<User | undefined> {
+    const info = await this.dUsers.findOne({ name: uId });
     if (info) return info;
     else return undefined;
   }
 
-  setUserWelcomed(uId: string): void {
-    this.users[uId].firstTime = false;
-    console.log(this.users[uId]);
+  async setUserWelcomed(uId: string): Promise<void> {
+    await this.dUsers.updateOne(
+      { name: uId }, 
+      { $set: { firstTime: false } });
   }
 
-  createBadge(uId: string, project: string): Badge | undefined {
-    const userData = this.users[uId]?.projects;
+  async createBadge(uId: string, project: string): Promise<Badge | undefined> {
+    const userData = (await this.dUsers.findOne({ name: uId }))?.projects;
     const userProj = userData?.find(p => p.title === project);
     if (!userProj) return undefined;
 
@@ -118,20 +115,26 @@ export class DataService {
     }
 
     userProj.badges.push(newBadge);
+    await this.dUsers.updateOne(
+      { name: uId }, 
+      { $set: { projects: userData } });
     return newBadge;
   }
 
-  deleteBadge(uId: string, project: string, bId: number): void {
-    const userData = this.users[uId]?.projects;
+  async deleteBadge(uId: string, project: string, bId: number): Promise<void> {
+    const userData = (await this.dUsers.findOne({ name: uId }))?.projects;
     const userProj = userData?.find(p => p.title === project);
     if (!userProj) return;
 
     const badgeIndex = userProj.badges.findIndex(b => b.id === bId);
     userProj.badges.splice(badgeIndex, 1);
+    await this.dUsers.updateOne(
+      { name: uId }, 
+      { $set: { projects: userData } });
   }
 
-  getBadge(uId: string, project: string, bId: number): Badge | undefined {
-    const userData = this.users[uId]?.projects;
+  async getBadge(uId: string, project: string, bId: number): Promise<Badge | undefined> {
+    const userData = (await this.dUsers.findOne({ name: uId }))?.projects;
     const userProj = userData?.find(p => p.title === project);
     if (!userProj) return undefined;
 
@@ -140,9 +143,9 @@ export class DataService {
     else return userBadge;
   }
 
-  updateBadge(uId: string, project: string, bId: number, 
-      newKey = "", newVal = "", keyWidth = 0, valWidth = 0): Badge | undefined {
-    const userData = this.users[uId]?.projects;
+  async updateBadge(uId: string, project: string, bId: number, 
+      newKey = "", newVal = "", keyWidth = 0, valWidth = 0): Promise<Badge | undefined> {
+    const userData = (await this.dUsers.findOne({ name: uId }))?.projects;
     const userProj = userData?.find(p => p.title === project);
     if (!userProj) return undefined;
 
@@ -151,11 +154,14 @@ export class DataService {
 
     if (newKey) { userBadge.title = decodeURI(newKey); userBadge.titleWidth = keyWidth; }
     if (newVal) { userBadge.value = decodeURI(newVal); userBadge.valueWidth = valWidth; }
+    await this.dUsers.updateOne(
+      { name: uId }, 
+      { $set: { projects: userData } });
     return userBadge;
   }
 
-  createProject(uId: string, project: string): Project | undefined {
-    const user = this.users[uId];
+  async createProject(uId: string, project: string): Promise<Project | undefined> {
+    const user = await this.dUsers.findOne({ name: uId });
     if (!user || !project) return undefined;
 
     if (user.projects.find(p => p.title === project)) return undefined;
@@ -179,14 +185,20 @@ export class DataService {
     user.projects.push(newProject);
     user.projects.sort((a, b) => 
       ('' + a.title).localeCompare(b.title));
+      await this.dUsers.updateOne(
+        { name: uId }, 
+        { $set: { projects: user.projects } });
     return newProject;
   }
 
-  deleteProject(uId: string, project: string): void {
-    const user = this.users[uId];
+  async deleteProject(uId: string, project: string): Promise<void> {
+    const user = await this.dUsers.findOne({ name: uId });
     if (!user || !project) return;
 
     const projectIndex = user.projects.findIndex(p => p.title === project);
     user.projects.splice(projectIndex, 1);
+    await this.dUsers.updateOne(
+      { name: uId }, 
+      { $set: { projects: user.projects } });
   }
 }

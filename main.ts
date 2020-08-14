@@ -30,14 +30,14 @@ for await (const req of s) {
 
     case "/api/badges/create":
       if (!id) { req.respond({ status: 401 }); continue; }
-      let badge = data.createBadge(id, params.get("project") ?? "");
+      let badge = await data.createBadge(id, params.get("project") ?? "");
       if (!badge) { req.respond({ status: 400 }); continue; }
       req.respond({ body: JSON.stringify(badge), status: 200 });
       continue;
 
     case "/api/badges/update":
       if (!id) { req.respond({ status: 401 }); continue; }
-      let updatedBadge = data.updateBadge(id, params.get("project") ?? "",
+      let updatedBadge = await data.updateBadge(id, params.get("project") ?? "",
         parseInt(params.get("id") ?? ""), params.get("key") ?? undefined, 
         params.get("val") ?? undefined, parseInt(params.get("keyW") ?? ""), 
         parseInt(params.get("valW") ?? ""));
@@ -50,13 +50,13 @@ for await (const req of s) {
       const projectId = params.get("project") ?? "";
       const badgeId = parseInt(params.get("id") ?? "");
       if (!projectId || !params.get("id")) { req.respond({ status: 400 }); continue; }
-      data.deleteBadge(id, projectId, badgeId);
+      await data.deleteBadge(id, projectId, badgeId);
       req.respond({ status: 204 });
       continue;
 
     case "/api/projects/create":
       if (!id) { req.respond({ status: 401 }); continue; }
-      let project = data.createProject(id, params.get("project") ?? "");
+      let project = await data.createProject(id, params.get("project") ?? "");
       if (!project) { req.respond({ status: 400 }); continue; }
       req.respond({ body: JSON.stringify(project), status: 200 });
       continue;
@@ -64,19 +64,19 @@ for await (const req of s) {
     case "/api/projects/delete":
       if (!id) { req.respond({ status: 401 }); continue; }
       if (!params.get("project")) { req.respond({ status: 400 }); continue; }
-      data.deleteProject(id, params.get("project") ?? "");
+      await data.deleteProject(id, params.get("project") ?? "");
       req.respond({ status: 204 });
       continue;
 
     case "/api/user/data":
       if (!id) { req.respond({ status: 401 }); continue; }
-      let userData = data.getUserInfo(id);
+      let userData = await data.getUserInfo(id);
       req.respond({ body: JSON.stringify(userData), status: 200 });
       continue;
 
     case "/api/user/welcome":
       if (!id) { req.respond({ status: 401 }); continue; }
-      data.setUserWelcomed(id);
+      await data.setUserWelcomed(id);
       req.respond({ status: 204 });
       continue;
 
@@ -94,7 +94,7 @@ for await (const req of s) {
       // Allow this token to make database edits
       const uuid = await api.getUserUUID(token);
       identity.authorizeToken(token, uuid);
-      data.ensureUser(uuid);
+      await data.ensureUser(uuid);
 
       req.respond({ 
         status: 302, 
@@ -162,7 +162,7 @@ for await (const req of s) {
       if (badgeParams.length != 4) break;
 
       // Get, format, and return badge
-      const badgeData = data.getBadge(badgeParams[1], badgeParams[2], parseInt(badgeParams[3]));
+      const badgeData = await data.getBadge(badgeParams[1], badgeParams[2], parseInt(badgeParams[3]));
       if (badgeData) {
         const badge = badger.badge(badgeData);
         req.respond({ 
