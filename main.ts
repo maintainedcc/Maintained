@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std@0.64.0/http/server.ts";
 import { exists } from "https://deno.land/std/fs/exists.ts";
 import { getCookies } from 'https://deno.land/std@0.64.0/http/cookie.ts';
 
-import { ApiService, DataService, IdentityService } from './services/mod.ts';
+import { ApiService, BadgeService, DataService, IdentityService } from './services/mod.ts';
 
 import { config } from './environment.ts';
 
@@ -10,6 +10,7 @@ const s = serve({ port: 8000 });
 console.log("http://localhost:8000/");
 
 const api = new ApiService();
+const badger = new BadgeService();
 const data = new DataService();
 const identity = new IdentityService();
 
@@ -150,25 +151,25 @@ for await (const req of s) {
     default:
       // app folder is serve workspace
       req.url = `app${req.url}`;
+
+      // Check if badge exists, returns badge
+      const badgeParams = req.url.split("/");
+      if (badgeParams.length === 4) {
+        const badgeData = data.getBadge(badgeParams[1], badgeParams[2], parseInt(badgeParams[3]));
+        if (badgeData) {
+          const badge = badger.badge(badgeData);
+          req.respond({ 
+            body: badge, 
+            status: 200, 
+            headers: new Headers({"Content-Type": "image/svg+xml"}) 
+          });
+          continue;
+        }
+      }
   }
 
   // Check if file exists
   if (!(await exists(req.url))) {
-    // TEMP Check if badge exists, returns badge
-    const badgeParams = req.url.split("/");
-    if (badgeParams.length === 4) {
-      const badgeData = data.getBadge(badgeParams[1], badgeParams[2], parseInt(badgeParams[3]));
-      if (badgeData) {
-        const badge = badger(badgeData.title, badgeData.value, badgeData.titleWidth, badgeData.valueWidth);
-        req.respond({ 
-          body: badge, 
-          status: 200, 
-          headers: new Headers({"Content-Type": "image/svg+xml"}) 
-        });
-        continue;
-      }
-    }
-
     req.respond({ status: 404 });
     console.warn(`Resource Not Found: ${req.url}`);
     continue;
@@ -183,26 +184,6 @@ for await (const req of s) {
     status: 200, 
     headers: new Headers({ "Content-Type": type })
   });
-}
-
-function badger(key: string, value: string, keyWidth: number, valueWidth: number): string {
-  return `
-  <svg xmlns="http://www.w3.org/2000/svg" width="${keyWidth + valueWidth}" height="20">
-    <linearGradient id="a" x2="0" y2="100%">
-      <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
-      <stop offset="1" stop-opacity=".1"/>
-    </linearGradient>
-    <rect rx="3" width="${keyWidth + valueWidth}" height="20" fill="#555"/>
-    <rect rx="3" x="${keyWidth}" width="${valueWidth}" height="20" fill="#4c1"/>
-    <rect rx="3" width="${keyWidth + valueWidth}" height="20" fill="url(#a)"/>
-    <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
-      <text x="${keyWidth / 2}" y="15" fill="#010101" fill-opacity=".3">${key}</text>
-      <text x="${keyWidth / 2}" y="14">${key}</text>
-      <text x="${keyWidth + (valueWidth / 2)}" y="15" fill="#010101" fill-opacity=".3">${value}</text>
-      <text x="${keyWidth + (valueWidth / 2)}" y="14">${value}</text>
-    </g>
-  </svg>
-  `
 }
 
 function getMimeType(url: string): string {

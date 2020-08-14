@@ -10,7 +10,7 @@ interface Project {
   badges: Badge[]
 }
 
-interface Badge {
+export interface Badge {
   id: number;
   title: string,
   titleWidth: number,
@@ -20,8 +20,9 @@ interface Badge {
   style: BadgeStyle
 }
 
-enum BadgeStyle {
-  Plastic
+export enum BadgeStyle {
+  Plastic,
+  Flat
 }
 
 export class DataService {
