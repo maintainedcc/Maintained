@@ -1,3 +1,7 @@
 
+# Src
+.deno_plugins/*
 environment.ts
+
+# Editor settings
 .vscode/settings.json

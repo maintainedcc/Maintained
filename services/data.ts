@@ -1,4 +1,6 @@
 
+import { MongoClient, Database, Collection } from "https://deno.land/x/mongo@v0.9.1/mod.ts";
+
 interface User {
   name: string,
   firstTime: boolean;
@@ -35,11 +37,26 @@ export enum BadgeStyle {
 }
 
 export class DataService {
+  private db: Database;
+  private dUsers: Collection<User>;
+
   // Imagine this was more permanent
-  users: { [id: string]: User};
+  private users: { [id: string]: User};
 
   constructor() {
+    const client = new MongoClient();
+    client.connectWithUri("mongodb://localhost:27017");
+
+    this.db = client.database("test");
+    this.dUsers = this.db.collection<User>("users");
+    
     this.users = {};
+  }
+
+  async dbList() {
+    // Lists all users in DB
+    // REMOVE THIS IN PROD -- (does not pose security risk)
+    (await this.dUsers.find()).forEach(u => console.log(u));
   }
 
   ensureUser(uId: string): void {
