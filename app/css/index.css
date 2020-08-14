@@ -66,6 +66,12 @@ footer {
   background-color: #f15a24;
 }
 
+.strike {
+  text-decoration: line-through;
+  text-decoration-color: #f15a24;
+  text-decoration-thickness: 3px;
+}
+
 .hero {
   background-color: #c1272d;
   display: flex;
@@ -142,7 +148,7 @@ footer {
 
 .content {
   background-color: #fff;
-  padding: 50px 0;
+  padding: 30px 0;
   position: absolute;
   top: 100vh;
   left: 0;
@@ -151,16 +157,28 @@ footer {
 
 .section {
   margin: auto;
+  padding: 50px 0;
   position: relative;
   text-align: center;
 }
 .section .header {
   letter-spacing: 3px;
   font-family: roboto, sans-serif;
-  font-size: 2rem;
+  font-size: 2.5rem;
   font-weight: 500;
   text-transform: uppercase;
   text-shadow: #0006 5px 5px 10px;
+}
+.section .para {
+  line-height: 3.5rem;
+  font-size: 1.8rem;
+  font-weight: 200;
+  max-width: 700px;
+  margin: auto;
+  padding: 10px;
+}
+.section:nth-of-type(2n) {
+  background-color: #eee;
 }
 
 .dashboard-section {
@@ -268,8 +286,16 @@ footer {
   text-transform: uppercase;
 }
 .badge .badge-left, .badge-editor .badge-left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   font-family: roboto, sans-serif;
   font-weight: 500;
+}
+.badge .badge-left img, .badge-editor .badge-left img {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
 }
 .badge .badge-right, .badge-editor .badge-right {
   letter-spacing: 3px;
