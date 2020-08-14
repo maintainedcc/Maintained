@@ -23,11 +23,6 @@ for await (const req of s) {
   // High-tech router module
   let id = identity.getAuthorization(getCookies(req)["token"]);
   switch (req.url) {
-    case "/api/test":
-      data.dbList();
-      req.respond({ status: 200 });
-      continue;
-
     case "/api/badges/create":
       if (!id) { req.respond({ status: 401 }); continue; }
       let badge = await data.createBadge(id, params.get("project") ?? "");

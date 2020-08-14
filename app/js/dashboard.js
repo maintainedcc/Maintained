@@ -92,27 +92,29 @@ function deleteBadge(project, badgeId) {
   .then(refresh());
 }
 
-function updateBadge(project, badgeId, newKey = "", newVal = "") {
-  debounce(() => {
-    const params = {
-      project: project,
-      id: badgeId,
-      key: encodeURI(newKey),
-      val: encodeURI(newVal),
-      keyW: getStringPixelWidth(newKey, "11px Verdana") + 25,
-      valW: getStringPixelWidth(newVal, "11px Verdana") + 25
-    }
-    const paramString = new URLSearchParams(params).toString();
-    fetch(`/api/badges/update?${paramString}`)
-    .then(document.getElementById(`save-${project}`).classList.add("shown"));
-  }, 1000, false)();
-}
+const updateBadge = debounce((project, badgeId, newKey = "", newVal = "") => {
+  const params = {
+    project: project,
+    id: badgeId,
+    key: encodeURI(newKey),
+    val: encodeURI(newVal),
+    keyW: getStringPixelWidth(newKey, "11px Verdana") + 25,
+    valW: getStringPixelWidth(newVal, "11px Verdana") + 25
+  }
+  const paramString = new URLSearchParams(params).toString();
+  const saveBadge = document.getElementById(`save-${project}`);
+  fetch(`/api/badges/update?${paramString}`)
+  .then(res => saveBadge.classList.add("shown"))
+  .catch(ex => {
+    saveBadge.classList.add("shown");
+    saveBadge.classList.add("error");
+    saveBadge.innerText = "Error saving!";
+  });
+}, 1000, false);
 
-function hideSaveBadge(project) {
-  debounce(() => {
-    document.getElementById(`save-${project}`).classList.remove("shown");
-  }, 2000, false)();
-}
+const hideSaveBadge = debounce((project) => {
+  document.getElementById(`save-${project}`).className = "project-save";
+}, 2000, false);
 
 function createProject() {
   const projName = document.getElementById("project-create-input");

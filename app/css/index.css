@@ -505,6 +505,7 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
   flex-direction: row;
   align-items: center;
   align-self: flex-start;
+  font-size: 1.3rem;
   margin: 0;
   margin-bottom: 20px;
 }
@@ -533,8 +534,13 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
   opacity: 1;
   visibility: visible;
 }
+.project h2 .project-save.error {
+  background-color: #f50;
+  color: #fff;
+}
 @media (min-width: 768px) {
   .project h2 {
+    font-size: 1.5rem;
     margin-bottom: 0;
   }
   .project h2 .droplet {

@@ -48,13 +48,6 @@ export class DataService {
     this.dUsers = this.db.collection<User>("users");
   }
 
-  async dbList() {
-    // Lists all users in DB
-    // REMOVE THIS IN PROD -- (does not pose security risk)
-    console.log(await this.dUsers.findOne({ name: "SDBagel" }));
-    (await this.dUsers.find()).forEach(u => console.log(u));
-  }
-
   async ensureUser(uId: string): Promise<void> {
     // Make sure the user doesn't exist already
     if (await this.dUsers.findOne({ name: uId })) return;
@@ -178,7 +171,7 @@ export class DataService {
       style: BadgeStyle.Plastic
     }
     const newProject: Project = {
-      title: project,
+      title: project.replaceAll(" ", "-"),
       badges: [ newBadge ]
     }
 
