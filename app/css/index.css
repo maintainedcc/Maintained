@@ -157,30 +157,47 @@ footer {
 
 .section {
   margin: auto;
-  padding: 50px 0;
+  padding: 20px 0;
   position: relative;
   text-align: center;
 }
 .section .header {
   letter-spacing: 3px;
   font-family: roboto, sans-serif;
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 500;
   text-transform: uppercase;
   text-shadow: #0006 5px 5px 10px;
 }
 .section .para {
-  line-height: 3.5rem;
-  font-size: 1.8rem;
+  line-height: 2.5rem;
+  font-size: 1.2rem;
   font-weight: 200;
   max-width: 700px;
   margin: auto;
-  padding: 10px;
+  padding: 20px;
 }
 .section:nth-of-type(2n) {
   background-color: #eee;
 }
 
+footer.section {
+  font-size: 0.8rem;
+}
+
+@media (min-width: 768px) {
+  .section .header {
+    font-size: 2.5rem;
+  }
+  .section .para {
+    line-height: 3.5rem;
+    font-size: 1.8rem;
+  }
+
+  footer.section {
+    font-size: 1rem;
+  }
+}
 .dashboard-section {
   background-color: #fff;
   border-radius: 5px;
