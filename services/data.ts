@@ -14,10 +14,19 @@ export interface Badge {
   id: number;
   title: string,
   titleWidth: number,
+  titleColor: BadgeColor
   value: string,
   valueWidth: number,
   valueSource: string | null,
+  valueColor: BadgeColor,
   style: BadgeStyle
+}
+
+export enum BadgeColor {
+  Slate,
+  Savannah,
+  Sunset,
+  Serious
 }
 
 export enum BadgeStyle {
@@ -42,9 +51,11 @@ export class DataService {
       id: 0,
       title: "Welcome to",
       titleWidth: 90,
+      titleColor: BadgeColor.Slate,
       value: "Maintained",
       valueWidth: 90,
       valueSource: null,
+      valueColor: BadgeColor.Savannah,
       style: BadgeStyle.Plastic
     }
     const starterProject: Project = {
@@ -81,9 +92,11 @@ export class DataService {
       id: (lastId ?? 0) + 1,
       title: "New",
       titleWidth: 30,
+      titleColor: BadgeColor.Slate,
       value: "Badge",
       valueWidth: 50,
       valueSource: null,
+      valueColor: BadgeColor.Savannah,
       style: BadgeStyle.Plastic
     }
 
@@ -134,9 +147,11 @@ export class DataService {
       id: 0,
       title: "Created",
       titleWidth: 50,
+      titleColor: BadgeColor.Slate,
       value: "Successfully",
       valueWidth: 90,
       valueSource: null,
+      valueColor: BadgeColor.Savannah,
       style: BadgeStyle.Plastic
     }
     const newProject: Project = {

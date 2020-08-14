@@ -317,6 +317,52 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
   background-position-x: -220px;
 }
 
+.badge-editor {
+  display: flex;
+  flex-direction: column;
+  height: unset;
+}
+.badge-editor .badge-left, .badge-editor .badge-right {
+  background-color: #655;
+  border: none;
+  border-radius: 0;
+  flex: 1 1;
+  padding: 12px;
+  text-overflow: ellipsis;
+}
+.badge-editor .badge-right {
+  background-color: #AB2;
+}
+@media (min-width: 768px) {
+  .badge-editor {
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 50px;
+  }
+}
+
+.badge-actions {
+  display: flex;
+}
+.badge-actions button {
+  background-color: #000;
+  border: #000 1px solid;
+  border-right-color: #fff;
+  border-radius: 0;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.5rem;
+  flex: 1 1;
+  min-width: 60px;
+}
+.badge-actions button:before, .badge-actions button:after {
+  background-color: #fff;
+}
+
+.badge-options {
+  width: 100%;
+}
+
 .profile-icon {
   position: relative;
   width: 35px;
@@ -450,49 +496,6 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
 }
 .project .badges li:not(:last-of-type) {
   margin-bottom: 20px;
-}
-.project .badge-editor {
-  display: flex;
-  flex-direction: column;
-  height: unset;
-}
-.project .badge-editor .badge-left, .project .badge-editor .badge-right {
-  background-color: #655;
-  border: none;
-  border-radius: 0;
-  flex: 1 1;
-  padding: 12px;
-  text-overflow: ellipsis;
-}
-.project .badge-editor .badge-right {
-  background-color: #AB2;
-}
-@media (min-width: 768px) {
-  .project .badge-editor {
-    flex-direction: row;
-    flex-wrap: wrap;
-    height: 50px;
-  }
-}
-.project .badge-actions {
-  display: flex;
-}
-.project .badge-actions button {
-  background-color: #000;
-  border: #000 1px solid;
-  border-right-color: #fff;
-  border-radius: 0;
-  color: #fff;
-  font-weight: 700;
-  font-size: 1.5rem;
-  flex: 1 1;
-  min-width: 60px;
-}
-.project .badge-actions button:before, .project .badge-actions button:after {
-  background-color: #fff;
-}
-.project .badge-options {
-  width: 100%;
 }
 
 .loader .loader-title {

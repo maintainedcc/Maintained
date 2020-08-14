@@ -152,19 +152,20 @@ for await (const req of s) {
       // app folder is serve workspace
       req.url = `app${req.url}`;
 
-      // Check if badge exists, returns badge
+      // Check if badge exists
       const badgeParams = req.url.split("/");
-      if (badgeParams.length === 4) {
-        const badgeData = data.getBadge(badgeParams[1], badgeParams[2], parseInt(badgeParams[3]));
-        if (badgeData) {
-          const badge = badger.badge(badgeData);
-          req.respond({ 
-            body: badge, 
-            status: 200, 
-            headers: new Headers({"Content-Type": "image/svg+xml"}) 
-          });
-          continue;
-        }
+      if (badgeParams.length != 4) break;
+
+      // Get, format, and return badge
+      const badgeData = data.getBadge(badgeParams[1], badgeParams[2], parseInt(badgeParams[3]));
+      if (badgeData) {
+        const badge = badger.badge(badgeData);
+        req.respond({ 
+          body: badge, 
+          status: 200, 
+          headers: new Headers({"Content-Type": "image/svg+xml"}) 
+        });
+        continue;
       }
   }
 
