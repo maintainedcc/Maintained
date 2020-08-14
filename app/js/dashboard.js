@@ -34,7 +34,7 @@ function templator() {
           oninput="updateBadge('${project}', ${id}, '', this.value)" onchange="hideSaveBadge('${project}')">
         <div class="badge-actions">
           <button>⚙</button>
-          <button onclick="copyMd('${user}', '${project}', ${id})">&lt;&gt;</button>
+          <button class="icon-md" onclick="copyMd('${user}', '${project}', ${id})"></button>
           <button class="icon-close" onclick="deleteBadge('${project}', ${id})"></button>
         </div>
       </div></li>`

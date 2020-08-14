@@ -3,6 +3,10 @@
   scroll-behavior: smooth;
 }
 
+::selection {
+  background-color: #fa3;
+}
+
 ::-webkit-scrollbar {
   height: 12px;
   width: 12px;

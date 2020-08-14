@@ -2,6 +2,10 @@
   scroll-behavior: smooth;
 }
 
+::selection {
+  background-color: #fa3;
+}
+
 ::-webkit-scrollbar {
   height: 12px;
   width: 12px;
@@ -37,6 +41,29 @@
 
 .icon-close:before, .icon-close:after {
   transform: rotate(45deg);
+}
+
+.icon-md {
+  position: relative;
+}
+.icon-md:before, .icon-md:after {
+  content: "";
+  position: absolute;
+  background-color: transparent !important;
+  border: 4px solid;
+  border-color: #fff #fff transparent transparent;
+  border-radius: 3px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 4px;
+  height: 4px;
+  transform: translateX(2px) rotate(45deg);
+  margin: auto;
+}
+.icon-md:after {
+  transform: translateX(-2px) rotate(225deg);
 }
 
 html {
