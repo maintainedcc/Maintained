@@ -256,7 +256,7 @@ function stopPropagation(e) {
 }
 
 function copyMd(userName, project, id) {
-  const url = `http://localhost:8000/${userName}/${project}/${id}`;
+  const url = `https://${window.location.host}/${userName}/${project}/${id}`;
   const md = `![${url}](${url})`;
 
   let textArea = document.createElement("textarea");

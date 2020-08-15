@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std@0.64.0/http/server.ts";
 import { exists } from "https://deno.land/std/fs/exists.ts";
 import { getCookies } from 'https://deno.land/std@0.64.0/http/cookie.ts';
 
-import { ApiService, BadgeService, DataService, IdentityService, BadgeStyle } from './services/mod.ts';
+import { ApiService, BadgeService, DataService, IdentityService } from './services/mod.ts';
 
 import { config } from './environment.ts';
 
