@@ -1,14 +1,15 @@
-<div style="text-align: center;">
+<p align="center"><a href="https://maintained.cc" target="_blank" rel="noopener noreferrer"><img width="200" src="app/img/favicon.png" alt="Maintained logo"></a></p>
+<h1 align="center">Maintained</h1>
+<p align="center">
+  <a href="https://maintained.cc"><img src="https://maintained.cc/SDBagel/Maintained/0" alt="Status Badge"></a>
+  <a href="https://maintained.cc"><img src="https://maintained.cc/SDBagel/Maintained/9" alt="Get Started Now"></a>
+</p>
+<p align="center">
+  Manage and maintain your badges in style.
   <br>
-  <img src="app/img/favicon.png" alt="Maintained Logo" width=200 height=200>
-  <h1>Maintained</h1>
-  <img src="https://maintained.cc/SDBagel/Maintained/0" alt="Status Badge">
-  <img src="https://maintained.cc/SDBagel/Maintained/9" alt="Get Started Now">
-  <p style="margin-top:15px">Manage and maintain your badges in style.</p>
-  <a href="">https://maintained.cc</a>
-  <br>
-  <hr>
-</div>
+  <a href="https://maintained.cc">https://maintained.cc</a>
+</p>
+<hr>
 
 ## Features
 
