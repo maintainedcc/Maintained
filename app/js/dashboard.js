@@ -44,7 +44,7 @@ function templator() {
   }
 
   return {
-    badgeEditor: (user, project, id, label, value, colorLeft, colorRight) => {
+    badgeEditor: (user, project, id, label, value, colorLeft, colorRight, style) => {
       return `
       <li><div class="badge-editor">
         <input type="text" class="badge-left" style="background-color:${colorMap(colorLeft)}" value="${label}" spellcheck="false" 
@@ -52,7 +52,7 @@ function templator() {
         <input type="text" class="badge-right" style="background-color:${colorMap(colorRight)}" value="${value}" spellcheck="false" 
           oninput="updateBadge('${project}', ${id}, '', this.value)" onchange="hideSaveBadge('${project}')">
         <div class="badge-actions">
-          <button onclick="toggleBadgeEditDialog('${project}', ${id})" aria-label="Additional Badge Settings">⚙</button>
+          <button onclick="toggleBadgeEditDialog('${project}', ${id}, ${style}, ${colorLeft}, ${colorRight})" aria-label="Additional Badge Settings">⚙</button>
           <button class="icon-md" onclick="copyMd('${user}', '${project}', ${id})" aria-label="Copy Markdown"></button>
           <button class="icon-close" onclick="deleteBadge('${project}', ${id})" aria-label="Delete Badge"></button>
         </div>
@@ -63,7 +63,7 @@ function templator() {
       <h2>Edit Badge</h2>
       <label for="badge-edit-style">Style</label>
       <select id="badge-edit-style">
-        <option value="0">Plastic (Default)</option>
+        <option value="0">Plastic</option>
         <option value="1">Flat</option>
       </select>
       <label for="badge-edit-cl">Color (Left)</label>
@@ -129,7 +129,7 @@ function getBadges(userName, project) {
   let badgesHtml = "";
   project.badges.forEach(badge => {
     badgesHtml += template.badgeEditor(userName, project.title, badge.id, 
-      badge.title, badge.value, badge.titleColor, badge.valueColor);
+      badge.title, badge.value, badge.titleColor, badge.valueColor, badge.style);
   });
   return badgesHtml;
 }
@@ -166,7 +166,7 @@ const updateBadge = debounce((project, badgeId, newKey = "", newVal = "") => {
     saveBadge.innerText = "Error saving!";
     console.error(ex);
   });
-}, 1000, false);
+}, 300, false);
 
 function updateBadgeMeta(project, badgeId) {
   const params = {
@@ -226,9 +226,13 @@ function toggleCreationDialog() {
   document.getElementById("dialog").innerHTML = template.projectCreate();
 }
 
-function toggleBadgeEditDialog(project, id) {
+function toggleBadgeEditDialog(project, id, style, cL, cR) {
   document.getElementById("dov").classList.toggle("collapsed");
   document.getElementById("dialog").innerHTML = template.badgeEditOptions(project, id);
+
+  document.getElementById("badge-edit-style").value = style;
+  document.getElementById("badge-edit-cl").value = cL;
+  document.getElementById("badge-edit-cr").value = cR;
 }
 
 function toggleProfileDropdown() {
