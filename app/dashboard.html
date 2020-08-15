@@ -39,12 +39,8 @@
       <p>Welcome to Maintained! This is your dashboard. Create and edit your items from here. Your changes automatically save, so no worries! We included a starter project to get you going - try clicking the badge fields to edit them.</p>
     </section>
     <div id="projects"></div>
-    <section id="dov" class="collapsed" onclick="toggleCreationDialog()">
-      <div class="dialog" onclick="stopPropagation(event)">
-        <h2>New Project</h2>
-        <input id="project-create-input" type="text" placeholder="Title" aria-label="Project Title">
-        <button class="badge" onclick="createProject()"><span class="badge-left">Create Project</span></button>
-      </div>
+    <section id="dov" class="collapsed" onclick="hideDialog()">
+      <div id="dialog" class="dialog" onclick="stopPropagation(event)"></div>
     </section>
     <section id="loader" class="dashboard-section loader">
       <span class="loader-title"></span>

@@ -2,7 +2,7 @@ import { serve } from "https://deno.land/std@0.64.0/http/server.ts";
 import { exists } from "https://deno.land/std/fs/exists.ts";
 import { getCookies } from 'https://deno.land/std@0.64.0/http/cookie.ts';
 
-import { ApiService, BadgeService, DataService, IdentityService } from './services/mod.ts';
+import { ApiService, BadgeService, DataService, IdentityService, BadgeStyle } from './services/mod.ts';
 
 import { config } from './environment.ts';
 
@@ -38,6 +38,15 @@ for await (const req of s) {
         parseInt(params.get("valW") ?? ""));
       if (!updatedBadge) { req.respond({ status: 400 }); continue; }
       req.respond({ body: JSON.stringify(updatedBadge), status: 200 });
+      continue;
+
+    case "/api/badges/meta":
+      if (!id) { req.respond({ status: 401 }); continue; }
+      let updatedMetaBadge = await data.updateBadgeMeta(id, params.get("project") ?? "",
+        parseInt(params.get("id") ?? ""), parseInt(params.get("style") ?? ""), 
+        parseInt(params.get("colorRight") ?? ""), parseInt(params.get("colorLeft") ?? ""));
+      if (!updatedMetaBadge) { req.respond({ status: 400 }); continue; }
+      req.respond({ body: JSON.stringify(updatedMetaBadge), status: 200 });
       continue;
 
     case "/api/badges/delete":

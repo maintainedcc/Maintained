@@ -290,13 +290,17 @@ footer.section {
 #dov .dialog h2 {
   margin-top: 0;
 }
-#dov .dialog input {
+#dov .dialog label {
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+#dov .dialog input, #dov .dialog select {
   background-color: #eee;
   border: none;
   border-bottom: 2px solid #555;
   font-family: inherit;
   font-size: 1.2rem;
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   padding: 10px;
   flex: 1 1;
 }

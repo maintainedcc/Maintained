@@ -25,19 +25,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
 function templator() {
   return {
-    badgeEditor: (user, project, id, label, value) => {
+    badgeEditor: (user, project, id, label, value, colorLeft, colorRight) => {
       return `
       <li><div class="badge-editor">
-        <input type="text" class="badge-left" value="${label}" spellcheck="false" 
+        <input type="text" class="badge-left ${colorLeft}" value="${label}" spellcheck="false" 
           oninput="updateBadge('${project}', ${id}, this.value)" onchange="hideSaveBadge('${project}')">
-        <input type="text" class="badge-right" value="${value}" spellcheck="false" 
+        <input type="text" class="badge-right ${colorRight}" value="${value}" spellcheck="false" 
           oninput="updateBadge('${project}', ${id}, '', this.value)" onchange="hideSaveBadge('${project}')">
         <div class="badge-actions">
-          <button>⚙</button>
-          <button class="icon-md" onclick="copyMd('${user}', '${project}', ${id})"></button>
-          <button class="icon-close" onclick="deleteBadge('${project}', ${id})"></button>
+          <button onclick="toggleBadgeEditDialog('${project}', ${id})" aria-label="Additional Badge Settings">⚙</button>
+          <button class="icon-md" onclick="copyMd('${user}', '${project}', ${id})" aria-label="Copy Markdown"></button>
+          <button class="icon-close" onclick="deleteBadge('${project}', ${id})" aria-label="Delete Badge"></button>
         </div>
       </div></li>`
+    },
+    badgeEditOptions: (project, id) => {
+      return `
+      <h2>Edit Badge</h2>
+      <label for="badge-edit-style">Style</label>
+      <select id="badge-edit-style">
+        <option value="0">Plastic (Default)</option>
+        <option value="1">Flat</option>
+      </select>
+      <label for="badge-edit-cl">Color (Left)</label>
+      <select id="badge-edit-cl">
+        <option value="0">Slate</option>
+        <option value="1">Savannah</option>
+        <option value="2">Sahara</option>
+        <option value="3">Sunset</option>
+      </select>
+      <label for="badge-edit-cr">Color (Right)</label>
+      <select id="badge-edit-cr">
+        <option value="0">Slate</option>
+        <option value="1" selected>Savannah</option>
+        <option value="2">Sahara</option>
+        <option value="3">Sunset</option>
+      </select>
+      <button class="badge" onclick="updateBadgeMeta('${project}', ${id})">
+        <span class="badge-left">Apply Changes</span>
+      </button>`
     },
     project: (user, title, badges) => {
       return `
@@ -53,6 +79,13 @@ function templator() {
       ${badges}
       </ul>
       </section>`
+    },
+    projectCreate: () => {
+      return `
+      <h2>New Project</h2>
+      <label for="project-create-input">Project Title</label>
+      <input id="project-create-input" type="text" placeholder="Title">
+      <button class="badge" onclick="createProject()"><span class="badge-left">Create Project</span></button>`
     }
   }
 }
@@ -77,7 +110,8 @@ function buildDashboard(data) {
 function getBadges(userName, project) {
   let badgesHtml = "";
   project.badges.forEach(badge => {
-    badgesHtml += template.badgeEditor(userName, project.title, badge.id, badge.title, badge.value);
+    badgesHtml += template.badgeEditor(userName, project.title, badge.id, 
+      badge.title, badge.value, badge.titleColor, badge.valueColor);
   });
   return badgesHtml;
 }
@@ -104,13 +138,41 @@ const updateBadge = debounce((project, badgeId, newKey = "", newVal = "") => {
   const paramString = new URLSearchParams(params).toString();
   const saveBadge = document.getElementById(`save-${project}`);
   fetch(`/api/badges/update?${paramString}`)
-  .then(res => saveBadge.classList.add("shown"))
+  .then(res => {
+    saveBadge.classList.add("shown");
+    saveBadge.innerText = "Saved";
+  })
   .catch(ex => {
     saveBadge.classList.add("shown");
     saveBadge.classList.add("error");
     saveBadge.innerText = "Error saving!";
+    console.error(ex);
   });
 }, 1000, false);
+
+function updateBadgeMeta(project, badgeId) {
+  const params = {
+    project: project,
+    id: badgeId,
+    style: document.getElementById("badge-edit-style").value,
+    colorRight: document.getElementById("badge-edit-cr").value,
+    colorLeft: document.getElementById("badge-edit-cl").value
+  }
+  const paramString = new URLSearchParams(params).toString();
+  const saveBadge = document.getElementById(`save-${project}`);
+  fetch(`/api/badges/meta?${paramString}`)
+  .then(res => {
+    saveBadge.classList.add("shown");
+    saveBadge.innerText = "Saved";
+  })
+  .then(hideDialog())
+  .catch(ex => {
+    saveBadge.classList.add("shown");
+    saveBadge.classList.add("error");
+    saveBadge.innerText = "Error saving!";
+    console.error(ex);
+  });
+}
 
 const hideSaveBadge = debounce((project) => {
   document.getElementById(`save-${project}`).className = "project-save";
@@ -136,8 +198,18 @@ function refresh() {
   .then(res => buildDashboard(JSON.parse(res)));
 }
 
+function hideDialog() {
+  document.getElementById("dov").classList.add("collapsed");
+}
+
 function toggleCreationDialog() {
   document.getElementById("dov").classList.toggle("collapsed");
+  document.getElementById("dialog").innerHTML = template.projectCreate();
+}
+
+function toggleBadgeEditDialog(project, id) {
+  document.getElementById("dov").classList.toggle("collapsed");
+  document.getElementById("dialog").innerHTML = template.badgeEditOptions(project, id);
 }
 
 function toggleProfileDropdown() {
@@ -176,13 +248,18 @@ function copyMd(userName, project, id) {
   textArea.focus();
   textArea.select();
 
+  const saveBadge = document.getElementById(`save-${project}`);
+  saveBadge.classList.add("shown");
   try {
     const successful = document.execCommand('copy');
-    const msg = successful ? 'successful' : 'unsuccessful';
-    console.log('Copying text command was ' + msg);
+    if (!successful) throw new ErrorEvent("");
+    saveBadge.innerText = `Copied!`;
   } catch (err) {
     console.error('Unable to copy', err);
+    saveBadge.innerText = `Copy fail`;
   }
+
+  hideSaveBadge(project);
 
   document.body.removeChild(textArea);
 }

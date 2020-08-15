@@ -27,8 +27,8 @@ export interface Badge {
 export enum BadgeColor {
   Slate,
   Savannah,
-  Sunset,
-  Serious
+  Sahara,
+  Sunset
 }
 
 export enum BadgeStyle {
@@ -152,6 +152,25 @@ export class DataService {
       { $set: { projects: userData } });
     return userBadge;
   }
+
+  async updateBadgeMeta(uId: string, project: string, bId: number, 
+    style: BadgeStyle, colorRight: BadgeColor, colorLeft: BadgeColor): Promise<Badge | undefined> {
+  const userData = (await this.dUsers.findOne({ name: uId }))?.projects;
+  const userProj = userData?.find(p => p.title === project);
+  if (!userProj) return undefined;
+
+  const userBadge = userProj.badges.find(b => b.id === bId);
+  if (!userBadge) return undefined;
+
+  userBadge.style = style;
+  userBadge.titleColor = colorLeft;
+  userBadge.valueColor = colorRight;
+  
+  await this.dUsers.updateOne(
+    { name: uId }, 
+    { $set: { projects: userData } });
+  return userBadge;
+}
 
   async createProject(uId: string, project: string): Promise<Project | undefined> {
     const user = await this.dUsers.findOne({ name: uId });
