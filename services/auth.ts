@@ -1,7 +1,7 @@
 
 import { config } from '../environment.ts';
 
-export class ApiService {
+export class AuthService {
   constructor() {}
 
   getAuthURL(): string {

@@ -2,14 +2,12 @@ import { serve } from "https://deno.land/std@0.64.0/http/server.ts";
 import { exists } from "https://deno.land/std/fs/exists.ts";
 import { getCookies } from 'https://deno.land/std@0.64.0/http/cookie.ts';
 
-import { ApiService, BadgeService, DataService, IdentityService } from './services/mod.ts';
-
-import { config } from './environment.ts';
+import { AuthService, BadgeService, DataService, IdentityService } from './services/mod.ts';
 
 const s = serve({ port: 8000 });
 console.log("http://localhost:8000/");
 
-const api = new ApiService();
+const api = new AuthService();
 const badger = new BadgeService();
 const data = new DataService();
 const identity = new IdentityService();
@@ -118,16 +116,9 @@ for await (const req of s) {
         });
       }
       else {
-        const authUrl = "https://github.com/login/oauth/authorize";
-        const authParams: string[][] = [
-          ["client_id", config.client_id],
-          ["redirect_uri", config.redirect_uri],
-          ["state", "pog"]
-        ];
-        const authParamString = new URLSearchParams(authParams).toString();
         req.respond({ 
           status: 302, 
-          headers: new Headers({ "Location": `${authUrl}?${authParamString}` })
+          headers: new Headers({ "Location": api.getAuthURL() })
         });
       }
       continue;
