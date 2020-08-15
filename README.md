@@ -1,7 +1,14 @@
-# Maintained
-A web dashboard to manage your README badges in style.
-
-![https://maintained.cc/SDBagel/Maintained/0](https://maintained.cc/SDBagel/Maintained/0)
+<div style="text-align: center;">
+  <br>
+  <img src="app/img/favicon.png" alt="Maintained Logo" width=200 height=200>
+  <h1>Maintained</h1>
+  <img src="https://maintained.cc/SDBagel/Maintained/0" alt="Status Badge">
+  <img src="https://maintained.cc/SDBagel/Maintained/9" alt="Get Started Now">
+  <p style="margin-top:15px">Manage and maintain your badges in style.</p>
+  <a href="">https://maintained.cc</a>
+  <br>
+  <hr>
+</div>
 
 ## Features
 
@@ -34,7 +41,3 @@ No account needed! Just one click to start with your GitHub account with only pu
 ![https://maintained.cc/SDBagel/Maintained/8](https://maintained.cc/SDBagel/Maintained/8)
 
 Got suggestions for features, fixes, or have feedback? Feel free to create pull requests or issues on this repository.
-
-## Tech
-
-This project is built on Deno. More on this later.
