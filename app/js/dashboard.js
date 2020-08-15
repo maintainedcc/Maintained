@@ -24,13 +24,32 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function templator() {
+  function colorMap(color) {
+    switch(color) {
+      case 0: // Simple
+        return "#555";
+      case 1: // Slate
+        return "#556";
+      case 2: // Seabed
+        return "#015";
+      case 3: // Subterranean
+        return "#111";
+      case 4: // Savannah
+        return "#AB2";
+      case 5: // Sahara
+        return "#F80";
+      case 6: // Sunset
+        return "#F20";
+    }
+  }
+
   return {
     badgeEditor: (user, project, id, label, value, colorLeft, colorRight) => {
       return `
       <li><div class="badge-editor">
-        <input type="text" class="badge-left ${colorLeft}" value="${label}" spellcheck="false" 
+        <input type="text" class="badge-left" style="background-color:${colorMap(colorLeft)}" value="${label}" spellcheck="false" 
           oninput="updateBadge('${project}', ${id}, this.value)" onchange="hideSaveBadge('${project}')">
-        <input type="text" class="badge-right ${colorRight}" value="${value}" spellcheck="false" 
+        <input type="text" class="badge-right" style="background-color:${colorMap(colorRight)}" value="${value}" spellcheck="false" 
           oninput="updateBadge('${project}', ${id}, '', this.value)" onchange="hideSaveBadge('${project}')">
         <div class="badge-actions">
           <button onclick="toggleBadgeEditDialog('${project}', ${id})" aria-label="Additional Badge Settings">⚙</button>
@@ -49,17 +68,16 @@ function templator() {
       </select>
       <label for="badge-edit-cl">Color (Left)</label>
       <select id="badge-edit-cl">
-        <option value="0">Slate</option>
-        <option value="1">Savannah</option>
-        <option value="2">Sahara</option>
-        <option value="3">Sunset</option>
+        <option value="0">Simple</option>
+        <option value="1">Slate</option>
+        <option value="2">Seabed</option>
+        <option value="3">Subterranean</option>
       </select>
       <label for="badge-edit-cr">Color (Right)</label>
       <select id="badge-edit-cr">
-        <option value="0">Slate</option>
-        <option value="1" selected>Savannah</option>
-        <option value="2">Sahara</option>
-        <option value="3">Sunset</option>
+        <option value="4">Savannah</option>
+        <option value="5">Sahara</option>
+        <option value="6">Sunset</option>
       </select>
       <button class="badge" onclick="updateBadgeMeta('${project}', ${id})">
         <span class="badge-left">Apply Changes</span>
@@ -161,7 +179,8 @@ function updateBadgeMeta(project, badgeId) {
   const paramString = new URLSearchParams(params).toString();
   const saveBadge = document.getElementById(`save-${project}`);
   fetch(`/api/badges/meta?${paramString}`)
-  .then(res => {
+  .then(refresh())
+  .then(() => {
     saveBadge.classList.add("shown");
     saveBadge.innerText = "Saved";
   })

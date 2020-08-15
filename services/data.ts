@@ -25,7 +25,10 @@ export interface Badge {
 }
 
 export enum BadgeColor {
+  Simple,
   Slate,
+  Seabed,
+  Subterranean,
   Savannah,
   Sahara,
   Sunset
@@ -57,7 +60,7 @@ export class DataService {
       id: 0,
       title: "Welcome to",
       titleWidth: 90,
-      titleColor: BadgeColor.Slate,
+      titleColor: BadgeColor.Simple,
       value: "Maintained",
       valueWidth: 90,
       valueSource: null,
@@ -99,7 +102,7 @@ export class DataService {
       id: (lastId ?? 0) + 1,
       title: "New",
       titleWidth: 30,
-      titleColor: BadgeColor.Slate,
+      titleColor: BadgeColor.Simple,
       value: "Badge",
       valueWidth: 50,
       valueSource: null,
@@ -165,7 +168,7 @@ export class DataService {
   userBadge.style = style;
   userBadge.titleColor = colorLeft;
   userBadge.valueColor = colorRight;
-  
+
   await this.dUsers.updateOne(
     { name: uId }, 
     { $set: { projects: userData } });
@@ -182,7 +185,7 @@ export class DataService {
       id: 0,
       title: "Created",
       titleWidth: 50,
-      titleColor: BadgeColor.Slate,
+      titleColor: BadgeColor.Simple,
       value: "Successfully",
       valueWidth: 90,
       valueSource: null,
