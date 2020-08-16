@@ -4,6 +4,7 @@ import { config } from '../environment.dev.ts';
 export class AuthService {
   constructor() {}
 
+  // Get the auth URL from environment file
   getAuthURL(): string {
     const authUrl = "https://github.com/login/oauth/authorize";
     const authParams: string[][] = [
@@ -16,10 +17,12 @@ export class AuthService {
     return `${authUrl}?${authParamString}`;
   }
 
+  // Get GitHub app token manangement URL
   getManagementURL(): string {
     return `https://github.com/settings/connections/applications/${config.client_id}`;
   }
 
+  // Get access token from oauth callback
   async getAccessToken(code: string, state: string): Promise<string> {
     return new Promise((resolve, reject) => {
       const url = "https://github.com/login/oauth/access_token";
@@ -42,6 +45,7 @@ export class AuthService {
     });
   }
 
+  // Get username from token and API call
   async getUserUUID(token: string): Promise<string> {
     return new Promise((resolve, reject) => {
       const headers = new Headers({

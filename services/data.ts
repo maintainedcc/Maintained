@@ -2,26 +2,27 @@
 import { MongoClient, Database, Collection } from "https://deno.land/x/mongo@v0.9.1/mod.ts";
 
 interface User {
-  name: string,
-  firstTime: boolean;
+  name: string
+  firstTime: boolean
   projects: Project[]
 }
 
 interface Project {
-  title: string,
+  title: string
   badges: Badge[]
 }
 
 export interface Badge {
-  id: number;
-  title: string,
-  titleWidth: number,
+  id: number
+  title: string
+  titleWidth: number
   titleColor: BadgeColor
-  value: string,
-  valueWidth: number,
-  valueSource: string | null,
-  valueColor: BadgeColor,
+  value: string
+  valueWidth: number
+  valueSource: string | null
+  valueColor: BadgeColor
   style: BadgeStyle
+  isMono: boolean
 }
 
 export enum BadgeColor {
@@ -51,6 +52,7 @@ export class DataService {
     this.dUsers = this.db.collection<User>("users");
   }
 
+  // Ensure a user exists
   async ensureUser(uId: string): Promise<void> {
     // Make sure the user doesn't exist already
     if (await this.dUsers.findOne({ name: uId })) return;
@@ -65,7 +67,8 @@ export class DataService {
       valueWidth: 90,
       valueSource: null,
       valueColor: BadgeColor.Savannah,
-      style: BadgeStyle.Plastic
+      style: BadgeStyle.Plastic,
+      isMono: false
     }
     const starterProject: Project = {
       title: uId,
@@ -80,18 +83,21 @@ export class DataService {
     this.dUsers.insertOne(newUser);
   }
 
+  // Returns all of a user's data
   async getUserInfo(uId: string): Promise<User | undefined> {
     const info = await this.dUsers.findOne({ name: uId });
     if (info) return info;
     else return undefined;
   }
 
+  // Hide the new user experience for a user
   async setUserWelcomed(uId: string): Promise<void> {
     await this.dUsers.updateOne(
       { name: uId }, 
       { $set: { firstTime: false } });
   }
 
+  // Create a new default badge in a user's project and return it
   async createBadge(uId: string, project: string): Promise<Badge | undefined> {
     const userData = (await this.dUsers.findOne({ name: uId }))?.projects;
     const userProj = userData?.find(p => p.title === project);
@@ -107,7 +113,8 @@ export class DataService {
       valueWidth: 50,
       valueSource: null,
       valueColor: BadgeColor.Savannah,
-      style: BadgeStyle.Plastic
+      style: BadgeStyle.Plastic,
+      isMono: false
     }
 
     userProj.badges.push(newBadge);
@@ -117,6 +124,7 @@ export class DataService {
     return newBadge;
   }
 
+  // Delete a badge in a user's project from badge ID
   async deleteBadge(uId: string, project: string, bId: number): Promise<void> {
     const userData = (await this.dUsers.findOne({ name: uId }))?.projects;
     const userProj = userData?.find(p => p.title === project);
@@ -129,6 +137,7 @@ export class DataService {
       { $set: { projects: userData } });
   }
 
+  // Get a badge based on username, project, and badge ID
   async getBadge(uId: string, project: string, bId: number): Promise<Badge | undefined> {
     const userData = (await this.dUsers.findOne({ name: uId }))?.projects;
     const userProj = userData?.find(p => p.title === project);
@@ -139,6 +148,7 @@ export class DataService {
     else return userBadge;
   }
 
+  // Update a badge based on username, project, badgeID, and badge info, and return it
   async updateBadge(uId: string, project: string, bId: number, 
       newKey = "", newVal = "", keyWidth = 0, valWidth = 0): Promise<Badge | undefined> {
     const userData = (await this.dUsers.findOne({ name: uId }))?.projects;
@@ -156,25 +166,27 @@ export class DataService {
     return userBadge;
   }
 
+  // Update a badge's meta info (color, style) and return it
   async updateBadgeMeta(uId: string, project: string, bId: number, 
-    style: BadgeStyle, colorRight: BadgeColor, colorLeft: BadgeColor): Promise<Badge | undefined> {
-  const userData = (await this.dUsers.findOne({ name: uId }))?.projects;
-  const userProj = userData?.find(p => p.title === project);
-  if (!userProj) return undefined;
+      style: BadgeStyle, colorRight: BadgeColor, colorLeft: BadgeColor): Promise<Badge | undefined> {
+    const userData = (await this.dUsers.findOne({ name: uId }))?.projects;
+    const userProj = userData?.find(p => p.title === project);
+    if (!userProj) return undefined;
 
-  const userBadge = userProj.badges.find(b => b.id === bId);
-  if (!userBadge) return undefined;
+    const userBadge = userProj.badges.find(b => b.id === bId);
+    if (!userBadge) return undefined;
 
-  userBadge.style = style;
-  userBadge.titleColor = colorLeft;
-  userBadge.valueColor = colorRight;
+    userBadge.style = style;
+    userBadge.titleColor = colorLeft;
+    userBadge.valueColor = colorRight;
 
-  await this.dUsers.updateOne(
-    { name: uId }, 
-    { $set: { projects: userData } });
-  return userBadge;
-}
+    await this.dUsers.updateOne(
+      { name: uId }, 
+      { $set: { projects: userData } });
+    return userBadge;
+  }
 
+  // Create a new project with title and return it
   async createProject(uId: string, project: string): Promise<Project | undefined> {
     const user = await this.dUsers.findOne({ name: uId });
     if (!user || !project) return undefined;
@@ -190,7 +202,8 @@ export class DataService {
       valueWidth: 90,
       valueSource: null,
       valueColor: BadgeColor.Savannah,
-      style: BadgeStyle.Plastic
+      style: BadgeStyle.Plastic,
+      isMono: false
     }
     const newProject: Project = {
       title: project.replaceAll(" ", "-"),
@@ -206,6 +219,7 @@ export class DataService {
     return newProject;
   }
 
+  // Delete a project based on username and project name
   async deleteProject(uId: string, project: string): Promise<void> {
     const user = await this.dUsers.findOne({ name: uId });
     if (!user || !project) return;

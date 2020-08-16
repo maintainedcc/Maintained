@@ -33,7 +33,7 @@ export class BadgeService {
         <text x="${keyW + (valW / 2)}" y="15" fill="#010101" fill-opacity=".3">${value}</text>
         <text x="${keyW + (valW / 2)}" y="14">${value}</text>
       </g>
-    </svg>`
+    </svg>`;
   }
 
   flat(key: string, value: string, keyW: number, valW: number, keyC: BadgeColor, valC: BadgeColor): string {
@@ -49,7 +49,7 @@ export class BadgeService {
         <text x="${keyW + (valW / 2)}" y="15" fill="#010101" fill-opacity=".3">${value}</text>
         <text x="${keyW + (valW / 2)}" y="14">${value}</text>
       </g>
-    </svg>`
+    </svg>`;
   }
 
   private colorMap(color: BadgeColor): string {
