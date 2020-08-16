@@ -83,6 +83,10 @@ footer {
   line-height: 30px;
 }
 
+a {
+  color: #c1272d;
+}
+
 .cta {
   display: flex;
   flex-direction: row;
@@ -169,7 +173,6 @@ footer {
   font-family: roboto, sans-serif;
   font-size: 22px;
   text-decoration: none;
-  text-shadow: #0006 5px 5px 10px;
   margin-left: 30px;
 }
 
@@ -194,7 +197,6 @@ footer {
   font-size: 2rem;
   font-weight: 500;
   text-transform: uppercase;
-  text-shadow: #0006 5px 5px 10px;
 }
 .section .para {
   line-height: 2.5rem;
@@ -424,6 +426,7 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
   border-right-color: #fff;
   border-radius: 0;
   color: #fff;
+  cursor: pointer;
   font-weight: 700;
   font-size: 1.5rem;
   flex: 1 1;
@@ -556,6 +559,7 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
   border-radius: 2px;
   background-color: transparent;
   box-shadow: #0006 3px 3px 10px;
+  cursor: pointer;
   margin-left: auto;
   height: 30px;
   width: 30px;

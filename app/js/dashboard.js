@@ -16,9 +16,19 @@ function debounce(func, wait, immediate) {
 	};
 };
 
+const auth = {
+  userId: ""
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  // Build dashboard using refresh function
-  refresh();
+  // Build dashboard using fetched user data
+  fetch("/api/user/data")
+  .then(res => res.text())
+  .then(res => {
+    const data = JSON.parse(res);
+    auth.userId = data.name;
+    buildDashboard(data);
+  });
 
   document.addEventListener("click", hideProfileDropdown);
 });
@@ -44,16 +54,16 @@ function templator() {
   }
 
   return {
-    badgeEditor: (user, project, id, label, value, colorLeft, colorRight, style) => {
+    badgeEditor: (project, id, label, value, colorLeft, colorRight, style) => {
       return `
-      <li><div class="badge-editor">
+      <li id="badge-${project}-${id}"><div class="badge-editor">
         <input type="text" class="badge-left" style="background-color:${colorMap(colorLeft)}" value="${label}" spellcheck="false" 
           oninput="updateBadge('${project}', ${id}, this.value)" onchange="hideSaveBadge('${project}')">
         <input type="text" class="badge-right" style="background-color:${colorMap(colorRight)}" value="${value}" spellcheck="false" 
           oninput="updateBadge('${project}', ${id}, '', this.value)" onchange="hideSaveBadge('${project}')">
         <div class="badge-actions">
           <button onclick="toggleBadgeEditDialog('${project}', ${id}, ${style}, ${colorLeft}, ${colorRight})" aria-label="Additional Badge Settings">⚙</button>
-          <button class="icon-md" onclick="copyMd('${user}', '${project}', ${id})" aria-label="Copy Markdown"></button>
+          <button class="icon-md" onclick="copyMd('${project}', ${id})" aria-label="Copy Markdown"></button>
           <button class="icon-close" onclick="deleteBadge('${project}', ${id})" aria-label="Delete Badge"></button>
         </div>
       </div></li>`
@@ -85,7 +95,7 @@ function templator() {
     },
     project: (user, title, badges) => {
       return `
-      <section class="dashboard-section project">
+      <section id="project-${title}" class="dashboard-section project">
       <div class="project-header">
         <h2><span class="droplet"></span>${user}/${title} <span id="save-${title}" class="project-save">Saved</span></h2>
         <div class="project-actions">
@@ -93,8 +103,8 @@ function templator() {
           <button class="icon-add" title="Add Badge" onclick="createBadge('${title}')"></button>
         </div>
       </div>
-      <ul class="badges">
-      ${badges}
+      <ul id="badge-group-${title}" class="badges">
+        ${badges}
       </ul>
       </section>`
     },
@@ -113,7 +123,7 @@ const template = templator();
 function buildDashboard(data) {
   let projectsHtml = "";
   data.projects.forEach(project => {
-    projectsHtml += template.project(data.name, project.title, getBadges(data.name, project));
+    projectsHtml += template.project(data.name, project.title, getBadges(project));
   });
   document.getElementById("projects").innerHTML = projectsHtml;
 
@@ -125,23 +135,43 @@ function buildDashboard(data) {
     document.getElementById("welcome").classList.add("shown");
 }
 
-function getBadges(userName, project) {
+function getBadges(project) {
   let badgesHtml = "";
   project.badges.forEach(badge => {
-    badgesHtml += template.badgeEditor(userName, project.title, badge.id, 
-      badge.title, badge.value, badge.titleColor, badge.valueColor, badge.style);
+    badgesHtml += template.badgeEditor(project.title, badge.id, badge.title, 
+      badge.value, badge.titleColor, badge.valueColor, badge.style);
   });
   return badgesHtml;
 }
 
 function createBadge(project) {
   fetch(`/api/badges/create?project=${project}`)
-  .then(refresh());
+  .then(res => res.text())
+  .then(res => {
+    res = JSON.parse(res);
+    const badgeGroup = document.getElementById(`badge-group-${project}`);
+    badgeGroup.innerHTML += template.badgeEditor(project, res.id,
+      res.title, res.value, res.titleColor, res.valueColor, res.style);
+  })
+  .catch(ex => {
+    const saveBadge = document.getElementById(`save-${project}`);
+    saveBadge.classList.add("shown");
+    saveBadge.classList.add("error");
+    saveBadge.innerText = "Error!";
+    console.error(ex);
+  });
 }
 
 function deleteBadge(project, badgeId) {
   fetch(`/api/badges/delete?project=${project}&id=${badgeId}`)
-  .then(refresh());
+  .then(document.getElementById(`badge-${project}-${badgeId}`).remove())
+  .catch(ex => {
+    const saveBadge = document.getElementById(`save-${project}`);
+    saveBadge.classList.add("shown");
+    saveBadge.classList.add("error");
+    saveBadge.innerText = "Error!";
+    console.error(ex);
+  });
 }
 
 const updateBadge = debounce((project, badgeId, newKey = "", newVal = "") => {
@@ -156,7 +186,7 @@ const updateBadge = debounce((project, badgeId, newKey = "", newVal = "") => {
   const paramString = new URLSearchParams(params).toString();
   const saveBadge = document.getElementById(`save-${project}`);
   fetch(`/api/badges/update?${paramString}`)
-  .then(res => {
+  .then(() => {
     saveBadge.classList.add("shown");
     saveBadge.innerText = "Saved";
   })
@@ -179,7 +209,17 @@ function updateBadgeMeta(project, badgeId) {
   const paramString = new URLSearchParams(params).toString();
   const saveBadge = document.getElementById(`save-${project}`);
   fetch(`/api/badges/meta?${paramString}`)
-  .then(refresh())
+  .then(res => res.text())
+  .then(res => {
+    res = JSON.parse(res);
+    const updatedBadge = template.badgeEditor(project, res.id,
+      res.title, res.value, res.titleColor, res.valueColor, res.style);
+    // TODO: Temp solution for parsing HTML strings (IE9+)
+    // Has good browser compat, but probably want to replace with appendChild sometime
+    const fragment = document.createRange().createContextualFragment(updatedBadge);
+    const currentBadge = document.getElementById(`badge-${project}-${badgeId}`);
+    currentBadge.parentNode.replaceChild(fragment, currentBadge);
+  })
   .then(() => {
     saveBadge.classList.add("shown");
     saveBadge.innerText = "Saved";
@@ -200,21 +240,28 @@ const hideSaveBadge = debounce((project) => {
 function createProject() {
   const projName = document.getElementById("project-create-input");
   fetch(`/api/projects/create?project=${projName.value}`)
-  .then(refresh())
+  .then(res => res.text())
+  .then(res => {
+    res = JSON.parse(res);
+    // TODO//REVIEW: Should this be sorted when it's created?
+    const newProj = template.project(auth.userId, res.title, getBadges(res));
+    const projects = document.getElementById("projects");
+    projects.innerHTML = newProj + projects.innerHTML;
+  })
   .then(toggleCreationDialog())
   .then(projName.value = "");
 }
 
 function deleteProject(project) {
   fetch(`/api/projects/delete?project=${project}`)
-  .then(refresh());
-}
-
-function refresh() {
-  // Fetches user data
-  fetch("/api/user/data")
-  .then(res => res.text())
-  .then(res => buildDashboard(JSON.parse(res)));
+  .then(document.getElementById(`project-${project}`).remove())
+  .catch(ex => {
+    const saveBadge = document.getElementById(`save-${project}`);
+    saveBadge.classList.add("shown");
+    saveBadge.classList.add("error");
+    saveBadge.innerText = "Error!";
+    console.error(ex);
+  });
 }
 
 function hideDialog() {
@@ -255,8 +302,8 @@ function stopPropagation(e) {
   e.stopPropagation();
 }
 
-function copyMd(userName, project, id) {
-  const url = `https://${window.location.host}/${userName}/${project}/${id}`;
+function copyMd(project, id) {
+  const url = `https://${window.location.host}/${auth.userId}/${project}/${id}`;
   const md = `![${url}](${url})`;
 
   let textArea = document.createElement("textarea");
