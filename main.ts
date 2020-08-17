@@ -164,7 +164,10 @@ for await (const req of s) {
         req.respond({ 
           body: badge, 
           status: 200, 
-          headers: new Headers({"Content-Type": "image/svg+xml"}) 
+          headers: new Headers({
+            "Cache-Control": "no-store",
+            "Content-Type": "image/svg+xml"
+          }) 
         });
         continue;
       }
