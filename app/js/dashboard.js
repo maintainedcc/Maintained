@@ -16,6 +16,7 @@ function debounce(func, wait, immediate) {
 	};
 };
 
+// Global auth object to stop auth being passed around
 const auth = {
   userId: ""
 }
@@ -34,6 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function templator() {
+  // Matches the BadgeColor enum
   function colorMap(color) {
     switch(color) {
       case 0: // Simple
@@ -50,6 +52,8 @@ function templator() {
         return "#F80";
       case 6: // Sunset
         return "#F20";
+      default: // Assume a hex code was provided
+        return color;
     }
   }
 
