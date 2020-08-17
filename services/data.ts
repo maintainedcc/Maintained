@@ -167,8 +167,8 @@ export class DataService {
   }
 
   // Update a badge's meta info (color, style) and return it
-  async updateBadgeMeta(uId: string, project: string, bId: number, 
-      style: BadgeStyle, colorRight: BadgeColor, colorLeft: BadgeColor): Promise<Badge | undefined> {
+  async updateBadgeMeta(uId: string, project: string, bId: number, style: BadgeStyle, 
+    colorRight: BadgeColor, colorLeft: BadgeColor, isMono: string): Promise<Badge | undefined> {
     const userData = (await this.dUsers.findOne({ name: uId }))?.projects;
     const userProj = userData?.find(p => p.title === project);
     if (!userProj) return undefined;
@@ -176,6 +176,7 @@ export class DataService {
     const userBadge = userProj.badges.find(b => b.id === bId);
     if (!userBadge) return undefined;
 
+    userBadge.isMono = (isMono == "true");
     userBadge.style = style;
     userBadge.titleColor = colorLeft;
     userBadge.valueColor = colorRight;

@@ -42,7 +42,8 @@ for await (const req of s) {
       if (!id) { req.respond({ status: 401 }); continue; }
       let updatedMetaBadge = await data.updateBadgeMeta(id, params.get("project") ?? "",
         parseInt(params.get("id") ?? ""), parseInt(params.get("style") ?? ""), 
-        parseInt(params.get("colorRight") ?? ""), parseInt(params.get("colorLeft") ?? ""));
+        parseInt(params.get("colorRight") ?? ""), parseInt(params.get("colorLeft") ?? ""),
+        params.get("isMono") ?? "");
       if (!updatedMetaBadge) { req.respond({ status: 400 }); continue; }
       req.respond({ body: JSON.stringify(updatedMetaBadge), status: 200 });
       continue;

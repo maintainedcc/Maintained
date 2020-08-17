@@ -41,7 +41,7 @@ function templator() {
       case 1: // Slate
         return "#556";
       case 2: // Seabed
-        return "#015";
+        return "#013";
       case 3: // Subterranean
         return "#111";
       case 4: // Savannah
@@ -54,21 +54,21 @@ function templator() {
   }
 
   return {
-    badgeEditor: (project, id, label, value, colorLeft, colorRight, style) => {
+    badgeEditor: (project, id, label, value, colorLeft, colorRight, style, mono) => {
       return `
       <li id="badge-${project}-${id}"><div class="badge-editor">
         <input type="text" class="badge-left" style="background-color:${colorMap(colorLeft)}" value="${label}" spellcheck="false" 
           oninput="updateBadge('${project}', ${id}, this.value)" onchange="hideSaveBadge('${project}')">
-        <input type="text" class="badge-right" style="background-color:${colorMap(colorRight)}" value="${value}" spellcheck="false" 
+        <input type="text" class="badge-right ${mono ? "hidden" : ""}" style="background-color:${colorMap(colorRight)}" value="${value}" spellcheck="false" 
           oninput="updateBadge('${project}', ${id}, '', this.value)" onchange="hideSaveBadge('${project}')">
         <div class="badge-actions">
-          <button onclick="toggleBadgeEditDialog('${project}', ${id}, ${style}, ${colorLeft}, ${colorRight})" aria-label="Additional Badge Settings">⚙</button>
+          <button onclick="toggleBadgeEditDialog('${project}', ${id}, ${style}, ${mono}, ${colorLeft}, ${colorRight})" aria-label="Additional Badge Settings">⚙</button>
           <button class="icon-md" onclick="copyMd('${project}', ${id})" aria-label="Copy Markdown"></button>
           <button class="icon-close" onclick="deleteBadge('${project}', ${id})" aria-label="Delete Badge"></button>
         </div>
       </div></li>`
     },
-    badgeEditOptions: (project, id) => {
+    badgeEditOptions: (project, id, mono) => {
       return `
       <h2>Edit Badge</h2>
       <label for="badge-edit-style">Style</label>
@@ -76,15 +76,20 @@ function templator() {
         <option value="0">Plastic</option>
         <option value="1">Flat</option>
       </select>
-      <label for="badge-edit-cl">Color (Left)</label>
+      <label for="badge-edit-mono">Mono</label>
+      <select id="badge-edit-mono">
+        <option value="false">Full Badge</option>
+        <option value="true">Mono</option>
+      </select>
+      <label for="badge-edit-cl">Color (Title)</label>
       <select id="badge-edit-cl">
         <option value="0">Simple</option>
         <option value="1">Slate</option>
         <option value="2">Seabed</option>
         <option value="3">Subterranean</option>
       </select>
-      <label for="badge-edit-cr">Color (Right)</label>
-      <select id="badge-edit-cr">
+      <label for="badge-edit-cr" class="${mono ? "hidden" : ""}">Color (Value)</label>
+      <select id="badge-edit-cr" class="${mono ? "hidden" : ""}">
         <option value="4">Savannah</option>
         <option value="5">Sahara</option>
         <option value="6">Sunset</option>
@@ -139,7 +144,7 @@ function getBadges(project) {
   let badgesHtml = "";
   project.badges.forEach(badge => {
     badgesHtml += template.badgeEditor(project.title, badge.id, badge.title, 
-      badge.value, badge.titleColor, badge.valueColor, badge.style);
+      badge.value, badge.titleColor, badge.valueColor, badge.style, badge.isMono);
   });
   return badgesHtml;
 }
@@ -151,7 +156,7 @@ function createBadge(project) {
     res = JSON.parse(res);
     const badgeGroup = document.getElementById(`badge-group-${project}`);
     badgeGroup.innerHTML += template.badgeEditor(project, res.id,
-      res.title, res.value, res.titleColor, res.valueColor, res.style);
+      res.title, res.value, res.titleColor, res.valueColor, res.style, res.isMono);
   })
   .catch(ex => {
     const saveBadge = document.getElementById(`save-${project}`);
@@ -203,6 +208,7 @@ function updateBadgeMeta(project, badgeId) {
     project: project,
     id: badgeId,
     style: document.getElementById("badge-edit-style").value,
+    isMono: document.getElementById("badge-edit-mono").value,
     colorRight: document.getElementById("badge-edit-cr").value,
     colorLeft: document.getElementById("badge-edit-cl").value
   }
@@ -213,7 +219,7 @@ function updateBadgeMeta(project, badgeId) {
   .then(res => {
     res = JSON.parse(res);
     const updatedBadge = template.badgeEditor(project, res.id,
-      res.title, res.value, res.titleColor, res.valueColor, res.style);
+      res.title, res.value, res.titleColor, res.valueColor, res.style, res.isMono);
     // TODO: Temp solution for parsing HTML strings (IE9+)
     // Has good browser compat, but probably want to replace with appendChild sometime
     const fragment = document.createRange().createContextualFragment(updatedBadge);
@@ -273,11 +279,12 @@ function toggleCreationDialog() {
   document.getElementById("dialog").innerHTML = template.projectCreate();
 }
 
-function toggleBadgeEditDialog(project, id, style, cL, cR) {
+function toggleBadgeEditDialog(project, id, style, mono, cL, cR) {
   document.getElementById("dov").classList.toggle("collapsed");
-  document.getElementById("dialog").innerHTML = template.badgeEditOptions(project, id);
+  document.getElementById("dialog").innerHTML = template.badgeEditOptions(project, id, mono);
 
   document.getElementById("badge-edit-style").value = style;
+  document.getElementById("badge-edit-mono").value = mono;
   document.getElementById("badge-edit-cl").value = cL;
   document.getElementById("badge-edit-cr").value = cR;
 }
