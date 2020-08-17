@@ -59,7 +59,7 @@ export class DataService {
 
     // Create default project and badges
     const starterBadge: Badge = {
-      id: 0,
+      id: 1,
       title: "Welcome to",
       titleWidth: 90,
       titleColor: BadgeColor.Simple,
