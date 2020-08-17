@@ -195,7 +195,7 @@ export class DataService {
     if (user.projects.find(p => p.title === project)) return undefined;
 
     const newBadge: Badge = {
-      id: 0,
+      id: 1,
       title: "Created",
       titleWidth: 50,
       titleColor: BadgeColor.Simple,

@@ -68,7 +68,7 @@ function templator() {
         <div class="badge-actions">
           <button onclick="toggleBadgeEditDialog('${project}', ${id}, ${style}, ${mono}, ${colorLeft}, ${colorRight})" aria-label="Additional Badge Settings">⚙</button>
           <button class="icon-md" onclick="copyMd('${project}', ${id})" aria-label="Copy Markdown"></button>
-          <button class="icon-close" onclick="deleteBadge('${project}', ${id})" aria-label="Delete Badge"></button>
+          <button class="icon-close" onclick="toggleDeleteDialog('Delete badge ${id}?', 'Delete', 'deleteBadge(\\'${project}\\', ${id})')" aria-label="Delete Badge"></button>
         </div>
       </div></li>`
     },
@@ -108,7 +108,7 @@ function templator() {
       <div class="project-header">
         <h2><span class="droplet"></span>${user}/${title} <span id="save-${title}" class="project-save">Saved</span></h2>
         <div class="project-actions">
-          <button class="icon-close" title="Delete Project" onclick="deleteProject('${title}')"></button>
+          <button class="icon-close" title="Delete Project" onclick="toggleDeleteDialog('Delete ${user}/${title}?', 'Delete', 'deleteProject(\\'${title}\\')')"></button>
           <button class="icon-add" title="Add Badge" onclick="createBadge('${title}')"></button>
         </div>
       </div>
@@ -123,6 +123,12 @@ function templator() {
       <label for="project-create-input">Project Title</label>
       <input id="project-create-input" type="text" placeholder="Title">
       <button class="badge" onclick="createProject()"><span class="badge-left">Create Project</span></button>`
+    },
+    deleteDialog: (title, actionName, action) => {
+      return `
+      <h2>${title}</h2>
+      <p>Are you sure you want to delete this item?</p>
+      <button class="badge" onclick="${action}"><span class="badge-left">${actionName}</span></button>`
     }
   }
 }
@@ -174,6 +180,7 @@ function createBadge(project) {
 function deleteBadge(project, badgeId) {
   fetch(`/api/badges/delete?project=${project}&id=${badgeId}`)
   .then(document.getElementById(`badge-${project}-${badgeId}`).remove())
+  .then(hideDialog())
   .catch(ex => {
     const saveBadge = document.getElementById(`save-${project}`);
     saveBadge.classList.add("shown");
@@ -265,6 +272,7 @@ function createProject() {
 function deleteProject(project) {
   fetch(`/api/projects/delete?project=${project}`)
   .then(document.getElementById(`project-${project}`).remove())
+  .then(hideDialog())
   .catch(ex => {
     const saveBadge = document.getElementById(`save-${project}`);
     saveBadge.classList.add("shown");
@@ -291,6 +299,11 @@ function toggleBadgeEditDialog(project, id, style, mono, cL, cR) {
   document.getElementById("badge-edit-mono").value = mono;
   document.getElementById("badge-edit-cl").value = cL;
   document.getElementById("badge-edit-cr").value = cR;
+}
+
+function toggleDeleteDialog(title, actionName, action) {
+  document.getElementById("dov").classList.toggle("collapsed");
+  document.getElementById("dialog").innerHTML = template.deleteDialog(title, actionName, action);
 }
 
 function toggleProfileDropdown() {

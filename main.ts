@@ -19,6 +19,7 @@ for await (const req of s) {
   const params = new URLSearchParams(route[1]);
 
   // High-tech router module
+  // Also a massive high-tech mess
   let id = identity.getAuthorization(getCookies(req)["token"]);
   switch (req.url) {
     case "/api/badges/create":

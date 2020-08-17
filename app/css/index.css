@@ -296,6 +296,9 @@ footer.section {
 #dov .dialog h2 {
   margin-top: 0;
 }
+#dov .dialog p {
+  margin-top: 0;
+}
 #dov .dialog label {
   font-weight: 700;
   margin-bottom: 5px;
