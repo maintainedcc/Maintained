@@ -1,8 +1,8 @@
 <p align="center"><a href="https://maintained.cc" target="_blank" rel="noopener noreferrer"><img width="200" src="app/img/favicon.png" alt="Maintained logo"></a></p>
 <h1 align="center">Maintained</h1>
 <p align="center">
-  <a href="https://maintained.cc"><img src="https://maintained.cc/SDBagel/Maintained/1" alt="Status Badge"></a>
-  <a href="https://maintained.cc"><img src="https://maintained.cc/SDBagel/Maintained/2" alt="Get Started Now"></a>
+  <a href="https://maintained.cc"><img src="https://maintained.cc/SDBagel/Maintained/1?" alt="Status Badge"></a>
+  <a href="https://maintained.cc"><img src="https://maintained.cc/SDBagel/Maintained/2?" alt="Get Started Now"></a>
 </p>
 <p align="center">
   Manage and maintain your badges in style.
