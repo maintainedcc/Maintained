@@ -61,9 +61,9 @@ function templator() {
     badgeEditor: (project, id, label, value, colorLeft, colorRight, style, mono) => {
       return `
       <li id="badge-${project}-${id}"><div class="badge-editor">
-        <input type="text" class="badge-left" style="background-color:${colorMap(colorLeft)}" value="${label}" spellcheck="false" 
+        <input id="badge-${project}-${id}-title" type="text" class="badge-left" style="background-color:${colorMap(colorLeft)}" value="${label}" spellcheck="false" 
           oninput="updateBadge('${project}', ${id}, this.value)" onchange="hideSaveBadge('${project}')">
-        <input type="text" class="badge-right ${mono ? "hidden" : ""}" style="background-color:${colorMap(colorRight)}" value="${value}" spellcheck="false" 
+        <input id="badge-${project}-${id}-value" type="text" class="badge-right ${mono ? "hidden" : ""}" style="background-color:${colorMap(colorRight)}" value="${value}" spellcheck="false" 
           oninput="updateBadge('${project}', ${id}, '', this.value)" onchange="hideSaveBadge('${project}')">
         <div class="badge-actions">
           <button onclick="toggleBadgeEditDialog('${project}', ${id}, ${style}, ${mono}, ${colorLeft}, ${colorRight})" aria-label="Additional Badge Settings">⚙</button>
@@ -191,6 +191,16 @@ function deleteBadge(project, badgeId) {
 }
 
 const updateBadge = debounce((project, badgeId, newKey = "", newVal = "") => {
+  // This code updates the html value= tag on the badge
+  // When the DOM is updated, badges will revert to the old value= tag
+  // This means that even if a badge saved, it will visually revert.
+  const badgeIdString = `badge-${project}-${badgeId}`;
+  if (newKey)
+    document.getElementById(`${badgeIdString}-title`).setAttribute("value", newKey);
+  if (newVal) {
+    document.getElementById(`${badgeIdString}-value`).setAttribute("value", newVal);
+  }
+
   const params = {
     project: project,
     id: badgeId,
