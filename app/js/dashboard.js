@@ -57,10 +57,20 @@ function templator() {
     }
   }
 
+  // Matches the BadgeStyle enum
+  function styleMap(style) {
+    switch(style) {
+      case 0:
+        return "plastic";
+      case 1:
+        return "flat";
+    }
+  }
+
   return {
     badgeEditor: (project, id, label, value, colorLeft, colorRight, style, mono) => {
       return `
-      <li id="badge-${project}-${id}"><div class="badge-editor">
+      <li id="badge-${project}-${id}"><div class="badge-editor style-${styleMap(style)}">
         <input id="badge-${project}-${id}-title" type="text" class="badge-left" style="background-color:${colorMap(colorLeft)}" value="${label}" spellcheck="false" 
           oninput="updateBadge('${project}', ${id}, this.value)" onchange="hideSaveBadge('${project}')">
         <input id="badge-${project}-${id}-value" type="text" class="badge-right ${mono ? "hidden" : ""}" style="background-color:${colorMap(colorRight)}" value="${value}" spellcheck="false" 

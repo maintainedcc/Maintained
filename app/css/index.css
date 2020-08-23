@@ -415,6 +415,8 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
   border: none;
   border-radius: 0;
   flex: 1 1;
+  font-family: acumin-pro, sans-serif;
+  font-weight: 500;
   padding: 12px;
   text-overflow: ellipsis;
 }
@@ -428,14 +430,17 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
     height: 50px;
   }
 }
+.badge-editor.style-plastic .badge-left, .badge-editor.style-plastic .badge-right {
+  background-image: linear-gradient(0deg, #0003, transparent);
+}
 
 .badge-actions {
   display: flex;
 }
 .badge-actions button {
   background-color: #000;
-  border: #000 1px solid;
-  border-right-color: #fff;
+  border: #000 2px solid;
+  border-left-color: #fff;
   border-radius: 0;
   color: #fff;
   cursor: pointer;
