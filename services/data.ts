@@ -19,8 +19,9 @@ export interface Badge {
   titleColor: BadgeColor
   value: string
   valueWidth: number
-  valueSource: string | null
   valueColor: BadgeColor
+  valueSource?: string
+  redirect?: string
   style: BadgeStyle
   isMono: boolean
 }
@@ -50,6 +51,10 @@ export class DataService {
 
     this.db = client.database("test");
     this.dUsers = this.db.collection<User>("users");
+
+    this.dUsers.count().then(num => {
+      console.log(`Loaded DB with ${num} users.`);
+    });
   }
 
   // Ensure a user exists
@@ -65,7 +70,6 @@ export class DataService {
       titleColor: BadgeColor.Simple,
       value: "Maintained",
       valueWidth: 90,
-      valueSource: null,
       valueColor: BadgeColor.Savannah,
       style: BadgeStyle.Plastic,
       isMono: false
@@ -111,7 +115,6 @@ export class DataService {
       titleColor: BadgeColor.Simple,
       value: "Badge",
       valueWidth: 50,
-      valueSource: null,
       valueColor: BadgeColor.Savannah,
       style: BadgeStyle.Plastic,
       isMono: false
@@ -150,7 +153,7 @@ export class DataService {
 
   // Update a badge based on username, project, badgeID, and badge info, and return it
   async updateBadge(uId: string, project: string, bId: number, 
-      newKey = "", newVal = "", keyWidth = 0, valWidth = 0): Promise<Badge | undefined> {
+      newKey: string | null, newVal: string | null, keyWidth = 0, valWidth = 0): Promise<Badge | undefined> {
     const userData = (await this.dUsers.findOne({ name: uId }))?.projects;
     const userProj = userData?.find(p => p.title === project);
     if (!userProj) return undefined;
@@ -187,6 +190,25 @@ export class DataService {
     return userBadge;
   }
 
+  async updateBadgeAdv(uId: string, project: string, bId: number, 
+    redirectUrl: string | null, valueSource: string | null): Promise<Badge | undefined> {
+    const userData = (await this.dUsers.findOne({ name: uId }))?.projects;
+    const userProj = userData?.find(p => p.title === project);
+    if (!userProj) return undefined;
+
+    const userBadge = userProj.badges.find(b => b.id === bId);
+    if (!userBadge) return undefined;
+
+    // These fields are nullable
+    userBadge.redirect = redirectUrl ?? undefined;
+    userBadge.valueSource = valueSource ?? undefined;
+
+    await this.dUsers.updateOne(
+      { name: uId }, 
+      { $set: { projects: userData } });
+    return userBadge;
+  }
+
   // Create a new project with title and return it
   async createProject(uId: string, project: string): Promise<Project | undefined> {
     const user = await this.dUsers.findOne({ name: uId });
@@ -201,7 +223,6 @@ export class DataService {
       titleColor: BadgeColor.Simple,
       value: "Successfully",
       valueWidth: 90,
-      valueSource: null,
       valueColor: BadgeColor.Savannah,
       style: BadgeStyle.Plastic,
       isMono: false
@@ -214,9 +235,9 @@ export class DataService {
     user.projects.push(newProject);
     user.projects.sort((a, b) => 
       ('' + a.title).localeCompare(b.title));
-      await this.dUsers.updateOne(
-        { name: uId }, 
-        { $set: { projects: user.projects } });
+    await this.dUsers.updateOne(
+      { name: uId }, 
+      { $set: { projects: user.projects } });
     return newProject;
   }
 

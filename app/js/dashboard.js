@@ -68,21 +68,21 @@ function templator() {
   }
 
   return {
-    badgeEditor: (project, id, label, value, colorLeft, colorRight, style, mono) => {
+    badgeEditor: (project, id, label, value, colorLeft, colorRight, style, mono, valueSource, redirect) => {
       return `
       <li id="badge-${project}-${id}"><div class="badge-editor style-${styleMap(style)}">
-        <input id="badge-${project}-${id}-title" type="text" class="badge-left" style="background-color:${colorMap(colorLeft)}" value="${label}" spellcheck="false" 
-          oninput="updateBadge('${project}', ${id}, this.value)" onchange="hideSaveBadge('${project}')">
-        <input id="badge-${project}-${id}-value" type="text" class="badge-right ${mono ? "hidden" : ""}" style="background-color:${colorMap(colorRight)}" value="${value}" spellcheck="false" 
-          oninput="updateBadge('${project}', ${id}, '', this.value)" onchange="hideSaveBadge('${project}')">
+        <input id="badge-${project}-${id}-title" type="text" class="badge-left" style="background-color:${colorMap(colorLeft)}" 
+          value="${label}" spellcheck="false" oninput="updateBadge('${project}', ${id}, this.value)" onchange="hideSaveBadge('${project}')">
+        <input id="badge-${project}-${id}-value" type="text" class="badge-right ${mono ? "hidden" : ""}" style="background-color:${colorMap(colorRight)}" 
+          value="${value}" spellcheck="false" oninput="updateBadge('${project}', ${id}, '', this.value)" onchange="hideSaveBadge('${project}')">
         <div class="badge-actions">
-          <button onclick="toggleBadgeEditDialog('${project}', ${id}, ${style}, ${mono}, ${colorLeft}, ${colorRight})" aria-label="Additional Badge Settings">⚙</button>
+          <button onclick="toggleBadgeEditDialog('${project}', ${id}, ${style}, ${mono}, ${colorLeft}, ${colorRight}, '${valueSource ?? ""}', '${redirect ?? ""}')" aria-label="Additional Badge Settings">⚙</button>
           <button class="icon-md" onclick="copyMd('${project}', ${id})" aria-label="Copy Markdown"></button>
           <button class="icon-close" onclick="toggleDeleteDialog('Delete badge ${id}?', 'Delete', 'deleteBadge(\\'${project}\\', ${id})')" aria-label="Delete Badge"></button>
         </div>
       </div></li>`
     },
-    badgeEditOptions: (project, id, mono) => {
+    badgeEditOptions: (project, id, mono, vS, redir) => {
       return `
       <h2>Edit Badge</h2>
       <label for="badge-edit-style">Style</label>
@@ -108,17 +108,19 @@ function templator() {
         <option value="5">Sahara</option>
         <option value="6">Sunset</option>
       </select>
-      <button class="dialog-adv-switcher" onclick="toggleBadgeAdvancedDialog()">→ Advanced Settings</button>
+      <button class="dialog-adv-switcher" onclick="toggleBadgeAdvancedDialog('${project}', ${id}, '${vS}', '${redir}')">→ Advanced Settings</button>
       <button class="badge" onclick="updateBadgeMeta('${project}', ${id})">
         <span class="badge-left">Apply Changes</span>
       </button>`
     },
-    badgeEditAdvanced: () => {
+    badgeEditAdvanced: (project, id) => {
       return `
       <h2>Additional Options</h2>
-      <label for="badge-edit-redir">Redirect URL</label>
-      <input id="badge-edit-redir" type="text" placeholder="Redirect URL">
-      <button class="badge" onclick="toggleBadgeAdvancedDialog()">
+      <label for="badge-edit-dvs">Dynamic Value Source [PREVIEW]</label>
+      <input id="badge-edit-dvs" type="text" placeholder="URL or API Endpoint">
+      <label for="badge-edit-redir" class="hidden">Badge Redirect URL</label>
+      <input id="badge-edit-redir" type="text" placeholder="Redirect URL" class="hidden">
+      <button class="badge" onclick="updateBadgeAdv('${project}', ${id})">
         <span class="badge-left">Apply Options</span>
       </button>`
     },
@@ -260,7 +262,7 @@ function updateBadgeMeta(project, badgeId) {
   .then(res => {
     res = JSON.parse(res);
     const updatedBadge = template.badgeEditor(project, res.id,
-      res.title, res.value, res.titleColor, res.valueColor, res.style, res.isMono);
+      res.title, res.value, res.titleColor, res.valueColor, res.style, res.isMono, res.valueSource, res.redirect);
     // TODO: Temp solution for parsing HTML strings (IE9+)
     // Has good browser compat, but probably want to replace with appendChild sometime
     const fragment = document.createRange().createContextualFragment(updatedBadge);
@@ -273,6 +275,36 @@ function updateBadgeMeta(project, badgeId) {
   })
   .then(hideDialog())
   .catch(ex => {
+    saveBadge.classList.add("shown");
+    saveBadge.classList.add("error");
+    saveBadge.innerText = "Error saving!";
+    console.error(ex);
+  });
+}
+
+function updateBadgeAdv(project, badgeId) {
+  const params = {
+    project: project,
+    id: badgeId,
+    redirect: document.getElementById("badge-edit-redir").value,
+    valueSource: document.getElementById("badge-edit-dvs").value
+  }
+  const paramString = new URLSearchParams(params).toString();
+  fetch(`/api/badges/adv?${paramString}`)
+  .then(res => res.text())
+  .then(res => {
+    res = JSON.parse(res);
+    const updatedBadge = template.badgeEditor(project, res.id,
+      res.title, res.value, res.titleColor, res.valueColor, res.style, res.isMono, res.valueSource, res.redirect);
+    // TODO: Temp solution for parsing HTML strings (IE9+)
+    // Has good browser compat, but probably want to replace with appendChild sometime
+    const fragment = document.createRange().createContextualFragment(updatedBadge);
+    const currentBadge = document.getElementById(`badge-${project}-${badgeId}`);
+    currentBadge.parentNode.replaceChild(fragment, currentBadge);
+  })
+  .then(toggleBadgeAdvancedDialog())
+  .catch(ex => {
+    hideDialog();
     saveBadge.classList.add("shown");
     saveBadge.classList.add("error");
     saveBadge.innerText = "Error saving!";
@@ -322,9 +354,9 @@ function toggleCreationDialog() {
   document.getElementById("dialog").innerHTML = template.projectCreate();
 }
 
-function toggleBadgeEditDialog(project, id, style, mono, cL, cR) {
+function toggleBadgeEditDialog(project, id, style, mono, cL, cR, vS, redir) {
   document.getElementById("dov").classList.toggle("collapsed");
-  document.getElementById("dialog").innerHTML = template.badgeEditOptions(project, id, mono);
+  document.getElementById("dialog").innerHTML = template.badgeEditOptions(project, id, mono, vS, redir);
 
   document.getElementById("badge-edit-style").value = style;
   document.getElementById("badge-edit-mono").value = mono;
@@ -332,7 +364,7 @@ function toggleBadgeEditDialog(project, id, style, mono, cL, cR) {
   document.getElementById("badge-edit-cr").value = cR;
 }
 
-function toggleBadgeAdvancedDialog() {
+function toggleBadgeAdvancedDialog(project, id, vS, redir) {
   const advDialog = document.getElementById("adv-dialog");
   const dialogWrapper = advDialog.parentElement;
   if (dialogWrapper.classList.contains("advanced")) {
@@ -340,7 +372,9 @@ function toggleBadgeAdvancedDialog() {
     return;
   }
   else {
-    document.getElementById("adv-dialog").innerHTML = template.badgeEditAdvanced();
+    document.getElementById("adv-dialog").innerHTML = template.badgeEditAdvanced(project, id);
+    document.getElementById("badge-edit-dvs").value = vS;
+    document.getElementById("badge-edit-redir").value = redir;
     document.getElementById("adv-dialog").parentElement.classList.toggle("advanced");
   }
 }

@@ -32,9 +32,8 @@ for await (const req of s) {
     case "/api/badges/update":
       if (!id) { req.respond({ status: 401 }); continue; }
       let updatedBadge = await data.updateBadge(id, params.get("project") ?? "",
-        parseInt(params.get("id") ?? ""), params.get("key") ?? undefined, 
-        params.get("val") ?? undefined, parseInt(params.get("keyW") ?? ""), 
-        parseInt(params.get("valW") ?? ""));
+        parseInt(params.get("id") ?? ""), params.get("key"), params.get("val"), 
+        parseInt(params.get("keyW") ?? ""), parseInt(params.get("valW") ?? ""));
       if (!updatedBadge) { req.respond({ status: 400 }); continue; }
       req.respond({ body: JSON.stringify(updatedBadge), status: 200 });
       continue;
@@ -47,6 +46,14 @@ for await (const req of s) {
         params.get("isMono") ?? "");
       if (!updatedMetaBadge) { req.respond({ status: 400 }); continue; }
       req.respond({ body: JSON.stringify(updatedMetaBadge), status: 200 });
+      continue;
+
+    case "/api/badges/adv":
+      if (!id) { req.respond({ status: 401 }); continue; }
+      let updatedAdvBadge = await data.updateBadgeAdv(id, params.get("project") ?? "",
+        parseInt(params.get("id") ?? ""), params.get("redirect"), params.get("valueSource"));
+      if (!updatedAdvBadge) { req.respond({ status: 400 }); continue; }
+      req.respond({ body: JSON.stringify(updatedAdvBadge), status: 200 });
       continue;
 
     case "/api/badges/delete":
@@ -161,7 +168,7 @@ for await (const req of s) {
       // Get, format, and return badge
       const badgeData = await data.getBadge(badgeParams[1], badgeParams[2], parseInt(badgeParams[3]));
       if (badgeData) {
-        const badge = badger.badge(badgeData);
+        const badge = await badger.badge(badgeData);
         req.respond({ 
           body: badge, 
           status: 200, 

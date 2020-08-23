@@ -30,15 +30,18 @@
     }
 
     &.advanced .dialog {
-      transform: translateX(calc(-100% - 10px));
       transition-delay: 0s;
 
       &:first-of-type {
+        transform: translateX(calc(-100% - 10px)) scale(0.9);
         opacity: 0;
+        visibility: hidden;
       }
 
       &:last-of-type {
+        transform: translateX(calc(-100% - 10px)) scale(1);
         opacity: 1;
+        visibility: unset;
       }
     }
   }
@@ -102,7 +105,9 @@
     }
 
     &:last-of-type {
+      transform: scale(0.9);
       opacity: 0;
+      visibility: hidden;
     }
 
     @media (min-width: 768px) {

@@ -4,22 +4,22 @@ import { Badge, BadgeStyle, BadgeColor } from './data.ts';
 export class BadgeService {
   constructor() {}
 
-  badge(badge: Badge): string {
+  async badge(badge: Badge): Promise<string> {
     switch(badge.style) {
       case BadgeStyle.Flat:
-        return this.flat(badge);
+        return await this.flat(badge);
       default:
-        return this.plastic(badge);
+        return await this.plastic(badge);
     }
   }
 
-  plastic(badge: Badge): string {
+  async plastic(badge: Badge): Promise<string> {
     // Map badge colors
     const keyCString = this.colorMap(badge.titleColor);
     const valCString = this.colorMap(badge.valueColor);
     // Map badge widths
     const keyW = badge.titleWidth;
-    const valW = badge.valueWidth;
+    let valW = badge.valueWidth;
 
     // Plastic style gradient
     const gradientDef = `
@@ -41,7 +41,9 @@ export class BadgeService {
           <text x="${keyW / 2}" y="14">${badge.title}</text>
         </g>
       </svg>`;
-    else
+    else {
+      const dvs = badge.valueSource ? await this.dvsFetch(badge.valueSource ?? "") : null;
+      valW = dvs ? dvs.length * 5.2 + 30 : badge.valueWidth;
       return `
       <svg xmlns="http://www.w3.org/2000/svg" width="${keyW + valW}" height="20">
         ${gradientDef}
@@ -51,19 +53,20 @@ export class BadgeService {
         <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
           <text x="${keyW / 2}" y="15" fill="#010101" fill-opacity=".3">${badge.title}</text>
           <text x="${keyW / 2}" y="14">${badge.title}</text>
-          <text x="${keyW + (valW / 2)}" y="15" fill="#010101" fill-opacity=".3">${badge.value}</text>
-          <text x="${keyW + (valW / 2)}" y="14">${badge.value}</text>
+          <text x="${keyW + (valW / 2)}" y="15" fill="#010101" fill-opacity=".3">${dvs ?? badge.value}</text>
+          <text x="${keyW + (valW / 2)}" y="14">${dvs ?? badge.value}</text>
         </g>
       </svg>`;
+    }
   }
 
-  flat(badge: Badge): string {
+  async flat(badge: Badge): Promise<string> {
     // Map badge colors
     const keyCString = this.colorMap(badge.titleColor);
     const valCString = this.colorMap(badge.valueColor);
     // Map badge widths
     const keyW = badge.titleWidth;
-    const valW = badge.valueWidth;
+    let valW = badge.valueWidth;
 
     if (badge.isMono)
       return `
@@ -74,7 +77,9 @@ export class BadgeService {
           <text x="${keyW / 2}" y="14">${badge.title}</text>
         </g>
       </svg>`;
-    else
+    else {
+      const dvs = badge.valueSource ? await this.dvsFetch(badge.valueSource ?? "") : null;
+      valW = dvs ? dvs.length * 5.2 + 30 : badge.valueWidth;
       return `
       <svg xmlns="http://www.w3.org/2000/svg" width="${keyW + valW}" height="20">
         <rect width="${keyW + valW}" height="20" fill="${keyCString}"/>
@@ -82,10 +87,11 @@ export class BadgeService {
         <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
           <text x="${keyW / 2}" y="15" fill="#010101" fill-opacity=".3">${badge.title}</text>
           <text x="${keyW / 2}" y="14">${badge.title}</text>
-          <text x="${keyW + (valW / 2)}" y="15" fill="#010101" fill-opacity=".3">${badge.value}</text>
-          <text x="${keyW + (valW / 2)}" y="14">${badge.value}</text>
+          <text x="${keyW + (valW / 2)}" y="15" fill="#010101" fill-opacity=".3">${dvs ?? badge.value}</text>
+          <text x="${keyW + (valW / 2)}" y="14">${dvs ?? badge.value}</text>
         </g>
       </svg>`;
+    }
   }
 
   private colorMap(color: BadgeColor): string {
@@ -105,5 +111,11 @@ export class BadgeService {
       case BadgeColor.Sunset:
         return "#F20";
     }
+  }
+
+  private async dvsFetch(url: string): Promise<string | undefined> {
+    return await fetch(url)
+    .then(res => res.text())
+    .catch(() => undefined);
   }
 }
