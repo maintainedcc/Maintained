@@ -281,17 +281,52 @@ footer.section {
   overflow: hidden;
   transition-duration: 0.5s;
 }
+#dov .dialog-wrapper {
+  display: flex;
+  flex-direction: row;
+  margin: auto;
+  width: 310px;
+}
+@media (min-width: 768px) {
+  #dov .dialog-wrapper {
+    width: 390px;
+  }
+}
+#dov .dialog-wrapper.advanced .dialog {
+  transform: translateX(calc(-100% - 10px));
+  transition-delay: 0s;
+}
+#dov .dialog-wrapper.advanced .dialog:first-of-type {
+  opacity: 0;
+}
+#dov .dialog-wrapper.advanced .dialog:last-of-type {
+  opacity: 1;
+}
 #dov .dialog {
   background-color: #fff;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
   margin: auto;
+  margin-right: 10px;
   padding: 20px;
-  width: 270px;
+  min-width: 270px;
   opacity: 1;
   transition-duration: 0.6s;
-  transition-delay: 0.3s;
+  transition-delay: 0.1s;
+}
+#dov .dialog .dialog-adv-switcher {
+  background: none;
+  border: none;
+  color: #c1272d;
+  cursor: pointer;
+  margin-bottom: 20px;
+  font-family: acumin-pro, sans-serif;
+  text-align: right;
+}
+#dov .dialog .dialog-adv-switcher:focus {
+  outline: none;
+  text-decoration: underline;
 }
 #dov .dialog h2 {
   margin-top: 0;
@@ -316,9 +351,12 @@ footer.section {
 #dov .dialog button .badge-left {
   flex: 1 1;
 }
+#dov .dialog:last-of-type {
+  opacity: 0;
+}
 @media (min-width: 768px) {
   #dov .dialog {
-    width: 350px;
+    min-width: 350px;
   }
 }
 #dov.collapsed {
@@ -331,6 +369,9 @@ footer.section {
   opacity: 0;
   transform: translateY(30px);
   transition-delay: 0s;
+}
+#dov.collapsed #adv-dialog {
+  transform: translateX(calc(-100% - 10px));
 }
 
 .badge, .badge-editor {

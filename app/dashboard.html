@@ -40,7 +40,10 @@
     </section>
     <div id="projects"></div>
     <section id="dov" class="collapsed" onclick="hideDialog()">
-      <div id="dialog" class="dialog" onclick="stopPropagation(event)"></div>
+      <div class="dialog-wrapper">
+        <div id="dialog" class="dialog" onclick="stopPropagation(event)"></div>
+        <div id="adv-dialog" class="dialog" onclick="stopPropagation(event)"></div>
+      </div>
     </section>
     <section id="loader" class="dashboard-section loader">
       <span class="loader-title"></span>

@@ -108,8 +108,18 @@ function templator() {
         <option value="5">Sahara</option>
         <option value="6">Sunset</option>
       </select>
+      <button class="dialog-adv-switcher" onclick="toggleBadgeAdvancedDialog()">→ Advanced Settings</button>
       <button class="badge" onclick="updateBadgeMeta('${project}', ${id})">
         <span class="badge-left">Apply Changes</span>
+      </button>`
+    },
+    badgeEditAdvanced: () => {
+      return `
+      <h2>Additional Options</h2>
+      <label for="badge-edit-redir">Redirect URL</label>
+      <input id="badge-edit-redir" type="text" placeholder="Redirect URL">
+      <button class="badge" onclick="toggleBadgeAdvancedDialog()">
+        <span class="badge-left">Apply Options</span>
       </button>`
     },
     project: (user, title, badges) => {
@@ -304,6 +314,7 @@ function deleteProject(project) {
 
 function hideDialog() {
   document.getElementById("dov").classList.add("collapsed");
+  document.getElementById("dialog").parentElement.classList.remove("advanced");
 }
 
 function toggleCreationDialog() {
@@ -319,6 +330,19 @@ function toggleBadgeEditDialog(project, id, style, mono, cL, cR) {
   document.getElementById("badge-edit-mono").value = mono;
   document.getElementById("badge-edit-cl").value = cL;
   document.getElementById("badge-edit-cr").value = cR;
+}
+
+function toggleBadgeAdvancedDialog() {
+  const advDialog = document.getElementById("adv-dialog");
+  const dialogWrapper = advDialog.parentElement;
+  if (dialogWrapper.classList.contains("advanced")) {
+    dialogWrapper.classList.remove("advanced");
+    return;
+  }
+  else {
+    document.getElementById("adv-dialog").innerHTML = template.badgeEditAdvanced();
+    document.getElementById("adv-dialog").parentElement.classList.toggle("advanced");
+  }
 }
 
 function toggleDeleteDialog(title, actionName, action) {
