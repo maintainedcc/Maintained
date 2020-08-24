@@ -409,8 +409,7 @@ function stopPropagation(e) {
 
 function copyMd(project, id, redir) {
   const url = `https://${window.location.host}/${auth.userId}/${project}/${id}`;
-  const link = redir ? `https://${window.location.host}/${auth.userId}/${project}/hub` : url;
-  const md = `![${url}](${link})`;
+  const md = `![${url}](${url})`;
 
   let textArea = document.createElement("textarea");
   textArea.value = md;
