@@ -504,6 +504,11 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
   flex-direction: column;
   height: unset;
 }
+.badge-editor .badge-ind {
+  background-color: #000;
+  text-align: center;
+  min-width: 30px;
+}
 .badge-editor .badge-left, .badge-editor .badge-right {
   background-color: #655;
   border: none;
@@ -517,15 +522,19 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
 .badge-editor .badge-right {
   background-color: #AB2;
 }
+.badge-editor.style-plastic .badge-left, .badge-editor.style-plastic .badge-right {
+  background-image: linear-gradient(0deg, #0003, transparent);
+}
 @media (min-width: 768px) {
   .badge-editor {
     flex-direction: row;
     flex-wrap: wrap;
     height: 50px;
   }
-}
-.badge-editor.style-plastic .badge-left, .badge-editor.style-plastic .badge-right {
-  background-image: linear-gradient(0deg, #0003, transparent);
+  .badge-editor .badge-ind {
+    background-color: #AB2;
+    background-image: linear-gradient(0deg, #0005, #0001);
+  }
 }
 
 .badge-actions {

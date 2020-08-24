@@ -76,6 +76,8 @@ function templator() {
         <input id="badge-${project}-${id}-value" type="text" class="badge-right ${mono ? "hidden" : ""}" style="background-color:${colorMap(colorRight)}" 
           value="${value}" spellcheck="false" oninput="updateBadge('${project}', ${id}, '', this.value)" onchange="hideSaveBadge('${project}')">
         <div class="badge-actions">
+          <span class="badge-ind ${valueSource ? "" : "hidden"}" style="background-color:${colorMap(colorRight)}" title="Badge is using dynamic values. Value box is treated as fallback text.">⚡</span>
+          <span class="badge-ind ${redirect ? "" : "hidden"}" style="background-color:${colorMap(colorRight)}" title="Badge has a redirect URL and appears on this project's link hub.">🔗</span>
           <button onclick="toggleBadgeEditDialog('${project}', ${id}, ${style}, ${mono}, ${colorLeft}, ${colorRight}, '${valueSource ?? ""}', '${redirect ?? ""}')" aria-label="Additional Badge Settings">⚙</button>
           <button class="icon-md" onclick="copyMd('${project}', ${id}, '${redirect}')" aria-label="Copy Markdown"></button>
           <button class="icon-close" onclick="toggleDeleteDialog('Delete badge ${id}?', 'Delete', 'deleteBadge(\\'${project}\\', ${id})')" aria-label="Delete Badge"></button>
@@ -176,7 +178,7 @@ function getBadges(project) {
   let badgesHtml = "";
   project.badges.forEach(badge => {
     badgesHtml += template.badgeEditor(project.title, badge.id, badge.title, 
-      badge.value, badge.titleColor, badge.valueColor, badge.style, badge.isMono);
+      badge.value, badge.titleColor, badge.valueColor, badge.style, badge.isMono, badge.valueSource, badge.redirect);
   });
   return badgesHtml;
 }
@@ -188,7 +190,7 @@ function createBadge(project) {
     res = JSON.parse(res);
     const badgeGroup = document.getElementById(`badge-group-${project}`);
     badgeGroup.innerHTML += template.badgeEditor(project, res.id,
-      res.title, res.value, res.titleColor, res.valueColor, res.style, res.isMono);
+      res.title, res.value, res.titleColor, res.valueColor, res.style, res.isMono, res.valueSource, res.redirect);
   })
   .catch(ex => {
     const saveBadge = document.getElementById(`save-${project}`);
