@@ -8,6 +8,8 @@ export class BadgeService {
     switch(badge.style) {
       case BadgeStyle.Flat:
         return await this.flat(badge);
+      case BadgeStyle.ForTheBadge:
+        return await this.ftb(badge);
       default:
         return await this.plastic(badge);
     }
@@ -89,6 +91,37 @@ export class BadgeService {
           <text x="${keyW / 2}" y="14">${badge.title}</text>
           <text x="${keyW + (valW / 2)}" y="15" fill="#010101" fill-opacity=".3">${dvs ?? badge.value}</text>
           <text x="${keyW + (valW / 2)}" y="14">${dvs ?? badge.value}</text>
+        </g>
+      </svg>`;
+    }
+  }
+
+  async ftb(badge: Badge): Promise<string> {
+    // Map badge colors
+    const keyCString = this.colorMap(badge.titleColor);
+    const valCString = this.colorMap(badge.valueColor);
+    // Map badge widths
+    const keyW = badge.titleWidth * 1.4 + 20;
+    let valW = badge.valueWidth * 1.4 + 20;
+
+    if (badge.isMono)
+      return `
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${keyW}" height="28">
+        <rect width="${keyW}" height="28" fill="${keyCString}"/>
+        <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10">
+          <text x="${keyW / 2}" y="17" textLength="${badge.titleWidth}">${badge.title.toUpperCase()}</text>
+        </g>
+      </svg>`;
+    else {
+      const dvs = badge.valueSource ? await this.dvsFetch(badge.valueSource ?? "") : null;
+      valW = dvs ? dvs.length * 5.2 + 30 : valW;
+      return `
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${keyW + valW}" height="28">
+        <rect width="${keyW}" height="28" fill="${keyCString}"/>
+        <rect x="${keyW}" width="${valW}" height="28" fill="${valCString}"/>
+        <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10">
+          <text x="${keyW / 2}" y="17" textLength="${badge.titleWidth}">${badge.title.toUpperCase()}</text>
+          <text x="${keyW + (valW / 2)}" y="17" font-weight="bold" textLength="${badge.valueWidth}">${dvs?.toUpperCase() ?? badge.value.toUpperCase()}</text>
         </g>
       </svg>`;
     }

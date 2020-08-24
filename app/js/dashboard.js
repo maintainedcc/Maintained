@@ -91,6 +91,7 @@ function templator() {
       <select id="badge-edit-style">
         <option value="0">Plastic</option>
         <option value="1">Flat</option>
+        <option value="2">For the Badge</option>
       </select>
       <label for="badge-edit-mono">Mono</label>
       <select id="badge-edit-mono">

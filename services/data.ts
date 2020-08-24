@@ -38,7 +38,8 @@ export enum BadgeColor {
 
 export enum BadgeStyle {
   Plastic,
-  Flat
+  Flat,
+  ForTheBadge
 }
 
 export class DataService {
