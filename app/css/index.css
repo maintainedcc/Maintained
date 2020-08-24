@@ -238,6 +238,9 @@ footer.section {
   margin: 30px auto;
   padding: 20px;
 }
+.dashboard-section h1 {
+  margin: 0;
+}
 @media (min-width: 768px) {
   .dashboard-section {
     margin: 50px auto;
@@ -261,6 +264,51 @@ footer.section {
 }
 #welcome.shown {
   display: block;
+}
+
+.resources {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 20px;
+  width: calc(100% - 60px);
+  height: 100%;
+}
+.resources .resources-wrapper {
+  width: 300px;
+}
+@media (min-width: 768px) {
+  .resources .resources-wrapper {
+    width: 600px;
+  }
+}
+.resources .badge-link {
+  margin-top: 20px;
+  width: 100%;
+  flex-direction: column;
+  height: unset;
+}
+.resources .badge-link > * {
+  flex: 1 1;
+}
+.resources .badge-link .badge-right {
+  text-align: left;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  transition-duration: 1s;
+}
+.resources .badge-link:hover .badge-right {
+  background-position-x: -500px;
+}
+@media (min-width: 768px) {
+  .resources .badge-link {
+    flex-direction: row;
+    height: 50px;
+  }
 }
 
 #dov {
@@ -296,7 +344,7 @@ footer.section {
   transition-delay: 0s;
 }
 #dov .dialog-wrapper.advanced .dialog:first-of-type {
-  transform: translateX(calc(-100% - 10px)) scale(0.9);
+  transform: translateX(calc(-100% - 10px)) scale(0.8);
   opacity: 0;
   visibility: hidden;
 }
@@ -355,7 +403,7 @@ footer.section {
   flex: 1 1;
 }
 #dov .dialog:last-of-type {
-  transform: scale(0.9);
+  transform: scale(0.8);
   opacity: 0;
   visibility: hidden;
 }

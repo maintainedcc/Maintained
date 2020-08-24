@@ -85,6 +85,12 @@ for await (const req of s) {
       req.respond({ body: JSON.stringify(userData), status: 200 });
       continue;
 
+    case "/api/user/project":
+      let userProject = await data.getUserProject(params.get("name"), params.get("project"));
+      if (!userProject) { req.respond({ status: 404 }); continue; }
+      req.respond({ body: JSON.stringify(userProject), status: 200 });
+      continue;
+
     case "/api/user/welcome":
       if (!id) { req.respond({ status: 401 }); continue; }
       await data.setUserWelcomed(id);
@@ -163,21 +169,25 @@ for await (const req of s) {
 
       // Check if badge exists
       const badgeParams = req.url.split("/");
-      if (badgeParams.length != 4) break;
-
-      // Get, format, and return badge
-      const badgeData = await data.getBadge(badgeParams[1], badgeParams[2], parseInt(badgeParams[3]));
-      if (badgeData) {
-        const badge = await badger.badge(badgeData);
-        req.respond({ 
-          body: badge, 
-          status: 200, 
-          headers: new Headers({
-            "Cache-Control": "no-store",
-            "Content-Type": "image/svg+xml"
-          }) 
-        });
-        continue;
+      if (badgeParams.length === 4 && badgeParams[3] != "hub") {
+        // Get, format, and return badge
+        const badgeData = await data.getBadge(badgeParams[1], badgeParams[2], parseInt(badgeParams[3]));
+        if (badgeData) {
+          const badge = await badger.badge(badgeData);
+          req.respond({ 
+            body: badge, 
+            status: 200, 
+            headers: new Headers({
+              "Cache-Control": "no-store",
+              "Content-Type": "image/svg+xml"
+            }) 
+          });
+          continue;
+        }
+      }
+      // Try and get the link resource page
+      else if (badgeParams.length === 4 && badgeParams[3] === "hub") {
+        req.url = "app/project.html";
       }
   }
 

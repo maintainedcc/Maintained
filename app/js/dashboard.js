@@ -77,7 +77,7 @@ function templator() {
           value="${value}" spellcheck="false" oninput="updateBadge('${project}', ${id}, '', this.value)" onchange="hideSaveBadge('${project}')">
         <div class="badge-actions">
           <button onclick="toggleBadgeEditDialog('${project}', ${id}, ${style}, ${mono}, ${colorLeft}, ${colorRight}, '${valueSource ?? ""}', '${redirect ?? ""}')" aria-label="Additional Badge Settings">⚙</button>
-          <button class="icon-md" onclick="copyMd('${project}', ${id})" aria-label="Copy Markdown"></button>
+          <button class="icon-md" onclick="copyMd('${project}', ${id}, '${redirect}')" aria-label="Copy Markdown"></button>
           <button class="icon-close" onclick="toggleDeleteDialog('Delete badge ${id}?', 'Delete', 'deleteBadge(\\'${project}\\', ${id})')" aria-label="Delete Badge"></button>
         </div>
       </div></li>`
@@ -115,11 +115,11 @@ function templator() {
     },
     badgeEditAdvanced: (project, id) => {
       return `
-      <h2>Additional Options</h2>
-      <label for="badge-edit-dvs">Dynamic Value Source [PREVIEW]</label>
+      <h2>Additional Options [Preview]</h2>
+      <label for="badge-edit-dvs">Dynamic Value Source</label>
       <input id="badge-edit-dvs" type="text" placeholder="URL or API Endpoint">
-      <label for="badge-edit-redir" class="hidden">Badge Redirect URL</label>
-      <input id="badge-edit-redir" type="text" placeholder="Redirect URL" class="hidden">
+      <label for="badge-edit-redir">Link Hub URL</label>
+      <input id="badge-edit-redir" type="text" placeholder="Link Hub URL">
       <button class="badge" onclick="updateBadgeAdv('${project}', ${id})">
         <span class="badge-left">Apply Options</span>
       </button>`
@@ -404,9 +404,10 @@ function stopPropagation(e) {
   e.stopPropagation();
 }
 
-function copyMd(project, id) {
+function copyMd(project, id, redir) {
   const url = `https://${window.location.host}/${auth.userId}/${project}/${id}`;
-  const md = `![${url}](${url})`;
+  const link = redir ? `https://${window.location.host}/${auth.userId}/${project}/hub` : url;
+  const md = `![${url}](${link})`;
 
   let textArea = document.createElement("textarea");
   textArea.value = md;

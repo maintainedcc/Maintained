@@ -94,6 +94,12 @@ export class DataService {
     else return undefined;
   }
 
+  async getUserProject(uId: string | null, project: string | null): Promise<Project | undefined> {
+    const userInfo = uId ? await this.getUserInfo(uId) : undefined;
+    if (!userInfo) return undefined;
+    else { return userInfo?.projects.find(p => p.title === project); }
+  }
+
   // Hide the new user experience for a user
   async setUserWelcomed(uId: string): Promise<void> {
     await this.dUsers.updateOne(
@@ -190,6 +196,7 @@ export class DataService {
     return userBadge;
   }
 
+  // Update advanced badge options and return it
   async updateBadgeAdv(uId: string, project: string, bId: number, 
     redirectUrl: string | null, valueSource: string | null): Promise<Badge | undefined> {
     const userData = (await this.dUsers.findOne({ name: uId }))?.projects;
