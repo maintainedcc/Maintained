@@ -20,82 +20,141 @@ for await (const req of s) {
 
   // High-tech router module
   // Also a massive high-tech mess
+
+  // Identity-locked routes
   let id = identity.getAuthorization(getCookies(req)["token"]);
   switch (req.url) {
-    case "/api/badges/create":
-      if (!id) { req.respond({ status: 401 }); continue; }
-      let badge = await data.createBadge(id, params.get("project") ?? "");
-      if (!badge) { req.respond({ status: 400 }); continue; }
+    case "/api/badges/create": (async () => {
+      if (!id) { req.respond({ status: 401 }); return }
+
+      const p = { project: params.get("project") ?? "" }
+      const badge = await data.createBadge(id, p.project);
+
+      if (!badge) { req.respond({ status: 400 }); return }
       req.respond({ body: JSON.stringify(badge), status: 200 });
-      continue;
+    })();
+    continue;
 
-    case "/api/badges/update":
-      if (!id) { req.respond({ status: 401 }); continue; }
-      let updatedBadge = await data.updateBadge(id, params.get("project") ?? "",
-        parseInt(params.get("id") ?? ""), params.get("key"), params.get("val"), 
-        parseInt(params.get("keyW") ?? ""), parseInt(params.get("valW") ?? ""));
-      if (!updatedBadge) { req.respond({ status: 400 }); continue; }
-      req.respond({ body: JSON.stringify(updatedBadge), status: 200 });
-      continue;
+    case "/api/badges/update": (async () => {
+      if (!id) { req.respond({ status: 401 }); return }
 
-    case "/api/badges/meta":
-      if (!id) { req.respond({ status: 401 }); continue; }
-      let updatedMetaBadge = await data.updateBadgeMeta(id, params.get("project") ?? "",
-        parseInt(params.get("id") ?? ""), parseInt(params.get("style") ?? ""), 
-        parseInt(params.get("colorRight") ?? ""), parseInt(params.get("colorLeft") ?? ""),
-        params.get("isMono") ?? "");
-      if (!updatedMetaBadge) { req.respond({ status: 400 }); continue; }
-      req.respond({ body: JSON.stringify(updatedMetaBadge), status: 200 });
-      continue;
+      const p = {
+        project: params.get("project") ?? "",
+        bId: parseInt(params.get("id") ?? "-1"),
+        key: params.get("key"),
+        val: params.get("val"),
+        keyW: parseInt(params.get("keyW") ?? ""),
+        valW: parseInt(params.get("valW") ?? "")
+      }
+      const updBadge = await data.updateBadge(id, p.project, p.bId, p.key, p.val, p.keyW, p.valW);
+      
+      if (!updBadge) { req.respond({ status: 400 }); return }
+      req.respond({ body: JSON.stringify(updBadge), status: 200 });
+    })();
+    continue;
 
-    case "/api/badges/adv":
-      if (!id) { req.respond({ status: 401 }); continue; }
-      let updatedAdvBadge = await data.updateBadgeAdv(id, params.get("project") ?? "",
-        parseInt(params.get("id") ?? ""), params.get("redirect"), params.get("valueSource"));
-      if (!updatedAdvBadge) { req.respond({ status: 400 }); continue; }
-      req.respond({ body: JSON.stringify(updatedAdvBadge), status: 200 });
-      continue;
+    case "/api/badges/meta": (async () => {
+      if (!id) { req.respond({ status: 401 }); return }
 
-    case "/api/badges/delete":
-      if (!id) { req.respond({ status: 401 }); continue; }
-      const projectId = params.get("project") ?? "";
-      const badgeId = parseInt(params.get("id") ?? "");
-      if (!projectId || !params.get("id")) { req.respond({ status: 400 }); continue; }
-      await data.deleteBadge(id, projectId, badgeId);
+      const p = {
+        project: params.get("project") ?? "",
+        bId: parseInt(params.get("id") ?? "-1"),
+        style: parseInt(params.get("style") ?? ""),
+        titleColor: parseInt(params.get("colorRight") ?? ""),
+        valueColor: parseInt(params.get("colorLeft") ?? ""),
+        isMono: params.get("isMono") ?? ""
+      }
+      const updBadge = await data.updateBadgeMeta(id, p.project, p.bId, p.style, p.titleColor, p.valueColor, p.isMono);
+
+      if (!updBadge) { req.respond({ status: 400 }); return }
+      req.respond({ body: JSON.stringify(updBadge), status: 200 });
+    })();
+    continue;
+
+    case "/api/badges/adv": (async () => {
+      if (!id) { req.respond({ status: 401 }); return }
+
+      const p = {
+        project: params.get("project") ?? "",
+        bId: parseInt(params.get("id") ?? ""),
+        redirect: params.get("redirect"),
+        valueSource: params.get("valueSource")
+      }
+      const updBadge = await data.updateBadgeAdv(id, p.project, p.bId, p.redirect, p.valueSource);
+
+      if (!updBadge) { req.respond({ status: 400 }); return }
+      req.respond({ body: JSON.stringify(updBadge), status: 200 });
+    })();
+    continue;
+
+    case "/api/badges/delete": (async () => {
+      if (!id) { req.respond({ status: 401 }); return }
+      
+      const p = {
+        project: params.get("project") ?? "",
+        bId: parseInt(params.get("id") ?? "")
+      }
+      if (!p.project || !p.bId) { req.respond({ status: 400 }); return }
+      await data.deleteBadge(id, p.project, p.bId);
+
       req.respond({ status: 204 });
-      continue;
+    })();
+    continue;
 
-    case "/api/projects/create":
-      if (!id) { req.respond({ status: 401 }); continue; }
-      let project = await data.createProject(id, params.get("project") ?? "");
-      if (!project) { req.respond({ status: 400 }); continue; }
+    case "/api/projects/create": (async () => {
+      if (!id) { req.respond({ status: 401 }); return }
+
+      const p = { project: params.get("project") ?? "" }
+      const project = await data.createProject(id, p.project );
+
+      if (!project) { req.respond({ status: 400 }); return }
       req.respond({ body: JSON.stringify(project), status: 200 });
-      continue;
+    })();
+    continue;
 
-    case "/api/projects/delete":
-      if (!id) { req.respond({ status: 401 }); continue; }
-      if (!params.get("project")) { req.respond({ status: 400 }); continue; }
-      await data.deleteProject(id, params.get("project") ?? "");
+    case "/api/projects/delete": (async () => {
+      if (!id) { req.respond({ status: 401 }); return }
+    
+      const p = { project: params.get("project") ?? "" }
+      if (!p.project) { req.respond({ status: 400 }); return }
+      await data.deleteProject(id, p.project);
+
       req.respond({ status: 204 });
-      continue;
+    })();
+    continue;
 
-    case "/api/user/data":
-      if (!id) { req.respond({ status: 401 }); continue; }
-      let userData = await data.getUserInfo(id);
+    case "/api/user/data": (async () => {
+      if (!id) { req.respond({ status: 401 }); return }
+
+      const userData = await data.getUserInfo(id);
+
       req.respond({ body: JSON.stringify(userData), status: 200 });
-      continue;
+    })();
+    continue;
 
-    case "/api/user/project":
-      let userProject = await data.getUserProject(params.get("name"), params.get("project"));
-      if (!userProject) { req.respond({ status: 404 }); continue; }
-      req.respond({ body: JSON.stringify(userProject), status: 200 });
-      continue;
+    case "/api/user/welcome": (async () => {
+      if (!id) { req.respond({ status: 401 }); return }
 
-    case "/api/user/welcome":
-      if (!id) { req.respond({ status: 401 }); continue; }
       await data.setUserWelcomed(id);
+
       req.respond({ status: 204 });
-      continue;
+    })();
+    continue;
+  }
+
+  // Exposed routes
+  switch (req.url) {
+    case "/api/user/project": (async () => {
+      const p = { 
+        uId: params.get("name"),
+        project: params.get("project")
+      }
+      const userProject = await data.getUserProject(p.uId, p.project);
+
+      if (!userProject) { req.respond({ status: 404 }); return; }
+      req.respond({ body: JSON.stringify(userProject), status: 200 });
+    })();
+    continue;
 
     case "/oauth/callback":
       const code = params.get("code") ?? "";
@@ -154,7 +213,7 @@ for await (const req of s) {
         headers: new Headers({ "Location": api.getManagementURL() })
       });
       continue;
-    
+      
     case "/dashboard":
       req.url = "app/dashboard.html";
       break;
