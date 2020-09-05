@@ -40,10 +40,10 @@ Alternatively, POST to a Maintained API endpoint to update your badges from your
 
 Badges are all about style, and we're adding many! The badge above shows what styles we have so far. Each style supports a variety of colors for maximum style points. Create badges with both a title and value, or mono badges with just a title. Got style suggestions? Pull requests are welcome!
 
-### Link Resources
+### Link Direct
 ![https://maintained.cc/SDBagel/Maintained/6](https://maintained.cc/SDBagel/Maintained/6?)
 
-Badges often link to repository resources - documentation, CI services, download links, and more. Why not centralize that with a hub page for all your linked badges?
+Link Direct allows users to enter in redirect URLs for badges on their Maintained dashboard. It allows the user to update where their badge redirect URLs point to (in Markdown, text, links, or other places) all without ever having to update or commit anything new.
 
 ### GitHub OAuth
 ![https://maintained.cc/SDBagel/Maintained/7](https://maintained.cc/SDBagel/Maintained/7?)

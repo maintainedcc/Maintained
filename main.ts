@@ -149,18 +149,6 @@ for await (const req of s) {
 
   // Exposed routes
   switch (req.url) {
-    case "/api/user/project": (async () => {
-      const p = { 
-        uId: params.get("name"),
-        project: params.get("project")
-      }
-      const userProject = await data.getUserProject(p.uId, p.project);
-
-      if (!userProject) { req.respond({ status: 404 }); return; }
-      req.respond({ body: JSON.stringify(userProject), status: 200 });
-    })();
-    continue;
-
     case "/oauth/callback":
       const code = params.get("code") ?? "";
       const state = params.get("state") ?? "";
@@ -233,7 +221,7 @@ for await (const req of s) {
 
       // Check if badge exists
       const badgeParams = req.url.split("/");
-      if (badgeParams.length === 4 && badgeParams[3] != "hub") {
+      if (badgeParams.length === 4) {
         // Get, format, and return badge
         const badgeData = await data.getBadge(badgeParams[1], badgeParams[2], parseInt(badgeParams[3]));
         if (badgeData) {
@@ -249,9 +237,24 @@ for await (const req of s) {
           continue;
         }
       }
-      // Try and get the link resource page
-      else if (badgeParams.length === 4 && badgeParams[3] === "hub") {
-        req.url = "app/project.html";
+      // Try and get the link redirect page
+      else if (badgeParams.length === 5 && badgeParams[4] === "redirect") {
+        req.url = "app/redirect.html";
+      }
+      // Get and return raw badge JSON
+      else if (badgeParams.length === 5 && badgeParams[4] === "json") {
+        const badgeData = await data.getBadge(badgeParams[1], badgeParams[2], parseInt(badgeParams[3]));
+        if (badgeData) {
+          req.respond({ 
+            body: JSON.stringify(badgeData), 
+            status: 200, 
+            headers: new Headers({
+              "Cache-Control": "no-store",
+              "Content-Type": "application/json"
+            }) 
+          });
+          continue;
+        }
       }
   }
 

@@ -77,7 +77,7 @@ function templator() {
           value="${value}" spellcheck="false" oninput="updateBadge('${project}', ${id}, '', this.value)" onchange="hideSaveBadge('${project}')">
         <div class="badge-actions">
           <span class="badge-ind ${valueSource ? "" : "hidden"}" style="background-color:${colorMap(colorRight)}" title="Badge is using dynamic values. Value box is treated as fallback text.">⚡</span>
-          <span class="badge-ind ${redirect ? "" : "hidden"}" style="background-color:${colorMap(colorRight)}" title="Badge has a redirect URL and appears on this project's link hub.">🔗</span>
+          <span class="badge-ind ${redirect ? "" : "hidden"}" style="background-color:${colorMap(colorRight)}" title="Badge has a redirect URL and uses Link Direct.">🔗</span>
           <button onclick="toggleBadgeEditDialog('${project}', ${id}, ${style}, ${mono}, ${colorLeft}, ${colorRight}, '${valueSource ?? ""}', '${redirect ?? ""}')" aria-label="Additional Badge Settings">⚙</button>
           <button class="icon-md" onclick="copyMd('${project}', ${id}, '${redirect}')" aria-label="Copy Markdown"></button>
           <button class="icon-close" onclick="toggleDeleteDialog('Delete badge ${id}?', 'Delete', 'deleteBadge(\\'${project}\\', ${id})')" aria-label="Delete Badge"></button>
@@ -121,8 +121,8 @@ function templator() {
       <h2>Additional Options [Preview]</h2>
       <label for="badge-edit-dvs">Dynamic Value Source</label>
       <input id="badge-edit-dvs" type="text" placeholder="URL or API Endpoint">
-      <label for="badge-edit-redir">Link Hub URL</label>
-      <input id="badge-edit-redir" type="text" placeholder="Link Hub URL">
+      <label for="badge-edit-redir">Link Direct URL</label>
+      <input id="badge-edit-redir" type="text" placeholder="Link Direct URL">
       <button class="badge" onclick="updateBadgeAdv('${project}', ${id})">
         <span class="badge-left">Apply Options</span>
       </button>`
@@ -409,7 +409,9 @@ function stopPropagation(e) {
 
 function copyMd(project, id, redir) {
   const url = `https://${window.location.host}/${auth.userId}/${project}/${id}`;
-  const md = `![${url}](${url})`;
+  let md = `![${url}](${url})`;
+
+  if (redir) md = `[${md}](${url}/redirect)`;
 
   let textArea = document.createElement("textarea");
   textArea.value = md;
