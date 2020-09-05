@@ -76,8 +76,10 @@ function templator() {
         <input id="badge-${project}-${id}-value" type="text" class="badge-right ${mono ? "hidden" : ""}" style="background-color:${colorMap(colorRight)}" 
           value="${value}" spellcheck="false" oninput="updateBadge('${project}', ${id}, '', this.value)" onchange="hideSaveBadge('${project}')">
         <div class="badge-actions">
-          <span class="badge-ind ${valueSource ? "" : "hidden"}" style="background-color:${colorMap(colorRight)}" title="Badge is using dynamic values. Value box is treated as fallback text.">⚡</span>
-          <span class="badge-ind ${redirect ? "" : "hidden"}" style="background-color:${colorMap(colorRight)}" title="Badge has a redirect URL and uses Link Direct.">🔗</span>
+          <div class="badge-ind-group">
+            <span class="badge-ind ${valueSource ? "" : "hidden"}" title="Badge is using a dynamic value source. Value is treated as fallback text.">⚡</span>
+            <span class="badge-ind ${redirect ? "" : "hidden"}" title="Badge has a redirect URL and uses Link Direct.">🔗</span>
+          </div>
           <button onclick="toggleBadgeEditDialog('${project}', ${id}, ${style}, ${mono}, ${colorLeft}, ${colorRight}, '${valueSource ?? ""}', '${redirect ?? ""}')" aria-label="Additional Badge Settings">⚙</button>
           <button class="icon-md" onclick="copyMd('${project}', ${id}, '${redirect}')" aria-label="Copy Markdown"></button>
           <button class="icon-close" onclick="toggleDeleteDialog('Delete badge ${id}?', 'Delete', 'deleteBadge(\\'${project}\\', ${id})')" aria-label="Delete Badge"></button>

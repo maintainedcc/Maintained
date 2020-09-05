@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const data = JSON.parse(res);
 
     document.getElementById("project-title").innerText = `${pathParams[1]}/${pathParams[2]}`;
-    document.getElementById("user-github").href = `https://github.com/${pathParams[1]}`;
 
     if (!data.redirect) {
       badges.innerHTML += "<p>Badge does not exist or does not have a redirect URL.</p>";

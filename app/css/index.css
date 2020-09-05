@@ -505,9 +505,11 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
   height: unset;
 }
 .badge-editor .badge-ind {
-  background-color: #000;
+  background-color: #0003;
   text-align: center;
-  min-width: 30px;
+  min-width: 25px;
+  line-height: 25px;
+  font-size: 0.8rem;
 }
 .badge-editor .badge-left, .badge-editor .badge-right {
   background-color: #655;
@@ -532,13 +534,13 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
     height: 50px;
   }
   .badge-editor .badge-ind {
-    background-color: #AB2;
     background-image: linear-gradient(0deg, #0005, #0001);
   }
 }
 
 .badge-actions {
   display: flex;
+  position: relative;
 }
 .badge-actions button {
   background-color: #000;
@@ -555,9 +557,13 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
 .badge-actions button:before, .badge-actions button:after {
   background-color: #fff;
 }
-
-.badge-options {
-  width: 100%;
+.badge-actions .badge-ind-group {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
 }
 
 .profile-icon {
