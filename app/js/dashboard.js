@@ -241,6 +241,7 @@ const updateBadge = debounce((project, badgeId, newKey = "", newVal = "") => {
   fetch(`/api/badges/update?${paramString}`)
   .then(() => {
     saveBadge.classList.add("shown");
+    saveBadge.classList.remove("error");
     saveBadge.innerText = "Saved";
   })
   .catch(ex => {
@@ -276,6 +277,7 @@ function updateBadgeMeta(project, badgeId) {
   })
   .then(() => {
     saveBadge.classList.add("shown");
+    saveBadge.classList.remove("error");
     saveBadge.innerText = "Saved";
   })
   .then(hideDialog())
