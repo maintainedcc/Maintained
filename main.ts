@@ -23,6 +23,11 @@ for await (const req of s) {
 
   // Identity-locked routes
   let id = identity.getAuthorization(getCookies(req)["token"]);
+  // Automatic reauth attempt
+  if (!id && getCookies(req)["token"]) {
+    id = await api.getUserUUID(getCookies(req)["token"]);
+    identity.authorizeToken(getCookies(req)["token"], id);
+  }
   switch (req.url) {
     case "/api/badges/create": (async () => {
       if (!id) { req.respond({ status: 401 }); return }
