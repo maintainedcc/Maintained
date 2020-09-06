@@ -114,14 +114,14 @@ export class BadgeService {
       </svg>`;
     else {
       const dvs = badge.valueSource ? await this.dvsFetch(badge.valueSource ?? "") : null;
-      valW = dvs ? dvs.length * 5.2 + 30 : valW;
+      valW = dvs ? dvs.length * 8 + 30 : valW;
       return `
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${keyW + valW}" height="28">
         <rect width="${keyW}" height="28" fill="${keyCString}"/>
         <rect x="${keyW}" width="${valW}" height="28" fill="${valCString}"/>
         <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10">
           <text x="${keyW / 2}" y="17" textLength="${badge.titleWidth}">${badge.title.toUpperCase()}</text>
-          <text x="${keyW + (valW / 2)}" y="17" font-weight="bold" textLength="${badge.valueWidth}">${dvs?.toUpperCase() ?? badge.value.toUpperCase()}</text>
+          <text x="${keyW + (valW / 2)}" y="17" font-weight="bold" textLength="${valW - 30}">${dvs?.toUpperCase() ?? badge.value.toUpperCase()}</text>
         </g>
       </svg>`;
     }
