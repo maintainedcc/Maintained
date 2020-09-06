@@ -400,6 +400,9 @@ footer.section {
   padding: 10px;
   flex: 1 1;
 }
+#dov .dialog button:not(:first-of-type) {
+  margin-top: 10px;
+}
 #dov .dialog button .badge-left {
   flex: 1 1;
 }
@@ -501,9 +504,11 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
 }
 
 .badge-editor {
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
   height: unset;
+  overflow: hidden;
 }
 .badge-editor .badge-left, .badge-editor .badge-right {
   background-color: #655;
@@ -540,6 +545,9 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
   border-radius: 0;
   color: #fff;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-weight: 700;
   font-size: 1.5rem;
   line-height: 40px;
@@ -548,6 +556,11 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
 }
 .badge-actions button:before, .badge-actions button:after {
   background-color: #fff;
+}
+.badge-actions button img {
+  height: 1.1rem;
+  width: 1.1rem;
+  flex: 1 1;
 }
 .badge-actions .badge-ind-group {
   background-color: #000;

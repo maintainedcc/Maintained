@@ -80,7 +80,7 @@ function templator() {
             <span class="badge-ind ${valueSource ? "" : "hidden"}" title="Badge is using a dynamic value source. Value is treated as fallback text.">⚡</span>
             <span class="badge-ind ${redirect ? "" : "hidden"}" title="Badge has a redirect URL and uses Link Direct.">🔗</span>
           </div>
-          <button onclick="toggleBadgeEditDialog('${project}', ${id}, ${style}, ${mono}, ${colorLeft}, ${colorRight}, '${valueSource ?? ""}', '${redirect ?? ""}')" aria-label="Additional Badge Settings">⚙</button>
+          <button onclick="toggleBadgeEditDialog('${project}', ${id}, ${style}, ${mono}, ${colorLeft}, ${colorRight}, '${valueSource ?? ""}', '${redirect ?? ""}')" aria-label="Additional Badge Settings"><img src="./img/maintained_settings.svg" alt="⚙" /></button>
           <button class="icon-md" onclick="copyMd('${project}', ${id}, '${redirect}')" aria-label="Copy Markdown"></button>
           <button class="icon-close" onclick="toggleDeleteDialog('Delete badge ${id}?', 'Delete', 'deleteBadge(\\'${project}\\', ${id})')" aria-label="Delete Badge"></button>
         </div>
@@ -155,7 +155,8 @@ function templator() {
       return `
       <h2>${title}</h2>
       <p>Are you sure you want to delete this item?</p>
-      <button class="badge" onclick="${action}"><span class="badge-left">${actionName}</span></button>`
+      <button class="badge" onclick="${action}"><span class="badge-left">${actionName}</span></button>
+      <button class="badge" onclick="hideDialog()"><span class="badge-left">Cancel</span></button>`
     }
   }
 }
