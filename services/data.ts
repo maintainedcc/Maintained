@@ -230,7 +230,7 @@ export class DataService {
       isMono: false
     }
     const newProject: Project = {
-      title: project.replaceAll(" ", "-"),
+      title: project.replaceAll(" ", "-").replaceAll("/", "-"),
       badges: [ newBadge ]
     }
 

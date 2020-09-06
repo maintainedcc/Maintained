@@ -110,7 +110,7 @@ for await (const req of s) {
       if (!id) { req.respond({ status: 401 }); return }
 
       const p = { project: params.get("project") ?? "" }
-      const project = await data.createProject(id, p.project );
+      const project = await data.createProject(id, p.project);
 
       if (!project) { req.respond({ status: 400 }); return }
       req.respond({ body: JSON.stringify(project), status: 200 });
