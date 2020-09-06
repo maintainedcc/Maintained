@@ -1,130 +1,39 @@
 
 import { Badge, BadgeStyle, BadgeColor } from './data.ts';
 
+interface MappedBadge extends Badge {
+  keyCString?: string,
+  valCString?: string,
+  dvsValue?: string
+}
+
 export class BadgeService {
   constructor() {}
 
+  // Returns an SVG string
   async badge(badge: Badge): Promise<string> {
+    const mapped = await this.processor(badge);
+
     switch(badge.style) {
+      case BadgeStyle.Plastic:
+        return await this.plastic(mapped);
       case BadgeStyle.Flat:
-        return await this.flat(badge);
+        return await this.flat(mapped);
       case BadgeStyle.ForTheBadge:
-        return await this.ftb(badge);
-      default:
-        return await this.plastic(badge);
+        return await this.ftb(mapped);
     }
   }
 
-  async plastic(badge: Badge): Promise<string> {
-    // Map badge colors
-    const keyCString = this.colorMap(badge.titleColor);
-    const valCString = this.colorMap(badge.valueColor);
-    // Map badge widths
-    const keyW = badge.titleWidth;
-    let valW = badge.valueWidth;
+  // Processes and validates badges
+  private async processor(badge: Badge): Promise<MappedBadge> {
+    const m: MappedBadge = badge;
 
-    // Plastic style gradient
-    const gradientDef = `
-    <linearGradient id="a" x2="0" y2="100%">
-      <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
-      <stop offset="1" stop-opacity=".1"/>
-    </linearGradient>
-    `;
+    m.keyCString = this.colorMap(badge.titleColor);
+    m.valCString = this.colorMap(badge.valueColor);
 
-    // Return different styles for mono badges
-    if (badge.isMono)
-      return `
-      <svg xmlns="http://www.w3.org/2000/svg" width="${keyW}" height="20">
-        ${gradientDef}
-        <rect rx="3" width="${keyW}" height="20" fill="${keyCString}"/>
-        <rect rx="3" width="${keyW}" height="20" fill="url(#a)"/>
-        <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
-          <text x="${keyW / 2}" y="15" fill="#010101" fill-opacity=".3">${badge.title}</text>
-          <text x="${keyW / 2}" y="14">${badge.title}</text>
-        </g>
-      </svg>`;
-    else {
-      const dvs = badge.valueSource ? await this.dvsFetch(badge.valueSource ?? "") : null;
-      valW = dvs ? dvs.length * 5.2 + 30 : badge.valueWidth;
-      return `
-      <svg xmlns="http://www.w3.org/2000/svg" width="${keyW + valW}" height="20">
-        ${gradientDef}
-        <rect rx="3" width="${keyW + valW}" height="20" fill="${keyCString}"/>
-        <rect rx="3" x="${keyW}" width="${valW}" height="20" fill="${valCString}"/>
-        <rect rx="3" width="${keyW + valW}" height="20" fill="url(#a)"/>
-        <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
-          <text x="${keyW / 2}" y="15" fill="#010101" fill-opacity=".3">${badge.title}</text>
-          <text x="${keyW / 2}" y="14">${badge.title}</text>
-          <text x="${keyW + (valW / 2)}" y="15" fill="#010101" fill-opacity=".3">${dvs ?? badge.value}</text>
-          <text x="${keyW + (valW / 2)}" y="14">${dvs ?? badge.value}</text>
-        </g>
-      </svg>`;
-    }
-  }
+    m.dvsValue = badge.valueSource ? await this.dvsFetch(badge.valueSource ?? "") : undefined;
 
-  async flat(badge: Badge): Promise<string> {
-    // Map badge colors
-    const keyCString = this.colorMap(badge.titleColor);
-    const valCString = this.colorMap(badge.valueColor);
-    // Map badge widths
-    const keyW = badge.titleWidth;
-    let valW = badge.valueWidth;
-
-    if (badge.isMono)
-      return `
-      <svg xmlns="http://www.w3.org/2000/svg" width="${keyW}" height="20">
-        <rect width="${keyW}" height="20" fill="${keyCString}"/>
-        <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
-          <text x="${keyW / 2}" y="15" fill="#010101" fill-opacity=".3">${badge.title}</text>
-          <text x="${keyW / 2}" y="14">${badge.title}</text>
-        </g>
-      </svg>`;
-    else {
-      const dvs = badge.valueSource ? await this.dvsFetch(badge.valueSource ?? "") : null;
-      valW = dvs ? dvs.length * 5.2 + 30 : badge.valueWidth;
-      return `
-      <svg xmlns="http://www.w3.org/2000/svg" width="${keyW + valW}" height="20">
-        <rect width="${keyW + valW}" height="20" fill="${keyCString}"/>
-        <rect x="${keyW}" width="${valW}" height="20" fill="${valCString}"/>
-        <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
-          <text x="${keyW / 2}" y="15" fill="#010101" fill-opacity=".3">${badge.title}</text>
-          <text x="${keyW / 2}" y="14">${badge.title}</text>
-          <text x="${keyW + (valW / 2)}" y="15" fill="#010101" fill-opacity=".3">${dvs ?? badge.value}</text>
-          <text x="${keyW + (valW / 2)}" y="14">${dvs ?? badge.value}</text>
-        </g>
-      </svg>`;
-    }
-  }
-
-  async ftb(badge: Badge): Promise<string> {
-    // Map badge colors
-    const keyCString = this.colorMap(badge.titleColor);
-    const valCString = this.colorMap(badge.valueColor);
-    // Map badge widths
-    const keyW = badge.titleWidth * 1.4 + 20;
-    let valW = badge.valueWidth * 1.4 + 20;
-
-    if (badge.isMono)
-      return `
-      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${keyW}" height="28">
-        <rect width="${keyW}" height="28" fill="${keyCString}"/>
-        <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10">
-          <text x="${keyW / 2}" y="17" textLength="${badge.titleWidth}">${badge.title.toUpperCase()}</text>
-        </g>
-      </svg>`;
-    else {
-      const dvs = badge.valueSource ? await this.dvsFetch(badge.valueSource ?? "") : null;
-      valW = dvs ? dvs.length * 8 + 30 : valW;
-      return `
-      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${keyW + valW}" height="28">
-        <rect width="${keyW}" height="28" fill="${keyCString}"/>
-        <rect x="${keyW}" width="${valW}" height="28" fill="${valCString}"/>
-        <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10">
-          <text x="${keyW / 2}" y="17" textLength="${badge.titleWidth}">${badge.title.toUpperCase()}</text>
-          <text x="${keyW + (valW / 2)}" y="17" font-weight="bold" textLength="${valW - 30}">${dvs?.toUpperCase() ?? badge.value.toUpperCase()}</text>
-        </g>
-      </svg>`;
-    }
+    return m;
   }
 
   private colorMap(color: BadgeColor): string {
@@ -150,5 +59,107 @@ export class BadgeService {
     return await fetch(url)
     .then(res => res.text())
     .catch(() => undefined);
+  }
+
+  async plastic(badge: MappedBadge): Promise<string> {
+    // Map badge widths
+    const keyW = badge.titleWidth;
+    let valW = badge.valueWidth;
+
+    // Plastic style gradient
+    const gradientDef = `
+    <linearGradient id="a" x2="0" y2="100%">
+      <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
+      <stop offset="1" stop-opacity=".1"/>
+    </linearGradient>`;
+
+    // Return different styles for mono badges
+    if (badge.isMono)
+      return `
+      <svg xmlns="http://www.w3.org/2000/svg" width="${keyW}" height="20">
+        ${gradientDef}
+        <rect rx="3" width="${keyW}" height="20" fill="${badge.keyCString}"/>
+        <rect rx="3" width="${keyW}" height="20" fill="url(#a)"/>
+        <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
+          <text x="${keyW / 2}" y="15" fill="#010101" fill-opacity=".3">${badge.title}</text>
+          <text x="${keyW / 2}" y="14">${badge.title}</text>
+        </g>
+      </svg>`;
+    else {
+      valW = badge.dvsValue ? badge.dvsValue.length * 5.2 + 30 : badge.valueWidth;
+      return `
+      <svg xmlns="http://www.w3.org/2000/svg" width="${keyW + valW}" height="20">
+        ${gradientDef}
+        <rect rx="3" width="${keyW + valW}" height="20" fill="${badge.keyCString}"/>
+        <rect rx="3" x="${keyW}" width="${valW}" height="20" fill="${badge.valCString}"/>
+        <rect rx="3" width="${keyW + valW}" height="20" fill="url(#a)"/>
+        <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
+          <text x="${keyW / 2}" y="15" fill="#010101" fill-opacity=".3">${badge.title}</text>
+          <text x="${keyW / 2}" y="14">${badge.title}</text>
+          <text x="${keyW + (valW / 2)}" y="15" fill="#010101" fill-opacity=".3">${badge.dvsValue ?? badge.value}</text>
+          <text x="${keyW + (valW / 2)}" y="14">${badge.dvsValue ?? badge.value}</text>
+        </g>
+      </svg>`;
+    }
+  }
+
+  async flat(badge: MappedBadge): Promise<string> {
+    // Map badge widths
+    const keyW = badge.titleWidth;
+    let valW = badge.valueWidth;
+
+    if (badge.isMono)
+      return `
+      <svg xmlns="http://www.w3.org/2000/svg" width="${keyW}" height="20">
+        <rect width="${keyW}" height="20" fill="${badge.keyCString}"/>
+        <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
+          <text x="${keyW / 2}" y="15" fill="#010101" fill-opacity=".3">${badge.title}</text>
+          <text x="${keyW / 2}" y="14">${badge.title}</text>
+        </g>
+      </svg>`;
+    else {
+      valW = badge.dvsValue ? badge.dvsValue.length * 5.2 + 30 : badge.valueWidth;
+      return `
+      <svg xmlns="http://www.w3.org/2000/svg" width="${keyW + valW}" height="20">
+        <rect width="${keyW + valW}" height="20" fill="${badge.keyCString}"/>
+        <rect x="${keyW}" width="${valW}" height="20" fill="${badge.valCString}"/>
+        <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
+          <text x="${keyW / 2}" y="15" fill="#010101" fill-opacity=".3">${badge.title}</text>
+          <text x="${keyW / 2}" y="14">${badge.title}</text>
+          <text x="${keyW + (valW / 2)}" y="15" fill="#010101" fill-opacity=".3">${badge.dvsValue ?? badge.value}</text>
+          <text x="${keyW + (valW / 2)}" y="14">${badge.dvsValue ?? badge.value}</text>
+        </g>
+      </svg>`;
+    }
+  }
+
+  async ftb(badge: MappedBadge): Promise<string> {
+    // Map badge widths
+    const keyW = badge.titleWidth + 30;
+    let valW = badge.valueWidth + 30;
+
+    badge.title = badge.title.toUpperCase();
+    badge.value = badge.value.toUpperCase();
+
+    if (badge.isMono)
+      return `
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${keyW}" height="28">
+        <rect width="${keyW}" height="28" fill="${badge.keyCString}"/>
+        <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10">
+          <text x="${keyW / 2}" y="17" textLength="${badge.titleWidth}">${badge.title}</text>
+        </g>
+      </svg>`;
+    else {
+      valW = badge.dvsValue ? badge.dvsValue.length * 8 + 30 : valW;
+      return `
+      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${keyW + valW}" height="28">
+        <rect width="${keyW}" height="28" fill="${badge.keyCString}"/>
+        <rect x="${keyW}" width="${valW}" height="28" fill="${badge.valCString}"/>
+        <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10">
+          <text x="${(keyW / 2)}" y="17" textLength="${badge.titleWidth}">${badge.title}</text>
+          <text x="${keyW + (valW / 2)}" y="17" font-weight="bold" textLength="${valW - 30}">${badge.dvsValue?.toUpperCase() ?? badge.value}</text>
+        </g>
+      </svg>`;
+    }
   }
 }

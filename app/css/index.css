@@ -550,9 +550,9 @@ button.badge:hover .badge-right, button.badge:focus .badge-right, a.badge:hover 
   align-items: center;
   font-weight: 700;
   font-size: 1.5rem;
-  line-height: 40px;
   flex: 1 1;
   min-width: 60px;
+  min-height: 45px;
 }
 .badge-actions button:before, .badge-actions button:after {
   background-color: #fff;

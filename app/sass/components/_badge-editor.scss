@@ -51,10 +51,10 @@
 
     font-weight: 700;
     font-size: 1.5rem;
-    line-height: 40px;
 
     flex: 1 1;
     min-width: 60px;
+    min-height: 45px;
 
     &:before, &:after {
       background-color: #fff;
