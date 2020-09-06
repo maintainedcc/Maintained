@@ -29,6 +29,11 @@
       margin-right: 10px;
     }
 
+    .project-username {
+      color: #555;
+      display: none;
+    }
+
     .project-save {
       background-color: #eee;
       border-radius: 5px;
@@ -59,6 +64,10 @@
 
       .droplet {
         display: inline-flex;
+      }
+
+      .project-username {
+        display: unset;
       }
     }
   }

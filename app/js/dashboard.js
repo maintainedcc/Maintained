@@ -133,7 +133,7 @@ function templator() {
       return `
       <section id="project-${title}" class="dashboard-section project">
       <div class="project-header">
-        <h2><span class="droplet"></span>${user}/${title} <span id="save-${title}" class="project-save">Saved</span></h2>
+        <h2><span class="droplet"></span><span class="project-username">${user}/</span>${title} <span id="save-${title}" class="project-save">Saved</span></h2>
         <div class="project-actions">
           <button class="icon-close" title="Delete Project" onclick="toggleDeleteDialog('Delete ${user}/${title}?', 'Delete', 'deleteProject(\\'${title}\\')')"></button>
           <button class="icon-add" title="Add Badge" onclick="createBadge('${title}')"></button>

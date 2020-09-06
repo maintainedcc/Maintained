@@ -8,8 +8,10 @@ body {
   margin: 0;
 }
 
-main {
-  padding: 0 20px;
+@media (min-width: 360px) {
+  main {
+    padding: 0 20px;
+  }
 }
 
 footer {
