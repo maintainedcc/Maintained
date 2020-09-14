@@ -40,8 +40,18 @@ export class BadgeService {
 
     m.dvsValue = badge.valueSource ? await this.dvsFetch(badge.valueSource ?? "") : undefined;
 
-    //m.keyIconURI = await this.iconService.getIconDataURL("microsoftonenote", true);
-    //m.valIconURI = await this.iconService.getIconDataURL("microsoftword", false);
+    let titleIconMatch = m.title.toLowerCase().match(/^:([A-z]+):/);
+    if (titleIconMatch) {
+      m.title = m.title.replace(titleIconMatch[0], "").trim();
+      m.titleWidth -= titleIconMatch[0].length * 5.2 + 20;
+      m.keyIconURI = await this.iconService.getIconDataURL(titleIconMatch[1], true);
+    }
+    let valueIconMatch = m.value.toLowerCase().match(/^:([A-z]+):/);
+    if (valueIconMatch) {
+      m.value = m.value.replace(valueIconMatch[0], "").trim();
+      m.valueWidth -= valueIconMatch[0].length * 5.2 + 20;
+      m.valIconURI = await this.iconService.getIconDataURL(valueIconMatch[1], true);
+    }
 
     return m;
   }
@@ -201,7 +211,7 @@ export class BadgeService {
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${keyW}" height="28">
         <rect width="${keyW}" height="28" fill="${badge.keyCString}"/>
         <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10">
-          <image x="12" y="3" height="20px" width="20px" href="${badge.keyIconURI ?? ""}" />
+          <image x="12" y="3.5" height="20px" width="20px" href="${badge.keyIconURI ?? ""}" />
           <text x="${keyX}" y="17" textLength="${badge.titleWidth}">${badge.title}</text>
         </g>
       </svg>`;
@@ -212,9 +222,9 @@ export class BadgeService {
         <rect width="${keyW}" height="28" fill="${badge.keyCString}"/>
         <rect x="${keyW}" width="${valW + valWO}" height="28" fill="${badge.valCString}"/>
         <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="10">
-          <image x="12" y="3" height="20px" width="20px" href="${badge.keyIconURI ?? ""}" />
+          <image x="12" y="3.5" height="20px" width="20px" href="${badge.keyIconURI ?? ""}" />
           <text x="${keyX}" y="17" textLength="${badge.titleWidth}">${badge.title}</text>
-          <image x="${keyW + 12}" y="3" height="20px" width="20px" href="${badge.valIconURI ?? ""}" />
+          <image x="${keyW + 12}" y="3.5" height="20px" width="20px" href="${badge.valIconURI ?? ""}" />
           <text x="${valX}" y="17" font-weight="bold" textLength="${valW - 30}">${badge.dvsValue?.toUpperCase() ?? badge.value}</text>
         </g>
       </svg>`;
