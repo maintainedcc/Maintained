@@ -3,6 +3,8 @@
 .deno_plugins/*
 environment.ts
 
+services/simpleicons/icons
+
 # Editor settings
 .vscode/settings.json
 environment.dev.ts
