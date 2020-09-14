@@ -92,6 +92,7 @@ export class BadgeService {
       keyW += 30;
       keyX += 25;
     }
+    valW = badge.dvsValue ? badge.dvsValue.length * 5.2 + 30 : badge.valueWidth;
     let valX = keyW + (valW / 2);
     let valWO = 0;
     if (badge.valIconURI) {
@@ -119,7 +120,6 @@ export class BadgeService {
         </g>
       </svg>`;
     else {
-      valW = badge.dvsValue ? badge.dvsValue.length * 5.2 + 30 : badge.valueWidth;
       return `
       <svg xmlns="http://www.w3.org/2000/svg" width="${keyW + valW + valWO}" height="20">
         ${gradientDef}
@@ -149,6 +149,7 @@ export class BadgeService {
       keyW += 30;
       keyX += 25;
     }
+    valW = badge.dvsValue ? badge.dvsValue.length * 5.2 + 30 : badge.valueWidth;
     let valX = keyW + (valW / 2);
     let valWO = 0;
     if (badge.valIconURI) {
@@ -167,7 +168,6 @@ export class BadgeService {
         </g>
       </svg>`;
     else {
-      valW = badge.dvsValue ? badge.dvsValue.length * 5.2 + 30 : badge.valueWidth;
       return `
       <svg xmlns="http://www.w3.org/2000/svg" width="${keyW + valW + valWO}" height="20">
         <rect width="${keyW + valW}" height="20" fill="${badge.keyCString}"/>
@@ -199,6 +199,7 @@ export class BadgeService {
       keyW += 34;
       keyX += 28;
     }
+    valW = badge.dvsValue ? badge.dvsValue.length * 8 + 30 : valW;
     let valX = keyW + (valW / 2);
     let valWO = 0;
     if (badge.valIconURI) {
@@ -216,7 +217,6 @@ export class BadgeService {
         </g>
       </svg>`;
     else {
-      valW = badge.dvsValue ? badge.dvsValue.length * 8 + 30 : valW;
       return `
       <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${keyW + valW + valWO}" height="28">
         <rect width="${keyW}" height="28" fill="${badge.keyCString}"/>

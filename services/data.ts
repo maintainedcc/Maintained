@@ -1,5 +1,5 @@
 
-import { MongoClient, Database, Collection } from "https://deno.land/x/mongo@v0.9.1/mod.ts";
+import { MongoClient, Database, Collection } from "https://deno.land/x/mongo@v0.12.1/mod.ts";
 
 interface User {
   name: string
