@@ -1,5 +1,5 @@
 
-import { exists } from "https://deno.land/std/fs/exists.ts";
+import { exists } from "../deps.ts";
 
 export class IconService {
   constructor() {}

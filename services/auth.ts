@@ -1,5 +1,5 @@
 
-import { config } from '../environment.dev.ts';
+import { config } from '../environment/environment.dev.ts';
 
 export class AuthService {
   constructor() {}

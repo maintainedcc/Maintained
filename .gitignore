@@ -1,11 +1,12 @@
 
 # Src
 .deno_plugins/*
-environment.ts
+
+environment/environment.ts
+environment/environment.dev.ts
 
 services/simpleicons/icons
 
 # Editor settings
 .vscode/settings.json
-environment.dev.ts
 tsconfig.json

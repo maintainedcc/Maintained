@@ -1,8 +1,15 @@
-import { serve } from "https://deno.land/std@0.64.0/http/server.ts";
-import { exists } from "https://deno.land/std/fs/exists.ts";
-import { getCookies } from 'https://deno.land/std@0.64.0/http/cookie.ts';
+import { 
+  exists, 
+  getCookies, 
+  serve 
+} from "./deps.ts";
 
-import { AuthService, BadgeService, DataService, IdentityService } from './services/mod.ts';
+import { 
+  AuthService, 
+  BadgeService, 
+  DataService, 
+  IdentityService 
+} from './services/mod.ts';
 
 const s = serve({ port: 8000 });
 console.log("http://localhost:8000/");
