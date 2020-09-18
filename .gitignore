@@ -10,3 +10,5 @@ services/simpleicons/icons
 # Editor settings
 .vscode/settings.json
 tsconfig.json
+
+dev.bat
