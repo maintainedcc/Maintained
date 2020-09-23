@@ -216,16 +216,6 @@ for await (const req of s) {
       
     case "/dashboard":
       req.url = "app/dashboard.html";
-      // If unauthorized, redirect to the main page
-      if (!id) {
-        req.respond({
-          status: 302,
-          headers: new Headers({
-            "Set-Cookie": "token=; Path=/; Max-Age=0;",
-            "Location": "/" 
-          })
-        });
-      }
       break;
 
     case "/":
@@ -298,6 +288,8 @@ function getMimeType(url: string): string {
   switch (splitUrl[splitUrl.length - 1]) {
     case "css":
       return "text/css";
+    case "js":
+      return "text/javascript";
     case "ico":
       return "image/x-icon";
     case "html":
@@ -308,22 +300,5 @@ function getMimeType(url: string): string {
       return "image/svg+xml";
     default:
       return "text/plain";
-  }
-}
-
-function decorator(value: boolean) {
-  return function (
-    target: any,
-    propertyKey: string,
-    descriptor: PropertyDescriptor
-  ) {
-    descriptor.enumerable = value;
-  };
-}
-
-class Class {
-  @decorator(false)
-  g(): void {
-    console.log("run!");
   }
 }
