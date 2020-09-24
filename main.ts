@@ -256,6 +256,7 @@ for await (const req of s) {
             body: JSON.stringify(badgeData), 
             status: 200, 
             headers: new Headers({
+              "Access-Control-Allow-Origin": "*",
               "Cache-Control": "no-store",
               "Content-Type": "application/json"
             })
