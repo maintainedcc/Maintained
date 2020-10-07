@@ -7,152 +7,21 @@ import {
 import { 
   AuthService, 
   BadgeService, 
-  DataService, 
-  IdentityService 
+  DataService
 } from './services/mod.ts';
 
 const s = serve({ port: 8000 });
 console.log("http://localhost:8000/");
 
-const api = new AuthService();
+const auth = new AuthService();
 const badger = new BadgeService();
 const data = new DataService();
-const identity = new IdentityService();
 
 for await (const req of s) {
   // Separate query parameters
   const route = req.url.split("?");
   req.url = route[0];
   const params = new URLSearchParams(route[1]);
-
-  // High-tech router module
-  // Also a massive high-tech mess
-
-  // Identity-locked routes
-  let id = identity.getAuthorization(getCookies(req)["token"]);
-  // Automatic reauth attempt
-  if (!id && getCookies(req)["token"]) {
-    id = await api.getUserUUID(getCookies(req)["token"]);
-    identity.authorizeToken(getCookies(req)["token"], id);
-  }
-  switch (req.url) {
-    case "/api/badges/create": (async () => {
-      if (!id) { req.respond({ status: 401 }); return }
-
-      const p = { project: params.get("project") ?? "" }
-      const badge = await data.createBadge(id, p.project);
-
-      if (!badge) { req.respond({ status: 400 }); return }
-      req.respond({ body: JSON.stringify(badge), status: 200 });
-    })();
-    continue;
-
-    case "/api/badges/update": (async () => {
-      if (!id) { req.respond({ status: 401 }); return }
-
-      const p = {
-        project: params.get("project") ?? "",
-        bId: parseInt(params.get("id") ?? "-1"),
-        key: params.get("key"),
-        val: params.get("val"),
-        keyW: parseInt(params.get("keyW") ?? ""),
-        valW: parseInt(params.get("valW") ?? "")
-      }
-      const updBadge = await data.updateBadge(id, p.project, p.bId, p.key, p.val, p.keyW, p.valW);
-      
-      if (!updBadge) { req.respond({ status: 400 }); return }
-      req.respond({ body: JSON.stringify(updBadge), status: 200 });
-    })();
-    continue;
-
-    case "/api/badges/meta": (async () => {
-      if (!id) { req.respond({ status: 401 }); return }
-
-      const p = {
-        project: params.get("project") ?? "",
-        bId: parseInt(params.get("id") ?? "-1"),
-        style: parseInt(params.get("style") ?? ""),
-        titleColor: parseInt(params.get("colorRight") ?? ""),
-        valueColor: parseInt(params.get("colorLeft") ?? ""),
-        isMono: params.get("isMono") ?? ""
-      }
-      const updBadge = await data.updateBadgeMeta(id, p.project, p.bId, p.style, p.titleColor, p.valueColor, p.isMono);
-
-      if (!updBadge) { req.respond({ status: 400 }); return }
-      req.respond({ body: JSON.stringify(updBadge), status: 200 });
-    })();
-    continue;
-
-    case "/api/badges/adv": (async () => {
-      if (!id) { req.respond({ status: 401 }); return }
-
-      const p = {
-        project: params.get("project") ?? "",
-        bId: parseInt(params.get("id") ?? ""),
-        redirect: params.get("redirect"),
-        valueSource: params.get("valueSource")
-      }
-      const updBadge = await data.updateBadgeAdv(id, p.project, p.bId, p.redirect, p.valueSource);
-
-      if (!updBadge) { req.respond({ status: 400 }); return }
-      req.respond({ body: JSON.stringify(updBadge), status: 200 });
-    })();
-    continue;
-
-    case "/api/badges/delete": (async () => {
-      if (!id) { req.respond({ status: 401 }); return }
-      
-      const p = {
-        project: params.get("project") ?? "",
-        bId: parseInt(params.get("id") ?? "")
-      }
-      if (!p.project || !p.bId) { req.respond({ status: 400 }); return }
-      await data.deleteBadge(id, p.project, p.bId);
-
-      req.respond({ status: 204 });
-    })();
-    continue;
-
-    case "/api/projects/create": (async () => {
-      if (!id) { req.respond({ status: 401 }); return }
-
-      const p = { project: params.get("project") ?? "" }
-      const project = await data.createProject(id, p.project);
-
-      if (!project) { req.respond({ status: 400 }); return }
-      req.respond({ body: JSON.stringify(project), status: 200 });
-    })();
-    continue;
-
-    case "/api/projects/delete": (async () => {
-      if (!id) { req.respond({ status: 401 }); return }
-    
-      const p = { project: params.get("project") ?? "" }
-      if (!p.project) { req.respond({ status: 400 }); return }
-      await data.deleteProject(id, p.project);
-
-      req.respond({ status: 204 });
-    })();
-    continue;
-
-    case "/api/user/data": (async () => {
-      if (!id) { req.respond({ status: 401 }); return }
-
-      const userData = await data.getUserInfo(id);
-
-      req.respond({ body: JSON.stringify(userData), status: 200 });
-    })();
-    continue;
-
-    case "/api/user/welcome": (async () => {
-      if (!id) { req.respond({ status: 401 }); return }
-
-      await data.setUserWelcomed(id);
-
-      req.respond({ status: 204 });
-    })();
-    continue;
-  }
 
   // Exposed routes
   switch (req.url) {
@@ -165,11 +34,8 @@ for await (const req of s) {
         continue;
       }
       
-      const token = await api.getAccessToken(code, state);
-
-      // Allow this token to make database edits
-      const uuid = await api.getUserUUID(token);
-      identity.authorizeToken(token, uuid);
+      const token = await auth.getAccessToken(code, state);
+      const uuid = await auth.authorizeToken(token);
       await data.ensureUser(uuid);
 
       req.respond({ 
@@ -183,7 +49,7 @@ for await (const req of s) {
 
     case "/oauth/login":
       const cookies = getCookies(req);
-      if (cookies["token"] && identity.isAuthorized(cookies["token"])) {
+      if (cookies["token"] && auth.isAuthorized(cookies["token"])) {
         req.respond({ 
           status: 302, 
           headers: new Headers({ "Location": "/dashboard" })
@@ -192,7 +58,7 @@ for await (const req of s) {
       else {
         req.respond({ 
           status: 302, 
-          headers: new Headers({ "Location": api.getAuthURL() })
+          headers: new Headers({ "Location": auth.getAuthURL() })
         });
       }
       continue;
@@ -210,22 +76,19 @@ for await (const req of s) {
     case "/oauth/manage":
       req.respond({
         status: 302,
-        headers: new Headers({ "Location": api.getManagementURL() })
+        headers: new Headers({ "Location": auth.getManagementURL() })
       });
       continue;
       
     case "/dashboard":
-      req.url = "app/dashboard.html";
+      req.url = "dashboard.html";
       break;
 
     case "/":
-      req.url = "app/index.html";
+      req.url = "index.html";
       break;
 
     default:
-      // app folder is serve workspace
-      req.url = `app${req.url}`;
-
       // Check if badge exists
       const badgeParams = req.url.split("/");
       if (badgeParams.length === 4) {
@@ -235,7 +98,7 @@ for await (const req of s) {
           const badge = await badger.badge(badgeData);
           req.respond({ 
             body: badge, 
-            status: 200, 
+            status: 200,
             headers: new Headers({
               "Cache-Control": "no-store",
               "Content-Type": "image/svg+xml"
@@ -246,13 +109,13 @@ for await (const req of s) {
       }
       // Try and get the link redirect page
       else if (badgeParams.length === 5 && badgeParams[4] === "redirect") {
-        req.url = "app/redirect.html";
+        req.url = "redirect.html";
       }
       // Get and return raw badge JSON
       else if (badgeParams.length === 5 && badgeParams[4] === "json") {
         const badgeData = await data.getBadge(badgeParams[1], badgeParams[2], parseInt(badgeParams[3]));
         if (badgeData) {
-          req.respond({ 
+          req.respond({
             body: JSON.stringify(badgeData), 
             status: 200, 
             headers: new Headers({
@@ -266,22 +129,127 @@ for await (const req of s) {
       }
   }
 
-  // Check if file exists
-  if (!(await exists(req.url))) {
-    req.respond({ status: 404 });
-    console.warn(`Resource Not Found: ${req.url}`);
+  // Serve /app folder files (exposed)
+  const serveURL = `app/${req.url}`;
+  if (await exists(serveURL)) {
+    let type = getMimeType(serveURL);
+    req.respond({ 
+      body: await Deno.readFile(serveURL), 
+      status: 200, 
+      headers: new Headers({ "Content-Type": type })
+    });
     continue;
   }
 
-  console.log(`Parse: ${route}`);
+  // Identity-locked routes
+  // It's possible to reject the user at this point
+  // because there is no more content to serve past this.
+  let id = await auth.authorizeToken(getCookies(req)["token"]);
+  if (!id) { req.respond({ status: 401 }); continue; }
+  switch (req.url) {
+    case "/api/badges/create": (async () => {
+      const p = { project: params.get("project") ?? "" }
+      const badge = await data.createBadge(id, p.project);
 
-  const content = await Deno.readFile(req.url);
-  let type = getMimeType(req.url);
-  req.respond({ 
-    body: content, 
-    status: 200, 
-    headers: new Headers({ "Content-Type": type })
-  });
+      if (!badge) { req.respond({ status: 400 }); return }
+      req.respond({ body: JSON.stringify(badge), status: 200 });
+    })();
+    continue;
+
+    case "/api/badges/update": (async () => {
+      const p = {
+        project: params.get("project") ?? "",
+        bId: parseInt(params.get("id") ?? "-1"),
+        key: params.get("key"),
+        val: params.get("val"),
+        keyW: parseInt(params.get("keyW") ?? ""),
+        valW: parseInt(params.get("valW") ?? "")
+      }
+      const updBadge = await data.updateBadge(id, p.project, p.bId, p.key, p.val, p.keyW, p.valW);
+      
+      if (!updBadge) { req.respond({ status: 400 }); return }
+      req.respond({ body: JSON.stringify(updBadge), status: 200 });
+    })();
+    continue;
+
+    case "/api/badges/meta": (async () => {
+      const p = {
+        project: params.get("project") ?? "",
+        bId: parseInt(params.get("id") ?? "-1"),
+        style: parseInt(params.get("style") ?? ""),
+        titleColor: parseInt(params.get("colorRight") ?? ""),
+        valueColor: parseInt(params.get("colorLeft") ?? ""),
+        isMono: params.get("isMono") ?? ""
+      }
+      const updBadge = await data.updateBadgeMeta(id, p.project, p.bId, p.style, p.titleColor, p.valueColor, p.isMono);
+
+      if (!updBadge) { req.respond({ status: 400 }); return }
+      req.respond({ body: JSON.stringify(updBadge), status: 200 });
+    })();
+    continue;
+
+    case "/api/badges/adv": (async () => {
+      const p = {
+        project: params.get("project") ?? "",
+        bId: parseInt(params.get("id") ?? ""),
+        redirect: params.get("redirect"),
+        valueSource: params.get("valueSource")
+      }
+      const updBadge = await data.updateBadgeAdv(id, p.project, p.bId, p.redirect, p.valueSource);
+
+      if (!updBadge) { req.respond({ status: 400 }); return }
+      req.respond({ body: JSON.stringify(updBadge), status: 200 });
+    })();
+    continue;
+
+    case "/api/badges/delete": (async () => {
+      const p = {
+        project: params.get("project") ?? "",
+        bId: parseInt(params.get("id") ?? "")
+      }
+      if (!p.project || !p.bId) { req.respond({ status: 400 }); return }
+      await data.deleteBadge(id, p.project, p.bId);
+
+      req.respond({ status: 204 });
+    })();
+    continue;
+
+    case "/api/projects/create": (async () => {
+      const p = { project: params.get("project") ?? "" }
+      const project = await data.createProject(id, p.project);
+
+      if (!project) { req.respond({ status: 400 }); return }
+      req.respond({ body: JSON.stringify(project), status: 200 });
+    })();
+    continue;
+
+    case "/api/projects/delete": (async () => {
+      const p = { project: params.get("project") ?? "" }
+      if (!p.project) { req.respond({ status: 400 }); return }
+      await data.deleteProject(id, p.project);
+
+      req.respond({ status: 204 });
+    })();
+    continue;
+
+    case "/api/user/data": (async () => {
+      const userData = await data.getUserInfo(id);
+
+      req.respond({ body: JSON.stringify(userData), status: 200 });
+    })();
+    continue;
+
+    case "/api/user/welcome": (async () => {
+      await data.setUserWelcomed(id);
+
+      req.respond({ status: 204 });
+    })();
+    continue;
+  }
+
+  // Last-case 404 to terminate connection (performance)
+  // Happens only if all other blocks above fall through.
+  req.respond({ status: 404 });
 }
 
 function getMimeType(url: string): string {

@@ -4,7 +4,7 @@ interface Identifier {
   expires: Date;
 }
 
-export class IdentityService {
+export class AuthIdentityService {
   // Transient local store of authorized users
   // This is different to the authorization / database services
   users: { [id: string]: Identifier };
