@@ -5,45 +5,22 @@ import {
   Collection 
 } from "../deps.ts";
 
+import {
+  Badge,
+  BadgeColor,
+  BadgeStyle
+} from "./mod.d.ts";
+
+// Tightly-coupled interfaces
+// Do not need to export these
 interface User {
   name: string
   firstTime: boolean
   projects: Project[]
 }
-
 interface Project {
   title: string
   badges: Badge[]
-}
-
-export interface Badge {
-  id: number
-  title: string
-  titleWidth: number
-  titleColor: BadgeColor
-  value: string
-  valueWidth: number
-  valueColor: BadgeColor
-  valueSource?: string
-  redirect?: string
-  style: BadgeStyle
-  isMono: boolean
-}
-
-export enum BadgeColor {
-  Simple,
-  Slate,
-  Seabed,
-  Subterranean,
-  Savannah,
-  Sahara,
-  Sunset
-}
-
-export enum BadgeStyle {
-  Plastic,
-  Flat,
-  ForTheBadge
 }
 
 export class DataService {
@@ -54,7 +31,7 @@ export class DataService {
     const client = new MongoClient();
     client.connectWithUri("mongodb://localhost:27017");
 
-    this.db = client.database("test");
+    this.db = client.database("dev");
     this.dUsers = this.db.collection<User>("users");
 
     this.dUsers.count().then(num => {
@@ -70,15 +47,18 @@ export class DataService {
     // Create default project and badges
     const starterBadge: Badge = {
       id: 1,
-      title: "Welcome to",
-      titleWidth: 90,
-      titleColor: BadgeColor.Simple,
-      value: "Maintained",
-      valueWidth: 90,
-      valueColor: BadgeColor.Savannah,
-      style: BadgeStyle.Plastic,
-      isMono: false
-    }
+      title: {
+        content: "Welcome to",
+        color: BadgeColor.Simple,
+        width: 90
+      },
+      values: [{
+        content: "Maintained",
+        color: BadgeColor.Savannah,
+        width: 90
+      }],
+      style: BadgeStyle.Plastic
+    };
     const starterProject: Project = {
       title: uId,
       badges: [ starterBadge ]
@@ -87,7 +67,7 @@ export class DataService {
       name: uId,
       firstTime: true,
       projects: [ starterProject ]
-    }
+    };
 
     this.dUsers.insertOne(newUser);
   }
@@ -115,14 +95,17 @@ export class DataService {
     const lastId = userProj.badges[userProj.badges.length - 1]?.id;
     const newBadge: Badge = {
       id: (lastId ?? 0) + 1,
-      title: "New",
-      titleWidth: 30,
-      titleColor: BadgeColor.Simple,
-      value: "Badge",
-      valueWidth: 50,
-      valueColor: BadgeColor.Savannah,
-      style: BadgeStyle.Plastic,
-      isMono: false
+      title: {
+        content: "New",
+        color: BadgeColor.Simple,
+        width: 35
+      },
+      values: [{
+        content: "Badge",
+        color: BadgeColor.Savannah,
+        width: 50
+      }],
+      style: BadgeStyle.Plastic
     }
 
     userProj.badges.push(newBadge);
@@ -156,62 +139,26 @@ export class DataService {
     else return userBadge;
   }
 
-  // Update a badge based on username, project, badgeID, and badge info, and return it
-  async updateBadge(uId: string, project: string, bId: number, 
-      newKey: string | null, newVal: string | null, keyWidth = 0, valWidth = 0): Promise<Badge | undefined> {
+  // Updates all properties of a badge given username, project, and badge
+  async updateBadge(uId: string, project: string, badge: Badge): Promise<Badge | undefined> {
     const userData = (await this.dUsers.findOne({ name: uId }))?.projects;
     const userProj = userData?.find(p => p.title === project);
     if (!userProj) return undefined;
 
-    const userBadge = userProj.badges.find(b => b.id === bId);
+    const userBadge = userProj.badges.find(b => b.id === badge.id);
     if (!userBadge) return undefined;
 
-    if (newKey) { userBadge.title = decodeURI(newKey); userBadge.titleWidth = keyWidth; }
-    if (newVal) { userBadge.value = decodeURI(newVal); userBadge.valueWidth = valWidth; }
+    // Explicitly set values to make sure vital info like
+    // badge ID, etc. does not get changed
+    userBadge.title = badge.title;
+    userBadge.values = badge.values;
+    userBadge.style = badge.style;
+    userBadge.redirect = badge.redirect;
+
+    // Save changes
     await this.dUsers.updateOne(
-      { name: uId }, 
-      { $set: { projects: userData } });
-    return userBadge;
-  }
-
-  // Update a badge's meta info (color, style) and return it
-  async updateBadgeMeta(uId: string, project: string, bId: number, style: BadgeStyle, 
-    colorRight: BadgeColor, colorLeft: BadgeColor, isMono: string): Promise<Badge | undefined> {
-    const userData = (await this.dUsers.findOne({ name: uId }))?.projects;
-    const userProj = userData?.find(p => p.title === project);
-    if (!userProj) return undefined;
-
-    const userBadge = userProj.badges.find(b => b.id === bId);
-    if (!userBadge) return undefined;
-
-    userBadge.isMono = (isMono == "true");
-    userBadge.style = style;
-    userBadge.titleColor = colorLeft;
-    userBadge.valueColor = colorRight;
-
-    await this.dUsers.updateOne(
-      { name: uId }, 
-      { $set: { projects: userData } });
-    return userBadge;
-  }
-
-  // Update advanced badge options and return it
-  async updateBadgeAdv(uId: string, project: string, bId: number, 
-    redirectUrl: string | null, valueSource: string | null): Promise<Badge | undefined> {
-    const userData = (await this.dUsers.findOne({ name: uId }))?.projects;
-    const userProj = userData?.find(p => p.title === project);
-    if (!userProj) return undefined;
-
-    const userBadge = userProj.badges.find(b => b.id === bId);
-    if (!userBadge) return undefined;
-
-    // These fields are nullable
-    userBadge.redirect = redirectUrl ?? undefined;
-    userBadge.valueSource = valueSource ?? undefined;
-
-    await this.dUsers.updateOne(
-      { name: uId }, 
-      { $set: { projects: userData } });
+      { name: uId },
+      { $set: { projects: userData }});
     return userBadge;
   }
 
@@ -224,14 +171,17 @@ export class DataService {
 
     const newBadge: Badge = {
       id: 1,
-      title: "Created",
-      titleWidth: 50,
-      titleColor: BadgeColor.Simple,
-      value: "Successfully",
-      valueWidth: 90,
-      valueColor: BadgeColor.Savannah,
-      style: BadgeStyle.Plastic,
-      isMono: false
+      title: {
+        content: "Created",
+        color: BadgeColor.Simple,
+        width: 50
+      },
+      values: [{
+        content: "Successfully",
+        color: BadgeColor.Savannah,
+        width: 90
+      }],
+      style: BadgeStyle.Plastic
     }
     const newProject: Project = {
       title: project.replaceAll(" ", "-").replaceAll("/", "-"),

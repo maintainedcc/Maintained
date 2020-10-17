@@ -5,7 +5,7 @@
 environment/environment.ts
 environment/environment.dev.ts
 
-services/simpleicons/icons
+services/badge/icon/icons
 
 # Editor settings
 .vscode/settings.json

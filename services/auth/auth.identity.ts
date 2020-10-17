@@ -1,4 +1,5 @@
 
+// Transient identifier
 interface Identifier {
   userName: string;
   expires: Date;

@@ -1,5 +1,5 @@
 
-import { exists } from "../deps.ts";
+import { exists } from "../../../deps.ts";
 
 export class IconService {
   constructor() {}

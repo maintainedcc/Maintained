@@ -1,13 +1,17 @@
 
-import { Badge, BadgeStyle, BadgeColor } from './data.ts';
-import { IconService } from "./icon.ts";
+import { IconService } from "./icon/icon.ts";
+import { 
+  Badge, 
+  BadgeStyle, 
+  BadgeColor, 
+  BadgeField,
+  BadgeFieldDynamic
+} from "../mod.d.ts";
 
-interface MappedBadge extends Badge {
-  keyCString?: string,
-  valCString?: string,
-  keyIconURI?: string,
-  valIconURI?: string,
-  dvsValue?: string
+interface BadgePartial {
+  content: string // SVG or HTML string
+  title: string // Accessible title string
+  width: number // Width calculation (SVG)
 }
 
 export class BadgeService {
@@ -17,43 +21,60 @@ export class BadgeService {
     this.iconService = new IconService();
   }
 
-  // Returns an SVG string
-  async badge(badge: Badge): Promise<string> {
-    const mapped = await this.processor(badge);
+  async generate(badge: Badge): Promise<string> {
+    const title = await this.generatePartial(badge.title, badge.style, 0);
+    let offset = title.width;
+    let innerContent = title.content;
+    let accessibleTitle: string[] = [ title.title ];
+    badge.values?.forEach(async value => {
+      const part = await this.generatePartial(value, badge.style, offset);
+      offset += part.width;
+      innerContent += part.content;
+      accessibleTitle.push(part.title);
+    })
 
-    switch(badge.style) {
+    const aTitle = accessibleTitle.join(" ");
+    return this.generateWrapper(badge.style, innerContent, aTitle, offset);
+  }
+
+  private async generatePartial(field: BadgeField|BadgeFieldDynamic, style: BadgeStyle, offset = 0): Promise<BadgePartial> {
+    // Parse potential icon
+    let iconURI, iconMatch = field.content.toLowerCase().match(/^:([A-z]+):/);
+    if (iconMatch) {
+      field.content = field.content.replace(iconMatch[0], "").trim();
+      iconURI = await this.iconService.getIconDataURL(iconMatch[1], true);
+    }
+
+    // If Dynamic, get the DVS content
+    const f = field as BadgeFieldDynamic;
+    if (f.source) {
+      await fetch(f.source)
+      .then(res => res.text())
+      .then(res => { field.content = res; })
+      .catch(ex => console.warn(ex));
+    }
+
+    // Hex color string of partial
+    const colorString = this.colorMap(field.color);
+
+    switch (style) {
       case BadgeStyle.Plastic:
-        return await this.plastic(mapped);
-      case BadgeStyle.Flat:
-        return await this.flat(mapped);
-      case BadgeStyle.ForTheBadge:
-        return await this.ftb(mapped);
+        return {
+          content: this.plastic(field, colorString, iconURI ?? null, offset),
+          title: field.content,
+          width: field.width * 5.2 + 30
+        }
+      default:
+        return { content: "", title: "", width: 0 };
     }
   }
 
-  // Processes and validates badges
-  private async processor(badge: Badge): Promise<MappedBadge> {
-    const m: MappedBadge = badge;
-
-    m.keyCString = this.colorMap(badge.titleColor);
-    m.valCString = this.colorMap(badge.valueColor);
-
-    m.dvsValue = badge.valueSource ? await this.dvsFetch(badge.valueSource ?? "") : undefined;
-
-    let titleIconMatch = m.title.toLowerCase().match(/^:([A-z]+):/);
-    if (titleIconMatch) {
-      m.title = m.title.replace(titleIconMatch[0], "").trim();
-      m.titleWidth -= titleIconMatch[0].length * 5.2 + 20;
-      m.keyIconURI = await this.iconService.getIconDataURL(titleIconMatch[1], true);
+  private generateWrapper(style: BadgeStyle, innerContent: string, title: string, totalWidth: number): string {
+    switch (style) {
+      case BadgeStyle.Plastic:
+        return this.plasticWrapper(innerContent, title, totalWidth);
+      default: throw EvalError("generateWrapper: Invalid badge style.");
     }
-    let valueIconMatch = m.value.toLowerCase().match(/^:([A-z]+):/);
-    if (valueIconMatch) {
-      m.value = m.value.replace(valueIconMatch[0], "").trim();
-      m.valueWidth -= valueIconMatch[0].length * 5.2 + 20;
-      m.valIconURI = await this.iconService.getIconDataURL(valueIconMatch[1], true);
-    }
-
-    return m;
   }
 
   private colorMap(color: BadgeColor): string {
@@ -72,34 +93,26 @@ export class BadgeService {
         return "#F80";
       case BadgeColor.Sunset:
         return "#F20";
+      default: return "";
     }
   }
 
-  private async dvsFetch(url: string): Promise<string | undefined> {
-    return await fetch(url)
-    .then(res => res.text())
-    .catch(() => undefined);
+  private plastic(field: BadgeField, color: string, iconURI: string|null = null, offset = 0): string {
+    field.width = field.width * 5.2 + 30;
+    let x = field.width + 20;
+    if (iconURI) x += 36;
+
+    return `
+    <rect x="${offset}" rx="3" width="${x}" height="20" fill="${color}"/>
+    <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
+      <image x="${12 + offset}" y="3" height="14px" width="14px" href="${iconURI ?? ""}" />
+      <text x="${x/2 + offset}" y="15" fill="#010101" fill-opacity=".3">${field.content}</text>
+      <text x="${x/2 + offset}" y="14">${field.content}</text>
+    </g>
+    `;
   }
 
-  async plastic(badge: MappedBadge): Promise<string> {
-    // Map badge widths
-    let keyW = badge.titleWidth;
-    let valW = badge.valueWidth;
-
-    // If an icon exists, shift the widths
-    let keyX = keyW / 2;
-    if (badge.keyIconURI) {
-      keyW += 30;
-      keyX += 25;
-    }
-    valW = badge.dvsValue ? badge.dvsValue.length * 5.2 + 30 : badge.valueWidth;
-    let valX = keyW + (valW / 2);
-    let valWO = 0;
-    if (badge.valIconURI) {
-      valWO = 30;
-      valX += 25;
-    }
-
+  private plasticWrapper(internalContent: string, title: string, totalWidth: number): string {
     // Plastic style gradient
     const gradientDef = `
     <linearGradient id="a" x2="0" y2="100%">
@@ -107,37 +120,16 @@ export class BadgeService {
       <stop offset="1" stop-opacity=".1"/>
     </linearGradient>`;
 
-    // Return different styles for mono badges
-    if (badge.isMono)
-      return `
-      <svg xmlns="http://www.w3.org/2000/svg" width="${keyW}" height="20">
-        ${gradientDef}
-        <rect rx="3" width="${keyW}" height="20" fill="${badge.keyCString}"/>
-        <rect rx="3" width="${keyW}" height="20" fill="url(#a)"/>
-        <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
-          <text x="${keyW / 2}" y="15" fill="#010101" fill-opacity=".3">${badge.title}</text>
-          <text x="${keyW / 2}" y="14">${badge.title}</text>
-        </g>
-      </svg>`;
-    else {
-      return `
-      <svg xmlns="http://www.w3.org/2000/svg" width="${keyW + valW + valWO}" height="20">
-        ${gradientDef}
-        <rect rx="3" width="${keyW + valW}" height="20" fill="${badge.keyCString}"/>
-        <rect rx="3" x="${keyW}" width="${valW + valWO}" height="20" fill="${badge.valCString}"/>
-        <rect rx="3" width="${keyW + valW + valWO}" height="20" fill="url(#a)"/>
-        <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
-          <image x="12" y="3" height="14px" width="14px" href="${badge.keyIconURI ?? ""}" />
-          <text x="${keyX}" y="15" fill="#010101" fill-opacity=".3">${badge.title}</text>
-          <text x="${keyX}" y="14">${badge.title}</text>
-          <image x="${keyW + 12}" y="3" height="14px" width="14px" href="${badge.valIconURI ?? ""}" />
-          <text x="${valX}" y="15" fill="#010101" fill-opacity=".3">${badge.dvsValue ?? badge.value}</text>
-          <text x="${valX}" y="14">${badge.dvsValue ?? badge.value}</text>
-        </g>
-      </svg>`;
-    }
+    return `
+    <svg xmlns="http://www.w3.org/2000/svg" width="${totalWidth}" height="20">
+      ${gradientDef}
+      <rect rx="3" width="${totalWidth}" height="20" fill="url(#a)"/>
+      ${internalContent}
+    </svg>
+    `;
   }
 
+  /*
   async flat(badge: MappedBadge): Promise<string> {
     // Map badge widths
     let keyW = badge.titleWidth;
@@ -229,5 +221,5 @@ export class BadgeService {
         </g>
       </svg>`;
     }
-  }
+  }*/
 }

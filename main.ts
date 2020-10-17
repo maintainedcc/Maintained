@@ -1,3 +1,4 @@
+
 import { 
   exists, 
   getCookies, 
@@ -95,7 +96,7 @@ for await (const req of s) {
         // Get, format, and return badge
         const badgeData = await data.getBadge(badgeParams[1], badgeParams[2], parseInt(badgeParams[3]));
         if (badgeData) {
-          const badge = await badger.badge(badgeData);
+          const badge = await badger.generate(badgeData);
           req.respond({ 
             body: badge, 
             status: 200,
@@ -157,46 +158,11 @@ for await (const req of s) {
     continue;
 
     case "/api/badges/update": (async () => {
-      const p = {
-        project: params.get("project") ?? "",
-        bId: parseInt(params.get("id") ?? "-1"),
-        key: params.get("key"),
-        val: params.get("val"),
-        keyW: parseInt(params.get("keyW") ?? ""),
-        valW: parseInt(params.get("valW") ?? "")
-      }
-      const updBadge = await data.updateBadge(id, p.project, p.bId, p.key, p.val, p.keyW, p.valW);
+      const p = { project: params.get("project") ?? "" };
+      const body = await Deno.readAll(req.body);
+      const badge = JSON.parse(new TextDecoder("utf8").decode(body));
+      const updBadge = await data.updateBadge(id, p.project, badge);
       
-      if (!updBadge) { req.respond({ status: 400 }); return }
-      req.respond({ body: JSON.stringify(updBadge), status: 200 });
-    })();
-    continue;
-
-    case "/api/badges/meta": (async () => {
-      const p = {
-        project: params.get("project") ?? "",
-        bId: parseInt(params.get("id") ?? "-1"),
-        style: parseInt(params.get("style") ?? ""),
-        titleColor: parseInt(params.get("colorRight") ?? ""),
-        valueColor: parseInt(params.get("colorLeft") ?? ""),
-        isMono: params.get("isMono") ?? ""
-      }
-      const updBadge = await data.updateBadgeMeta(id, p.project, p.bId, p.style, p.titleColor, p.valueColor, p.isMono);
-
-      if (!updBadge) { req.respond({ status: 400 }); return }
-      req.respond({ body: JSON.stringify(updBadge), status: 200 });
-    })();
-    continue;
-
-    case "/api/badges/adv": (async () => {
-      const p = {
-        project: params.get("project") ?? "",
-        bId: parseInt(params.get("id") ?? ""),
-        redirect: params.get("redirect"),
-        valueSource: params.get("valueSource")
-      }
-      const updBadge = await data.updateBadgeAdv(id, p.project, p.bId, p.redirect, p.valueSource);
-
       if (!updBadge) { req.respond({ status: 400 }); return }
       req.respond({ body: JSON.stringify(updBadge), status: 200 });
     })();
