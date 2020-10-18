@@ -239,13 +239,13 @@ const updateBadge = debounce((project, badgeId) => {
     title: {
       content: newKey,
       color: 0,
-      width: getStringPixelWidth(newKey, "11px Verdana") + 25
+      width: getStringPixelWidth(newKey, "11px Verdana")
     },
     values: [{
       content: newVal,
-      color: 2,
-      width: getStringPixelWidth(newVal, "11px Verdana") + 25,
-      source: null
+      color: 5,
+      width: getStringPixelWidth(newVal, "11px Verdana"),
+      source: "https://wisdomduck.sdbagel.com/api/wisdom/dispense"
     }],
     redirect: null,
     style: 0

@@ -52,7 +52,11 @@ export class BadgeService {
     if (f.source) {
       await fetch(f.source)
       .then(res => res.text())
-      .then(res => { field.content = res; })
+      .then(res => { 
+        // Update content and content width
+        field.content = res;
+        field.width = field.content.length * 5.7;
+      })
       .catch(ex => console.warn(ex));
     }
 
@@ -64,13 +68,13 @@ export class BadgeService {
         return {
           content: this.plastic(field, colorString, iconURI ?? null, offset),
           title: field.content,
-          width: field.content.length * 5.2 + 50
+          width: field.width
         }
       case BadgeStyle.Flat:
         return {
           content: this.flat(field, colorString, iconURI ?? null, offset),
           title: field.content,
-          width: field.content.length * 5.2 + 50
+          width: field.width
         }
       default:
         return { content: "", title: "", width: 0 };
@@ -108,8 +112,9 @@ export class BadgeService {
   }
 
   private plastic(field: BadgeField, color: string, iconURI: string|null = null, offset = 0): string {
-    field.width = field.content.length * 5.2 + 30;
-    let x = field.width + 20;
+    // 20px padding
+    field.width += 20;
+    let x = field.width;
     if (iconURI) x += 36;
 
     return `
@@ -141,8 +146,9 @@ export class BadgeService {
   }
 
   private flat(field: BadgeField, color: string, iconURI: string|null = null, offset = 0): string {
-    field.width = field.content.length * 5.2 + 30;
-    let x = field.width + 20;
+    // 20px padding
+    field.width += 20;
+    let x = field.width;
     if (iconURI) x += 36;
 
     return `
