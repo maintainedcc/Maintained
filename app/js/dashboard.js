@@ -68,20 +68,25 @@ function templator() {
   }
 
   return {
-    badgeEditor: (project, id, label, value, colorLeft, colorRight, style, mono, valueSource, redirect) => {
+    badgeEditor: (project, id, badge) => {
+      function badgeField(project, id, field, qualifier) {
+        return `
+        <input id="badge-${project}-${id}-${qualifier}" type="text" class="badge-right" style="background-color:${colorMap(field.color)}" 
+          value="${field.content}" spellcheck="false" oninput="updateBadge('${project}', ${id})" onchange="hideSaveBadge('${project}')">
+        `
+      }
+
       return `
-      <li id="badge-${project}-${id}"><div class="badge-editor style-${styleMap(style)}">
-        <input id="badge-${project}-${id}-title" type="text" class="badge-left" style="background-color:${colorMap(colorLeft)}" 
-          value="${label}" spellcheck="false" oninput="updateBadge('${project}', ${id}, this.value)" onchange="hideSaveBadge('${project}')">
-        <input id="badge-${project}-${id}-value" type="text" class="badge-right ${mono ? "hidden" : ""}" style="background-color:${colorMap(colorRight)}" 
-          value="${value}" spellcheck="false" oninput="updateBadge('${project}', ${id}, '', this.value)" onchange="hideSaveBadge('${project}')">
+      <li id="badge-${project}-${id}"><div class="badge-editor style-${styleMap(badge.style)}">
+        ${badgeField(project, id, badge.title, "title")}
+        ${badgeField(project, id, badge.values[0], "value")}
         <div class="badge-actions">
           <div class="badge-ind-group">
-            <span class="badge-ind ${valueSource ? "" : "hidden"}" title="Badge is using a dynamic value source. Value is treated as fallback text.">⚡</span>
-            <span class="badge-ind ${redirect ? "" : "hidden"}" title="Badge has a redirect URL and uses Link Direct.">🔗</span>
+            <span class="badge-ind ${badge.values[0].source ? "" : "hidden"}" title="Badge is using a dynamic value source. Value is treated as fallback text.">⚡</span>
+            <span class="badge-ind ${badge.redirect ? "" : "hidden"}" title="Badge has a redirect URL and uses Link Direct.">🔗</span>
           </div>
-          <button onclick="toggleBadgeEditDialog('${project}', ${id}, ${style}, ${mono}, ${colorLeft}, ${colorRight}, '${valueSource ?? ""}', '${redirect ?? ""}')" aria-label="Additional Badge Settings"><img src="./img/maintained_settings.svg" alt="⚙" /></button>
-          <button class="icon-md" onclick="copyMd('${project}', ${id}, '${redirect}')" aria-label="Copy Markdown"></button>
+          <button onclick="toggleBadgeEditDialog('${project}', ${id}, ${badge.style}, ${!badge.values ? true : false}, ${badge.title.color}, ${badge.values[0].color}, '${badge.values[0].source ?? ""}', '${badge.redirect ?? ""}')" aria-label="Additional Badge Settings"><img src="./img/maintained_settings.svg" alt="⚙" /></button>
+          <button class="icon-md" onclick="copyMd('${project}', ${id}, '${badge.redirect}')" aria-label="Copy Markdown"></button>
           <button class="icon-close" onclick="toggleDeleteDialog('Delete badge ${id}?', 'Delete', 'deleteBadge(\\'${project}\\', ${id})')" aria-label="Delete Badge"></button>
         </div>
       </div></li>`
@@ -181,8 +186,7 @@ function buildDashboard(data) {
 function getBadges(project) {
   let badgesHtml = "";
   project.badges.forEach(badge => {
-    badgesHtml += template.badgeEditor(project.title, badge.id, badge.title, 
-      badge.value, badge.titleColor, badge.valueColor, badge.style, badge.isMono, badge.valueSource, badge.redirect);
+    badgesHtml += template.badgeEditor(project.title, badge.id, badge);
   });
   return badgesHtml;
 }
@@ -193,8 +197,7 @@ function createBadge(project) {
   .then(res => {
     res = JSON.parse(res);
     const badgeGroup = document.getElementById(`badge-group-${project}`);
-    badgeGroup.innerHTML += template.badgeEditor(project, res.id,
-      res.title, res.value, res.titleColor, res.valueColor, res.style, res.isMono, res.valueSource, res.redirect);
+    badgeGroup.innerHTML += template.badgeEditor(project, res.id, res);
   })
   .catch(ex => {
     const saveBadge = document.getElementById(`save-${project}`);
@@ -218,28 +221,39 @@ function deleteBadge(project, badgeId) {
   });
 }
 
-const updateBadge = debounce((project, badgeId, newKey = "", newVal = "") => {
-  // This code updates the html value= tag on the badge
-  // When the DOM is updated, badges will revert to the old value= tag
-  // This means that even if a badge saved, it will visually revert.
+const updateBadge = debounce((project, badgeId) => {
+  // This code updates the html value= tag on the badge. Normally, 
+  // when the DOM is updated, badges will revert to the old value= tag
+  // meaning that even if a badge saved, it will visually revert.
   const badgeIdString = `badge-${project}-${badgeId}`;
+  const newKey = document.getElementById(`${badgeIdString}-title`).value,
+        newVal = document.getElementById(`${badgeIdString}-value`).value;
   if (newKey)
     document.getElementById(`${badgeIdString}-title`).setAttribute("value", newKey);
   if (newVal) {
     document.getElementById(`${badgeIdString}-value`).setAttribute("value", newVal);
   }
 
-  const params = {
-    project: project,
+  const badge = {
     id: badgeId,
-    key: encodeURI(newKey),
-    val: encodeURI(newVal),
-    keyW: getStringPixelWidth(newKey, "11px Verdana") + 25,
-    valW: getStringPixelWidth(newVal, "11px Verdana") + 25
+    title: {
+      content: newKey,
+      color: 0,
+      width: getStringPixelWidth(newKey, "11px Verdana") + 25
+    },
+    values: [{
+      content: newVal,
+      color: 2,
+      width: getStringPixelWidth(newVal, "11px Verdana") + 25,
+      source: null
+    }],
+    redirect: null,
+    style: 0
   }
-  const paramString = new URLSearchParams(params).toString();
+
   const saveBadge = document.getElementById(`save-${project}`);
-  fetch(`/api/badges/update?${paramString}`)
+  fetch(`/api/badges/update?project=${project}`, 
+    { method: "POST", body: JSON.stringify(badge) })
   .then(() => {
     saveBadge.classList.add("shown");
     saveBadge.classList.remove("error");
@@ -252,73 +266,6 @@ const updateBadge = debounce((project, badgeId, newKey = "", newVal = "") => {
     console.error(ex);
   });
 }, 300, false);
-
-function updateBadgeMeta(project, badgeId) {
-  const params = {
-    project: project,
-    id: badgeId,
-    style: document.getElementById("badge-edit-style").value,
-    isMono: document.getElementById("badge-edit-mono").value,
-    colorRight: document.getElementById("badge-edit-cr").value,
-    colorLeft: document.getElementById("badge-edit-cl").value
-  }
-  const paramString = new URLSearchParams(params).toString();
-  const saveBadge = document.getElementById(`save-${project}`);
-  fetch(`/api/badges/meta?${paramString}`)
-  .then(res => res.text())
-  .then(res => {
-    res = JSON.parse(res);
-    const updatedBadge = template.badgeEditor(project, res.id,
-      res.title, res.value, res.titleColor, res.valueColor, res.style, res.isMono, res.valueSource, res.redirect);
-    // TODO: Temp solution for parsing HTML strings (IE9+)
-    // Has good browser compat, but probably want to replace with appendChild sometime
-    const fragment = document.createRange().createContextualFragment(updatedBadge);
-    const currentBadge = document.getElementById(`badge-${project}-${badgeId}`);
-    currentBadge.parentNode.replaceChild(fragment, currentBadge);
-  })
-  .then(() => {
-    saveBadge.classList.add("shown");
-    saveBadge.classList.remove("error");
-    saveBadge.innerText = "Saved";
-  })
-  .then(hideDialog())
-  .catch(ex => {
-    saveBadge.classList.add("shown");
-    saveBadge.classList.add("error");
-    saveBadge.innerText = "Error saving!";
-    console.error(ex);
-  });
-}
-
-function updateBadgeAdv(project, badgeId) {
-  const params = {
-    project: project,
-    id: badgeId,
-    redirect: document.getElementById("badge-edit-redir").value,
-    valueSource: document.getElementById("badge-edit-dvs").value
-  }
-  const paramString = new URLSearchParams(params).toString();
-  fetch(`/api/badges/adv?${paramString}`)
-  .then(res => res.text())
-  .then(res => {
-    res = JSON.parse(res);
-    const updatedBadge = template.badgeEditor(project, res.id,
-      res.title, res.value, res.titleColor, res.valueColor, res.style, res.isMono, res.valueSource, res.redirect);
-    // TODO: Temp solution for parsing HTML strings (IE9+)
-    // Has good browser compat, but probably want to replace with appendChild sometime
-    const fragment = document.createRange().createContextualFragment(updatedBadge);
-    const currentBadge = document.getElementById(`badge-${project}-${badgeId}`);
-    currentBadge.parentNode.replaceChild(fragment, currentBadge);
-  })
-  .then(toggleBadgeAdvancedDialog())
-  .catch(ex => {
-    hideDialog();
-    saveBadge.classList.add("shown");
-    saveBadge.classList.add("error");
-    saveBadge.innerText = "Error saving!";
-    console.error(ex);
-  });
-}
 
 const hideSaveBadge = debounce((project) => {
   document.getElementById(`save-${project}`).className = "project-save";

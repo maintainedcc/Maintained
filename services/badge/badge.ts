@@ -25,7 +25,8 @@ export class BadgeService {
     let totalWidth = title.width;
     let innerContent = title.content;
     let accessibleTitle = [ title.title ];
-    // FIX ASYNC HERE
+    
+    // Compile badge partials
     if (badge.values)
       for (let i = 0; i < badge.values.length; i++) {
         const part = await this.generatePartial(badge.values[i], badge.style, totalWidth);
