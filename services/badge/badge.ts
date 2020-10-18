@@ -16,27 +16,26 @@ interface BadgePartial {
 
 export class BadgeService {
   private iconService: IconService;
-
   constructor() {
     this.iconService = new IconService();
   }
 
   async generate(badge: Badge): Promise<string> {
     const title = await this.generatePartial(badge.title, badge.style, 0);
-    let offset = title.width;
+    let totalWidth = title.width;
     let innerContent = title.content;
-    let accessibleTitle: string[] = [ title.title ];
+    let accessibleTitle = [ title.title ];
     // FIX ASYNC HERE
     if (badge.values)
-      for (let i = 0; i < (badge.values ?? []).length; i++) {
-        const part = await this.generatePartial(badge.values[i], badge.style, offset);
-        offset += part.width;
+      for (let i = 0; i < badge.values.length; i++) {
+        const part = await this.generatePartial(badge.values[i], badge.style, totalWidth);
+        totalWidth += part.width;
         innerContent += part.content;
         accessibleTitle.push(part.title);
       }
 
     const aTitle = accessibleTitle.join(" ");
-    return this.generateWrapper(badge.style, innerContent, aTitle, offset);
+    return this.generateWrapper(badge.style, innerContent, aTitle, totalWidth);
   }
 
   private async generatePartial(field: BadgeField|BadgeFieldDynamic, style: BadgeStyle, offset = 0): Promise<BadgePartial> {
