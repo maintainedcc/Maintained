@@ -26,12 +26,17 @@ export class BadgeService {
     let offset = title.width;
     let innerContent = title.content;
     let accessibleTitle: string[] = [ title.title ];
-    badge.values?.forEach(async value => {
-      const part = await this.generatePartial(value, badge.style, offset);
-      offset += part.width;
-      innerContent += part.content;
-      accessibleTitle.push(part.title);
-    })
+    // FIX ASYNC HERE
+    if (badge.values)
+      for (let i = 0; i < (badge.values ?? []).length; i++) {
+        const part = await this.generatePartial(badge.values[i], badge.style, offset);
+        offset += part.width;
+        innerContent += part.content;
+        accessibleTitle.push(part.title);
+        console.log(part);
+      }
+    
+    console.log(innerContent);
 
     const aTitle = accessibleTitle.join(" ");
     return this.generateWrapper(badge.style, innerContent, aTitle, offset);
@@ -62,7 +67,7 @@ export class BadgeService {
         return {
           content: this.plastic(field, colorString, iconURI ?? null, offset),
           title: field.content,
-          width: field.width * 5.2 + 30
+          width: field.content.length * 5.2 + 50
         }
       default:
         return { content: "", title: "", width: 0 };
@@ -98,7 +103,7 @@ export class BadgeService {
   }
 
   private plastic(field: BadgeField, color: string, iconURI: string|null = null, offset = 0): string {
-    field.width = field.width * 5.2 + 30;
+    field.width = field.content.length * 5.2 + 30;
     let x = field.width + 20;
     if (iconURI) x += 36;
 
@@ -129,53 +134,30 @@ export class BadgeService {
     `;
   }
 
-  /*
-  async flat(badge: MappedBadge): Promise<string> {
-    // Map badge widths
-    let keyW = badge.titleWidth;
-    let valW = badge.valueWidth;
+  private flat(field: BadgeField, color: string, iconURI: string|null = null, offset = 0): string {
+    field.width = field.content.length * 5.2 + 30;
+    let x = field.width + 20;
+    if (iconURI) x += 36;
 
-    // If an icon exists, shift the widths
-    let keyX = keyW / 2;
-    if (badge.keyIconURI) {
-      keyW += 30;
-      keyX += 25;
-    }
-    valW = badge.dvsValue ? badge.dvsValue.length * 5.2 + 30 : badge.valueWidth;
-    let valX = keyW + (valW / 2);
-    let valWO = 0;
-    if (badge.valIconURI) {
-      valWO = 30;
-      valX += 25;
-    }
-
-    if (badge.isMono)
-      return `
-      <svg xmlns="http://www.w3.org/2000/svg" width="${keyW}" height="20">
-        <rect width="${keyW}" height="20" fill="${badge.keyCString}"/>
-        <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
-          <image x="12" y="3" height="14px" width="14px" href="${badge.keyIconURI ?? ""}" />
-          <text x="${keyX}" y="15" fill="#010101" fill-opacity=".3">${badge.title}</text>
-          <text x="${keyX}" y="14">${badge.title}</text>
-        </g>
-      </svg>`;
-    else {
-      return `
-      <svg xmlns="http://www.w3.org/2000/svg" width="${keyW + valW + valWO}" height="20">
-        <rect width="${keyW + valW}" height="20" fill="${badge.keyCString}"/>
-        <rect x="${keyW}" width="${valW + valWO}" height="20" fill="${badge.valCString}"/>
-        <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
-          <image x="12" y="3" height="14px" width="14px" href="${badge.keyIconURI ?? ""}" />
-          <text x="${keyX}" y="15" fill="#010101" fill-opacity=".3">${badge.title}</text>
-          <text x="${keyX}" y="14">${badge.title}</text>
-          <image x="${keyW + 12}" y="3" height="14px" width="14px" href="${badge.valIconURI ?? ""}" />
-          <text x="${valX}" y="15" fill="#010101" fill-opacity=".3">${badge.dvsValue ?? badge.value}</text>
-          <text x="${valX}" y="14">${badge.dvsValue ?? badge.value}</text>
-        </g>
-      </svg>`;
-    }
+    return `
+    <rect x="${offset}" width="${x}" height="20" fill="${color}"/>
+    <g fill="#fff" text-anchor="middle" font-family="DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11">
+      <image x="${12 + offset}" y="3" height="14px" width="14px" href="${iconURI ?? ""}" />
+      <text x="${x/2 + offset}" y="15" fill="#010101" fill-opacity=".3">${field.content}</text>
+      <text x="${x/2 + offset}" y="14">${field.content}</text>
+    </g>
+    `;
   }
 
+  private flatWrapper(internalContent: string, title: string, totalWidth: number): string {
+    return `
+    <svg xmlns="http://www.w3.org/2000/svg" width="${totalWidth}" height="20">
+      ${internalContent}
+    </svg>
+    `;
+  }
+  
+  /*
   async ftb(badge: MappedBadge): Promise<string> {
     // Map badge widths
     let keyW = badge.titleWidth + 30;
