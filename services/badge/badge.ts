@@ -33,10 +33,7 @@ export class BadgeService {
         offset += part.width;
         innerContent += part.content;
         accessibleTitle.push(part.title);
-        console.log(part);
       }
-    
-    console.log(innerContent);
 
     const aTitle = accessibleTitle.join(" ");
     return this.generateWrapper(badge.style, innerContent, aTitle, offset);
@@ -69,6 +66,12 @@ export class BadgeService {
           title: field.content,
           width: field.content.length * 5.2 + 50
         }
+      case BadgeStyle.Flat:
+        return {
+          content: this.flat(field, colorString, iconURI ?? null, offset),
+          title: field.content,
+          width: field.content.length * 5.2 + 50
+        }
       default:
         return { content: "", title: "", width: 0 };
     }
@@ -78,6 +81,8 @@ export class BadgeService {
     switch (style) {
       case BadgeStyle.Plastic:
         return this.plasticWrapper(innerContent, title, totalWidth);
+      case BadgeStyle.Flat:
+        return this.flatWrapper(innerContent, title, totalWidth);
       default: throw EvalError("generateWrapper: Invalid badge style.");
     }
   }
@@ -127,6 +132,7 @@ export class BadgeService {
 
     return `
     <svg xmlns="http://www.w3.org/2000/svg" width="${totalWidth}" height="20">
+      <title>${title}</title>
       ${gradientDef}
       <rect rx="3" width="${totalWidth}" height="20" fill="url(#a)"/>
       ${internalContent}
@@ -152,11 +158,12 @@ export class BadgeService {
   private flatWrapper(internalContent: string, title: string, totalWidth: number): string {
     return `
     <svg xmlns="http://www.w3.org/2000/svg" width="${totalWidth}" height="20">
+      <title>${title}</title>
       ${internalContent}
     </svg>
     `;
   }
-  
+
   /*
   async ftb(badge: MappedBadge): Promise<string> {
     // Map badge widths
