@@ -1,6 +1,11 @@
 
 export const config = {
-  client_id: "", // Github Client ID
-  client_secret: "", // Github Client Secret
-  redirect_uri: "https://maintained.cc/oauth/callback" // Callback URL
+  // Serve Port
+  port: 8002,
+  // DB settings
+  database_name: "dev",
+  // Github ClientID, Secret, Callback
+  client_id: "",
+  client_secret: "", 
+  redirect_uri: "https://maintained.cc/oauth/callback"
 }

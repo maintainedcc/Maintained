@@ -1,5 +1,6 @@
 
-import { 
+import {
+  config,
   exists, 
   getCookies, 
   serve 
@@ -11,9 +12,8 @@ import {
   DataService
 } from './services/mod.ts';
 
-const port = 8001;
-const s = serve({ port: port });
-console.log(`http://localhost:${port}/`);
+const s = serve({ port: config.port });
+console.log(`http://localhost:${config.port}/`);
 
 const auth = new AuthService();
 const badger = new BadgeService();

@@ -1,5 +1,6 @@
 
-import { 
+import {
+  config,
   MongoClient, 
   Database, 
   Collection 
@@ -30,7 +31,7 @@ export class DataService {
     const client = new MongoClient();
     client.connectWithUri("mongodb://localhost:27017");
 
-    this.db = client.database("nightly");
+    this.db = client.database(config.database_name);
     this.dUsers = this.db.collection<User>("users");
 
     this.dUsers.count().then(num => {
