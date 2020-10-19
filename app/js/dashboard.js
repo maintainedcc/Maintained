@@ -253,15 +253,15 @@ function updateBadgeMeta(project, badgeId) {
     .find(p => p.title === project)
     .badges.find(b => b.id === badgeId);
 
-  badge.style = document.getElementById("badge-edit-style").value;
-  badge.title.color = document.getElementById("badge-edit-cl").value;
+  badge.style = parseInt(document.getElementById("badge-edit-style").value);
+  badge.title.color = parseInt(document.getElementById("badge-edit-cl").value);
 
   if (document.getElementById("badge-edit-mono").value === "true")
     badge.values = null;
   else if (!badge.values)
     badge.values = [{content:"Badge Value", color:5, width:90}];
   else
-    badge.values[0].color = document.getElementById("badge-edit-cr").value; 
+    badge.values[0].color = parseInt(document.getElementById("badge-edit-cr").value); 
 
   // Replace the badge editor HTML with updated badge
   const updatedBadge = template.badgeEditor(project, badgeId, badge);
