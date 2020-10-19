@@ -4,6 +4,7 @@
 
 environment/environment.ts
 environment/environment.dev.ts
+environment/environment.nightly.ts
 
 services/badge/icon/icons
 
