@@ -67,6 +67,9 @@ function templator() {
         return "plastic";
       case 1:
         return "flat";
+      case 2:
+        return "ftb";
+      default: return "none";
     }
   }
 
@@ -74,20 +77,25 @@ function templator() {
     badgeEditor: (project, id, badge) => {
       function badgeField(project, id, field, qualifier) {
         return `
-        <input id="badge-${project}-${id}-${qualifier}" type="text" class="badge-right" style="background-color:${colorMap(field.color)}" 
+        <input id="badge-${project}-${id}-${qualifier}" type="text" class="badge-right" style="background-color:${colorMap(parseInt(field.color))}" 
           value="${field.content}" spellcheck="false" oninput="updateBadgeField('${project}', ${id}, '${qualifier}')" onchange="hideSaveBadge('${project}')">`
       }
 
+      const valueFields = badge.values?.reduce((fields, value) => {
+        fields += badgeField(project, id, value, "value");
+        return fields;
+      }, "");
+
       return `
-      <li id="badge-${project}-${id}"><div class="badge-editor style-${styleMap(badge.style)}">
+      <li id="badge-${project}-${id}"><div class="badge-editor style-${styleMap(parseInt(badge.style))}">
         ${badgeField(project, id, badge.title, "title")}
-        ${badgeField(project, id, badge.values[0], "value")}
+        ${valueFields ?? ""}
         <div class="badge-actions">
           <div class="badge-ind-group">
-            <span class="badge-ind ${badge.values[0].source ? "" : "hidden"}" title="Badge is using a dynamic value source. Value is treated as fallback text.">⚡</span>
+            <span class="badge-ind ${badge.values?.[0].source ? "" : "hidden"}" title="Badge is using a dynamic value source. Value is treated as fallback text.">⚡</span>
             <span class="badge-ind ${badge.redirect ? "" : "hidden"}" title="Badge has a redirect URL and uses Link Direct.">🔗</span>
           </div>
-          <button onclick="toggleBadgeEditDialog('${project}', ${id}, ${badge.style}, ${!badge.values ? true : false}, ${badge.title.color}, ${badge.values[0].color}, '${badge.values[0].source ?? ""}', '${badge.redirect ?? ""}')" aria-label="Additional Badge Settings"><img src="./img/maintained_settings.svg" alt="⚙" /></button>
+          <button onclick="toggleBadgeEditDialog('${project}', ${id}, ${badge.style}, ${!badge.values ? true : false}, ${badge.title.color}, ${badge.values?.[0].color}, '${badge.values?.[0].source ?? ""}', '${badge.redirect ?? ""}')" aria-label="Additional Badge Settings"><img src="./img/maintained_settings.svg" alt="⚙" /></button>
           <button class="icon-md" onclick="copyMd('${project}', ${id}, '${badge.redirect}')" aria-label="Copy Markdown"></button>
           <button class="icon-close" onclick="toggleDeleteDialog('Delete badge ${id}?', 'Delete', 'deleteBadge(\\'${project}\\', ${id})')" aria-label="Delete Badge"></button>
         </div>
@@ -238,6 +246,31 @@ function updateBadgeField(project, badgeId, qualifier) {
   if (qualifier === "value") badge.values[0].content = badgeEl.value;
 
   updateBadge(project, badgeId);
+}
+
+function updateBadgeMeta(project, badgeId) {
+  const badge = user.projects
+    .find(p => p.title === project)
+    .badges.find(b => b.id === badgeId);
+
+  badge.style = document.getElementById("badge-edit-style").value;
+  badge.title.color = document.getElementById("badge-edit-cl").value;
+
+  if (document.getElementById("badge-edit-mono").value === "true")
+    badge.values = null;
+  else if (!badge.values)
+    badge.values = [{content:"Badge Value", color:5, width:90}];
+  else
+    badge.values[0].color = document.getElementById("badge-edit-cr").value; 
+
+  // Replace the badge editor HTML with updated badge
+  const updatedBadge = template.badgeEditor(project, badgeId, badge);
+  const fragment = document.createRange().createContextualFragment(updatedBadge);
+  const currentBadge = document.getElementById(`badge-${project}-${badgeId}`);
+  currentBadge.parentNode.replaceChild(fragment, currentBadge);
+
+  updateBadge(project, badgeId);
+  hideDialog();
 }
 
 // Update a badge based on local store content
