@@ -11,6 +11,9 @@
 </p>
 <hr>
 
+## [Maintained Nightly]
+This is the unstable or nightly branch of Maintained. Expect things to not work at best on this branch.
+
 ## Use Cases
 Some cool stuff you can do with Maintained:
 
