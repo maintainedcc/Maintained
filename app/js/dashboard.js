@@ -273,6 +273,26 @@ function updateBadgeMeta(project, badgeId) {
   hideDialog();
 }
 
+function updateBadgeAdv(project, badgeId) {
+  const badge = user.projects
+    .find(p => p.title === project)
+    .badges.find(b => b.id === badgeId);
+
+  badge.redirect = document.getElementById("badge-edit-redir").value;
+
+  if (badge.values)
+    badge.values[0].source = document.getElementById("badge-edit-dvs").value;
+
+  // Replace the badge editor HTML with updated badge
+  const updatedBadge = template.badgeEditor(project, badgeId, badge);
+  const fragment = document.createRange().createContextualFragment(updatedBadge);
+  const currentBadge = document.getElementById(`badge-${project}-${badgeId}`);
+  currentBadge.parentNode.replaceChild(fragment, currentBadge);
+
+  updateBadge(project, badgeId);
+  hideDialog();
+}
+
 // Update a badge based on local store content
 // Not intended to be called directly by UI
 const updateBadge = debounce((project, badgeId) => {
