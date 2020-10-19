@@ -16,9 +16,10 @@ function debounce(func, wait, immediate) {
 	};
 };
 
-// Global auth object to stop auth being passed around
-const auth = {
-  userId: ""
+// Global user data object
+const user = {
+  id: "",
+  projects: []
 }
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -27,13 +28,15 @@ document.addEventListener("DOMContentLoaded", () => {
   .then(res => res.text())
   .then(res => {
     const data = JSON.parse(res);
-    auth.userId = data.name;
+    user.id = data.name;
+    user.projects = data.projects;
     buildDashboard(data);
   });
 
   document.addEventListener("click", hideProfileDropdown);
 });
 
+// Budget React components
 function templator() {
   // Matches the BadgeColor enum
   function colorMap(color) {
@@ -72,8 +75,7 @@ function templator() {
       function badgeField(project, id, field, qualifier) {
         return `
         <input id="badge-${project}-${id}-${qualifier}" type="text" class="badge-right" style="background-color:${colorMap(field.color)}" 
-          value="${field.content}" spellcheck="false" oninput="updateBadge('${project}', ${id})" onchange="hideSaveBadge('${project}')">
-        `
+          value="${field.content}" spellcheck="false" oninput="updateBadge('${project}', ${id})" onchange="hideSaveBadge('${project}')">`
       }
 
       return `
@@ -222,9 +224,6 @@ function deleteBadge(project, badgeId) {
 }
 
 const updateBadge = debounce((project, badgeId) => {
-  // This code updates the html value= tag on the badge. Normally, 
-  // when the DOM is updated, badges will revert to the old value= tag
-  // meaning that even if a badge saved, it will visually revert.
   const badgeIdString = `badge-${project}-${badgeId}`;
   const newKey = document.getElementById(`${badgeIdString}-title`).value,
         newVal = document.getElementById(`${badgeIdString}-value`).value;
@@ -234,7 +233,10 @@ const updateBadge = debounce((project, badgeId) => {
     document.getElementById(`${badgeIdString}-value`).setAttribute("value", newVal);
   }
 
-  const badge = {
+  const badge = user.projects
+    .find(p => p.title === project)
+    .find(b => b.id === badgeId);
+  /*{
     id: badgeId,
     title: {
       content: newKey,
@@ -249,7 +251,7 @@ const updateBadge = debounce((project, badgeId) => {
     }],
     redirect: null,
     style: 0
-  }
+  }*/
 
   const saveBadge = document.getElementById(`save-${project}`);
   fetch(`/api/badges/update?project=${project}`, 
@@ -266,6 +268,14 @@ const updateBadge = debounce((project, badgeId) => {
     console.error(ex);
   });
 }, 300, false);
+
+function updateBadgeField(project, badgeId, qualifier, identifier = 0) {
+  // This code updates the html value= tag on the badge. Normally, 
+  // when the DOM is updated, badges will revert to the old value= tag.
+  // This code prevents that by embedding the data back into the HTML.
+  const badge = document.getElementById(`badge-${project}-${badgeId}-${qualifier}`);
+  badge.setAttribute("value", badge.value);
+}
 
 const hideSaveBadge = debounce((project) => {
   document.getElementById(`save-${project}`).className = "project-save";
@@ -360,7 +370,7 @@ function stopPropagation(e) {
 }
 
 function copyMd(project, id, redir) {
-  const url = `https://${window.location.host}/${auth.userId}/${project}/${id}`;
+  const url = `https://${window.location.host}/${user.id}/${project}/${id}`;
   let md = `![${url}](${url})`;
 
   if (redir) md = `[${md}](${url}/redirect)`;

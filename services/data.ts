@@ -30,7 +30,7 @@ export class DataService {
     const client = new MongoClient();
     client.connectWithUri("mongodb://localhost:27017");
 
-    this.db = client.database("dev");
+    this.db = client.database("nightly");
     this.dUsers = this.db.collection<User>("users");
 
     this.dUsers.count().then(num => {

@@ -11,8 +11,9 @@ import {
   DataService
 } from './services/mod.ts';
 
-const s = serve({ port: 8000 });
-console.log("http://localhost:8000/");
+const port = 8001;
+const s = serve({ port: 8001 });
+console.log(`http://localhost:${port}/`);
 
 const auth = new AuthService();
 const badger = new BadgeService();

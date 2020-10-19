@@ -40,7 +40,7 @@ export class BadgeService {
   }
 
   private async generatePartial(field: BadgeField|BadgeFieldDynamic, style: BadgeStyle, offset = 0): Promise<BadgePartial> {
-    // Parse potential icon
+    // Parse potential icon (:iconqualifier:)
     let iconURI, iconMatch = field.content.toLowerCase().match(/^:([A-z]+):/);
     if (iconMatch) {
       field.content = field.content.replace(iconMatch[0], "").trim();
