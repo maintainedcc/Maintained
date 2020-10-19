@@ -75,7 +75,7 @@ function templator() {
       function badgeField(project, id, field, qualifier) {
         return `
         <input id="badge-${project}-${id}-${qualifier}" type="text" class="badge-right" style="background-color:${colorMap(field.color)}" 
-          value="${field.content}" spellcheck="false" oninput="updateBadge('${project}', ${id})" onchange="hideSaveBadge('${project}')">`
+          value="${field.content}" spellcheck="false" oninput="updateBadgeField('${project}', ${id}, '${qualifier}')" onchange="hideSaveBadge('${project}')">`
       }
 
       return `
@@ -223,35 +223,29 @@ function deleteBadge(project, badgeId) {
   });
 }
 
-const updateBadge = debounce((project, badgeId) => {
-  const badgeIdString = `badge-${project}-${badgeId}`;
-  const newKey = document.getElementById(`${badgeIdString}-title`).value,
-        newVal = document.getElementById(`${badgeIdString}-value`).value;
-  if (newKey)
-    document.getElementById(`${badgeIdString}-title`).setAttribute("value", newKey);
-  if (newVal) {
-    document.getElementById(`${badgeIdString}-value`).setAttribute("value", newVal);
-  }
+function updateBadgeField(project, badgeId, qualifier) {
+  // This code updates the html value= tag on the badge. Normally, 
+  // when the DOM is updated, badges will revert to the old value= tag.
+  // This code prevents that by embedding the data back into the HTML.
+  const badgeEl = document.getElementById(`badge-${project}-${badgeId}-${qualifier}`);
+  badgeEl.setAttribute("value", badgeEl.value);
 
   const badge = user.projects
     .find(p => p.title === project)
-    .find(b => b.id === badgeId);
-  /*{
-    id: badgeId,
-    title: {
-      content: newKey,
-      color: 0,
-      width: getStringPixelWidth(newKey, "11px Verdana")
-    },
-    values: [{
-      content: newVal,
-      color: 5,
-      width: getStringPixelWidth(newVal, "11px Verdana"),
-      source: "https://wisdomduck.sdbagel.com/api/wisdom/dispense"
-    }],
-    redirect: null,
-    style: 0
-  }*/
+    .badges.find(b => b.id === badgeId);
+
+  if (qualifier === "title") badge.title.content = badgeEl.value;
+  if (qualifier === "value") badge.values[0].content = badgeEl.value;
+
+  updateBadge(project, badgeId);
+}
+
+// Update a badge based on local store content
+// Not intended to be called directly by UI
+const updateBadge = debounce((project, badgeId) => {
+  const badge = user.projects
+    .find(p => p.title === project)
+    .badges.find(b => b.id === badgeId);
 
   const saveBadge = document.getElementById(`save-${project}`);
   fetch(`/api/badges/update?project=${project}`, 
@@ -268,14 +262,6 @@ const updateBadge = debounce((project, badgeId) => {
     console.error(ex);
   });
 }, 300, false);
-
-function updateBadgeField(project, badgeId, qualifier, identifier = 0) {
-  // This code updates the html value= tag on the badge. Normally, 
-  // when the DOM is updated, badges will revert to the old value= tag.
-  // This code prevents that by embedding the data back into the HTML.
-  const badge = document.getElementById(`badge-${project}-${badgeId}-${qualifier}`);
-  badge.setAttribute("value", badge.value);
-}
 
 const hideSaveBadge = debounce((project) => {
   document.getElementById(`save-${project}`).className = "project-save";

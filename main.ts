@@ -12,7 +12,7 @@ import {
 } from './services/mod.ts';
 
 const port = 8001;
-const s = serve({ port: 8001 });
+const s = serve({ port: port });
 console.log(`http://localhost:${port}/`);
 
 const auth = new AuthService();
