@@ -27,13 +27,13 @@ for await (const req of s) {
 
   // Exposed routes
   switch (req.url) {
-    case "/oauth/callback":
+    case "/oauth/callback": (async () => {
       const code = params.get("code") ?? "";
       const state = params.get("state") ?? "";
 
       if (!code || state != "pog") {
         req.respond({ status: 400 });
-        continue;
+        return;
       }
       
       const token = await auth.getAccessToken(code, state);
@@ -47,9 +47,10 @@ for await (const req of s) {
           "Location": "/dashboard"
         })
       });
-      continue;
+    })();
+    continue;
 
-    case "/oauth/login":
+    case "/oauth/login": (async () => {
       const cookies = getCookies(req);
       if (cookies["token"] && auth.isAuthorized(cookies["token"])) {
         req.respond({ 
@@ -63,9 +64,10 @@ for await (const req of s) {
           headers: new Headers({ "Location": auth.getAuthURL() })
         });
       }
-      continue;
+    })();
+    continue;
 
-    case "/oauth/logout":
+    case "/oauth/logout": (async () => {
       req.respond({
         status: 302,
         headers: new Headers({
@@ -73,14 +75,16 @@ for await (const req of s) {
           "Location": "/" 
         })
       });
-      continue;
+    })();
+    continue;
 
-    case "/oauth/manage":
+    case "/oauth/manage": (async () => {
       req.respond({
         status: 302,
         headers: new Headers({ "Location": auth.getManagementURL() })
       });
-      continue;
+    })();
+    continue;
       
     case "/dashboard":
       req.url = "dashboard.html";
