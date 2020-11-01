@@ -34,7 +34,7 @@ export class BadgeService {
     // Compile badge partials
     if (badge.values)
       for (let i = 0; i < badge.values.length; i++) {
-        const part = await this.generatePartial(badge.values[i], badge.style, totalWidth, true);
+        const part = await this.generatePartial(badge.values[i], badge.style, totalWidth);
         totalWidth += part.width;
         innerContent += part.content;
         accessibleTitle.push(part.title);
@@ -44,7 +44,7 @@ export class BadgeService {
     return this.generateWrapper(badge.style, innerContent, aTitle, totalWidth);
   }
 
-  private async generatePartial(field: BadgeField|BadgeFieldDynamic, style: BadgeStyle, offset = 0, bold = false): Promise<BadgePartial> {
+  private async generatePartial(field: BadgeField|BadgeFieldDynamic, style: BadgeStyle, offset = 0): Promise<BadgePartial> {
     // Parse potential icon (:iconqualifier:)
     let iconURI, iconMatch = field.content.toLowerCase().match(/^:([A-z]+):/);
     if (iconMatch) {
@@ -83,7 +83,7 @@ export class BadgeService {
         }
       case BadgeStyle.ForTheBadge:
         return {
-          content: FTB.field(field, colorString, iconURI ?? null, offset, bold),
+          content: FTB.field(field, colorString, iconURI ?? null, offset, f.source ? true:false),
           title: field.content,
           width: field.width
         }

@@ -2,7 +2,7 @@
 import type { BadgeField } from '../../mod.defs.ts';
 
 export const Plastic = {
-  field (field: BadgeField, color: string, iconURI: string|null = null, offset = 0): string {
+  field(field: BadgeField, color: string, iconURI: string|null = null, offset = 0): string {
     // 20px padding
     field.width += 20;
     let x = field.width;
@@ -17,7 +17,17 @@ export const Plastic = {
     </g>`;
   },
 
-  wrapper (internalContent: string, title: string, totalWidth: number): string {
+  fieldHTML(field: BadgeField, color: string, iconURI: string|null = null): string {
+    // 20px padding
+    field.width += 20;
+    let x = field.width;
+    if (iconURI) x += 36;
+
+    return `
+    `;
+  }
+
+  wrapper(internalContent: string, title: string, totalWidth: number): string {
     // Plastic style gradient
     const gradientDef = `
     <linearGradient id="a" x2="0" y2="100%">

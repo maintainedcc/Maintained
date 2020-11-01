@@ -2,7 +2,7 @@
 import type { BadgeField } from '../../mod.defs.ts';
 
 export const Flat = {
-  field (field: BadgeField, color: string, iconURI: string|null = null, offset = 0): string {
+  field(field: BadgeField, color: string, iconURI: string|null = null, offset = 0): string {
     // 20px padding
     field.width += 20;
     let x = field.width;
@@ -17,7 +17,7 @@ export const Flat = {
     </g>`;
   },
 
-  wrapper (internalContent: string, title: string, totalWidth: number): string {
+  wrapper(internalContent: string, title: string, totalWidth: number): string {
     return `
     <svg xmlns="http://www.w3.org/2000/svg" width="${totalWidth}" height="20">
       <title>${title}</title>

@@ -2,7 +2,7 @@
 import type { BadgeField } from '../../mod.defs.ts';
 
 export const FTB = {
-  field (field: BadgeField, color: string, iconURI: string|null = null, offset = 0, bold = false): string {
+  field(field: BadgeField, color: string, iconURI: string|null = null, offset = 0, bold = false): string {
     // Text uppercase transform
     field.content = field.content.toUpperCase();
     // Custom kerning
@@ -20,7 +20,7 @@ export const FTB = {
     </g>`;
   },
 
-  wrapper (internalContent: string, title: string, totalWidth: number): string {
+  wrapper(internalContent: string, title: string, totalWidth: number): string {
     return `
     <svg xmlns="http://www.w3.org/2000/svg" width="${totalWidth}" height="36">
       <title>${title}</title>
