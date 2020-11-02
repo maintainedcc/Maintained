@@ -1,15 +1,15 @@
 
 # Src
-.deno_plugins/*
+server/.deno_plugins/*
 
-environment/environment.ts
-environment/environment.dev.ts
-environment/environment.nightly.ts
+server/environment/environment.nightly.ts
+server/environment/environment.dev.ts
+server/environment/environment.ts
 
-services/badge/icon/icons
+server/app
+
+server/services/badge/icon/icons
 
 # Editor settings
 .vscode/settings.json
 tsconfig.json
-
-dev.bat
