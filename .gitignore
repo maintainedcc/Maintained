@@ -1,5 +1,5 @@
 
-# Src
+# Server source
 server/.deno_plugins/*
 
 server/environment/environment.nightly.ts
