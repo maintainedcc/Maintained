@@ -25,7 +25,7 @@ export const Plastic = {
 
     return `
     `;
-  }
+  },
 
   wrapper(internalContent: string, title: string, totalWidth: number): string {
     // Plastic style gradient
