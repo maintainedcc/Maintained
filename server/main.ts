@@ -87,7 +87,7 @@ for await (const req of s) {
     continue;
       
     case "/dashboard":
-      req.url = "dashboard.html";
+      req.url = "index.html";
       break;
 
     case "/":

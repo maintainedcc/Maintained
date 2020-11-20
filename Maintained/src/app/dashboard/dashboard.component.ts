@@ -12,4 +12,8 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  log(): void {
+    console.log("pog");
+  }
+
 }

@@ -1,0 +1,84 @@
+
+.badge-btn {
+  display: flex;
+
+  height: 50px;
+  line-height: 50px;
+
+  .badge-left, .badge-right {
+    background-color: #000;
+    color: #fff;
+    font-size: 1rem;
+    padding: 0 20px;
+    text-align: center;
+    text-shadow: #0006 1px 1px 5px;
+    text-transform: uppercase;
+  }
+
+  .badge-left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-family: roboto, sans-serif;
+    font-weight: 500;
+
+    img {
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
+    }
+  }
+
+  .badge-right {
+    letter-spacing: 3px;
+    font-family: montserrat, sans-serif;
+    font-weight: 800;
+  }
+
+  &.badge-small {
+    height: 40px;
+    line-height: 40px;
+
+    @media (max-width: 768px) {
+      .badge-left, .badge-right {
+        padding: 0 10px;
+      }
+    }
+  }
+}
+
+.badge-btn {
+  border: none;
+  border-radius: 0;
+  padding: 0;
+
+  .badge-right {
+    background-color: #662d91;
+    flex: 1 0;
+    text-align: center;
+  }
+}
+
+a.badge-btn {
+  display: inline-flex;
+  text-decoration: none;
+}
+
+button.badge-btn, a.badge-btn {
+  cursor: pointer;
+
+  .badge-right {
+    background-image: linear-gradient(45deg, #662d91 49.9%, #f15a24 50%);
+    background-size: 300%;
+    background-repeat: repeat-x;
+    transition: background;
+    transition-duration: 0.6s;
+    min-width: 80px;
+  }
+
+  &:hover, &:focus {
+    .badge-right {
+      background-position-x: -220px;
+    }
+  }
+}

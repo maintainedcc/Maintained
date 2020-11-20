@@ -1,0 +1,38 @@
+
+.dashboard-section {
+  background-color: #fff;
+  border-radius: 5px;
+
+  max-width: 700px;
+  margin: 30px auto;
+  padding: 20px;
+
+  h1 {
+    margin: 0;
+  }
+
+  @media (min-width: 768px) {
+    margin: 50px auto;
+    padding: 30px;
+  }
+}
+
+.dashboard-nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#welcome {
+  display: none;
+
+  p {
+    font-size: 1.2rem;
+    line-height: 2.2rem;
+  }
+
+  &.shown {
+    display: block;
+  }
+}
