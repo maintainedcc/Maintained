@@ -1,0 +1,11 @@
+
+# Server source
+.deno_plugins/*
+
+environment/environment.nightly.ts
+environment/environment.dev.ts
+environment/environment.ts
+
+app
+
+services/badge/icon/icons
