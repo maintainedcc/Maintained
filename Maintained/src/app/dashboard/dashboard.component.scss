@@ -36,3 +36,37 @@
     display: block;
   }
 }
+
+.loader {
+  .loader-title {
+    animation: bg-loader 2s linear infinite forwards;
+    background-image: linear-gradient(45deg, #ddd 20%, #ccc 50%, #ddd 80%);
+    background-size: 500px;
+    display: block;
+    height: 30px;
+    width: 200px;
+    margin-bottom: 20px;
+  }
+
+  .loader-badge {
+    animation: bg-loader 2s linear infinite forwards;
+    background-image: linear-gradient(45deg, #ddd 20%, #ccc 50%, #ddd 80%);
+    background-size: 500px;
+    display: block;
+    height: 50px;
+    width: 100%;
+    
+    &:not(:last-of-type) {
+      margin-bottom: 20px;
+    }
+  }
+}
+
+@keyframes bg-loader {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: 500px;
+  }
+}

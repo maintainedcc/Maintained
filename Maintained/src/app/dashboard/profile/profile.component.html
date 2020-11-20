@@ -1,0 +1,10 @@
+
+<div class="profile-icon">
+  <button (click)="show()"><img src="assets/img/favicon.png" alt="Icon"></button>
+  <div class="profile-options" [ngClass]="{'collapsed' : collapsed}">
+    <h2>Account</h2>
+    <br>
+    <app-badge-btn href="/oauth/manage" leftText="Manage Token"></app-badge-btn>
+    <app-badge-btn href="/oauth/logout" leftText="Log Out"></app-badge-btn>
+  </div>
+</div>

@@ -1,18 +1,25 @@
 
 .badge-btn {
+  border: none;
+  border-radius: 0;
   display: flex;
 
+  width: 100%;
   height: 50px;
   line-height: 50px;
+  padding: 0;
 
   .badge-left, .badge-right {
     background-color: #000;
     color: #fff;
     font-size: 1rem;
     padding: 0 20px;
+    flex: 1 1;
+
     text-align: center;
     text-shadow: #0006 1px 1px 5px;
     text-transform: uppercase;
+    white-space: nowrap;
   }
 
   .badge-left {
@@ -30,9 +37,12 @@
   }
 
   .badge-right {
+    background-color: #662d91;
     letter-spacing: 3px;
     font-family: montserrat, sans-serif;
     font-weight: 800;
+    text-align: center;
+    flex: 1 0;
   }
 
   &.badge-small {
@@ -44,18 +54,6 @@
         padding: 0 10px;
       }
     }
-  }
-}
-
-.badge-btn {
-  border: none;
-  border-radius: 0;
-  padding: 0;
-
-  .badge-right {
-    background-color: #662d91;
-    flex: 1 0;
-    text-align: center;
   }
 }
 

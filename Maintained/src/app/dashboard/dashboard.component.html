@@ -2,15 +2,7 @@
   <header class="dashboard-section">
     <nav class="dashboard-nav">
       <app-badge-btn (click)="log()" leftText="Create" rightText="New"></app-badge-btn>
-      <div class="profile-icon" onclick="stopPropagation(event);">
-        <button onclick="toggleProfileDropdown(event)"><img src="assets/img/favicon.png" alt="Icon"></button>
-        <div id="profileDropdown" class="profile-options collapsed">
-          <h2>Account</h2>
-          <br>
-          <app-badge-btn href="/oauth/manage" leftText="Manage Token"></app-badge-btn>
-          <app-badge-btn href="/oauth/logout" leftText="Log Out"></app-badge-btn>
-        </div>
-      </div>
+      <dashboard-profile></dashboard-profile>
     </nav>
   </header>
   <section id="welcome" class="dashboard-section project">
@@ -35,8 +27,6 @@
     <span class="loader-badge"></span>
   </section>
   <footer class="dashboard-section">
-    <b>&copy; 2020 | Made by SDBagel</b>
-    <br>
-    <b>Badges: <a href="https://forthebadge.com">For the Badge</a> | <a href="https://shields.io">Shields</a></b>
+    <b>&copy; 2020 | <a href="https://sdbagel.com">Made by SDBagel</a> | <a href="https://forthebadge.com">For the Badge</a> | <a href="https://shields.io">Shields</a></b>
   </footer>
 </main>
