@@ -9,6 +9,7 @@ export class BadgeBtnComponent {
   @Input() href?: string;
   @Input() leftText?: string;
   @Input() rightText?: string;
+  @Input() styles?: string;
 
   constructor() { }
 

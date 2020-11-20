@@ -1,27 +1,29 @@
 <main>
   <header class="dashboard-section">
     <nav class="dashboard-nav">
-      <app-badge-btn (click)="log()" leftText="Create" rightText="New"></app-badge-btn>
+      <app-badge-btn leftText="Create" rightText="New"></app-badge-btn>
       <dashboard-profile></dashboard-profile>
     </nav>
   </header>
-  <section id="welcome" class="dashboard-section project">
+  <section id="welcome" class="dashboard-section" *ngIf="firstTime">
     <div class="project-header">
       <h2>Maintained/Welcome</h2>
       <div class="project-actions">
-        <button class="icon-close" title="Hide Welcome" onclick="hideWelcome()"></button>
+        <button class="icon-close" title="Hide Welcome" (click)="hideWelcome()"></button>
       </div>
     </div>
     <p>Welcome to Maintained! This is your dashboard. Create and edit your items from here. Your changes automatically save, so no worries! We included a starter project to get you going - try clicking the badge fields to edit them.</p>
   </section>
-  <div id="projects"></div>
+  <div id="projects">
+    <dashboard-project *ngFor="let project of projects" [project]="project"></dashboard-project>
+  </div>
   <section id="dov" class="collapsed" onmousedown="hideDialog()">
     <div class="dialog-wrapper">
       <div id="dialog" class="dialog" onmousedown="stopPropagation(event)"></div>
       <div id="adv-dialog" class="dialog" onmousedown="stopPropagation(event)"></div>
     </div>
   </section>
-  <section id="loader" class="dashboard-section loader">
+  <section id="loader" class="dashboard-section loader" *ngIf="!projects">
     <span class="loader-title"></span>
     <span class="loader-badge"></span>
     <span class="loader-badge"></span>

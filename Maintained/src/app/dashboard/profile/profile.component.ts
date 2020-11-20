@@ -13,7 +13,7 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  show(): void {
+  toggle(): void {
     this.collapsed = !this.collapsed;
   }
 }

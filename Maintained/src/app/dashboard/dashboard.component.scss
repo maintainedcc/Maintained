@@ -25,7 +25,41 @@
 }
 
 #welcome {
-  display: none;
+  h2 {
+    margin: 0;
+  }
+  
+  .project-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+    }
+  }
+
+  .project-actions button {
+    border: none;
+    border-radius: 2px;
+    background-color: transparent;
+    box-shadow: #0006 2px 2px 5px;
+    cursor: pointer;
+    margin-left: auto;
+    height: 30px;
+    width: 30px;
+    transition-duration: 0.1s;
+
+    &:hover, &:focus {
+      background-color: #eee;
+      outline: none;
+    }
+
+    &:not(:last-of-type) {
+      margin-right: 10px;
+    }
+  }
 
   p {
     font-size: 1.2rem;
