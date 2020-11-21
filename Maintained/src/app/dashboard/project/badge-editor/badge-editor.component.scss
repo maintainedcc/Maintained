@@ -1,0 +1,48 @@
+
+.badge-editor {
+  background-color: #000;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+
+  height: 50px;
+  overflow: hidden;
+
+  .editor-primary {
+    background-color: #655;
+    flex: 1 1;
+    margin-right: -5px;
+    padding-right: 5px;
+  }
+
+  .editor-secondary {
+    background-color: #AB2;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    flex: 1 1;
+    margin-right: -5px;
+    padding-right: 5px;
+  }
+
+  .editor-actions {
+    display: flex;
+
+    .action {
+      background-color: #000;
+      border: none;
+      border-left: 1px solid white;
+      border-radius: 5px;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      flex: 1 1;
+      width: 60px;
+
+      &:before, &:after {
+        background-color: #fff;
+      }
+    }
+  }
+}

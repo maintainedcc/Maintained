@@ -5,14 +5,16 @@
       <span class="droplet"></span>
       <span class="project-username">{{user}}/</span>
       {{project?.title}}
-      <span id="save-${title}" class="project-save">Saved</span>
+      <span class="project-save">Saved</span>
     </h2>
     <div class="project-actions">
       <button class="icon-close" title="Delete Project"></button>
       <button class="icon-add" title="Add Badge"></button>
     </div>
   </div>
-  <ul id="badge-group-${title}" class="badges">
-    Badges
+  <ul class="badges">
+    <li *ngFor="let badge of project?.badges">
+      <project-badge-editor></project-badge-editor>
+    </li>
   </ul>
 </section>
