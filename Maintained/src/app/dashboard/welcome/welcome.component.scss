@@ -31,8 +31,46 @@
     flex-direction: row;
     justify-content: flex-end;
 
-    > *:not(:last-child) {
-      margin-right: 10px;
+    .steps-indicator {
+      display: flex;
+      align-items: center;
+      flex: 1 1;
+
+      .indicator {
+        background-color: #662D91;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        height: 15px;
+        width: 15px;
+        margin-right: 15px;
+
+        position: relative;
+        transition-duration: 0.3s;
+        transition-timing-function: cubic-bezier(0.83, 0, 0.17, 1);
+
+        &:after {
+          background-color: #fff;
+          border-radius: 50%;
+          content: "";
+          width: 50%;
+          height: 50%;
+          transition-duration: 0.3s;
+          transition-timing-function: cubic-bezier(0.83, 0, 0.17, 1);
+        }
+
+        &.fill {
+          background-color: #F15A24;
+        }
+
+        &.fill:after {
+          border-radius: 50%;
+          width: 0;
+          height: 0;
+        }
+      }
     }
   }
 }

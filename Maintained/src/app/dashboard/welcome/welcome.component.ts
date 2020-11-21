@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./welcome.component.scss']
 })
 export class WelcomeComponent implements OnInit {
+  stepsSeen = 0;
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  incrementStep() {
+    this.stepsSeen++;
   }
 
 }
