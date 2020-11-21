@@ -7,9 +7,10 @@ import { DashboardComponent } from './dashboard.component';
 import { SharedModule } from '../shared/shared.module';
 import { ProfileComponent } from './profile/profile.component';
 import { ProjectComponent } from './project/project.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 @NgModule({
-  declarations: [DashboardComponent, ProfileComponent, ProjectComponent],
+  declarations: [DashboardComponent, ProfileComponent, ProjectComponent, WelcomeComponent],
   imports: [CommonModule, SharedModule, DashboardRoutingModule]
 })
 export class DashboardModule {}

@@ -86,14 +86,14 @@ for await (const req of s) {
     })();
     continue;
       
-    /*
+    
     case "/dashboard":
       req.url = "index.html";
       break;
 
     case "/":
       req.url = "index.html";
-      break;*/
+      break;
 
     default:
       // Check if badge exists

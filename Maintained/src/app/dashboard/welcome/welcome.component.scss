@@ -1,0 +1,38 @@
+
+.dashboard-welcome {
+  background-color: #fff;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+
+  margin-bottom: 20px;
+  min-height: 200px;
+  padding: 20px;
+
+  @media (min-width: 768px) {
+    padding: 30px;
+  }
+
+  h2 {
+    margin: 0;
+  }
+
+  p {
+    font-size: 1.2rem;
+    line-height: 2.2rem;
+  }
+
+  .welcome-content {
+    flex: 1 1;
+  }
+
+  .action-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+    > *:not(:last-child) {
+      margin-right: 10px;
+    }
+  }
+}

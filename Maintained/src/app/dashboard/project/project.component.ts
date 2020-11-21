@@ -9,6 +9,7 @@ import { Project } from '../../core/schemas';
 })
 export class ProjectComponent implements OnInit {
   @Input() project?: Project;
+  @Input() user?: string;
 
   constructor() { }
 

@@ -10,6 +10,7 @@ import { Project } from '../core/schemas';
 export class DashboardComponent implements OnInit {
   firstTime: boolean = false;
   projects: Project[] = [];
+  userId: string = "";
 
   constructor() { }
 
@@ -19,7 +20,7 @@ export class DashboardComponent implements OnInit {
     .then(res => res.text())
     .then(res => {
       const data = JSON.parse(res);
-      console.log(data);
+      this.userId = data.name;
       this.projects = data.projects;
       this.firstTime = data.firstTime;
     });

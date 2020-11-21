@@ -1,11 +1,16 @@
 
 .badge-btn {
   border: none;
-  border-radius: 0;
+  border-radius: 5px;
+  cursor: pointer;
   display: flex;
 
   height: 50px;
   line-height: 50px;
+  overflow: hidden;
+
+  position: relative;
+  z-index: 2;
   padding: 0;
 
   .badge-left, .badge-right {
@@ -36,41 +41,20 @@
   }
 
   .badge-right {
-    background-color: #662d91;
+    background-image: linear-gradient(45deg, #662d91 50%, #f15a24 50.1%);
+    background-repeat: repeat-x;
+    background-size: 350px;
+
+    min-width: 80px;
+    flex: 1 0;
+
     letter-spacing: 3px;
     font-family: montserrat, sans-serif;
     font-weight: 800;
     text-align: center;
-    flex: 1 0;
-  }
-
-  &.badge-small {
-    height: 40px;
-    line-height: 40px;
-
-    @media (max-width: 768px) {
-      .badge-left, .badge-right {
-        padding: 0 10px;
-      }
-    }
-  }
-}
-
-a.badge-btn {
-  display: inline-flex;
-  text-decoration: none;
-}
-
-button.badge-btn, a.badge-btn {
-  cursor: pointer;
-
-  .badge-right {
-    background-image: linear-gradient(45deg, #662d91 49.9%, #f15a24 50%);
-    background-size: 300%;
-    background-repeat: repeat-x;
+    
     transition: background;
     transition-duration: 0.6s;
-    min-width: 80px;
   }
 
   &:hover, &:focus {
@@ -78,4 +62,9 @@ button.badge-btn, a.badge-btn {
       background-position-x: -220px;
     }
   }
+}
+
+a.badge-btn {
+  display: inline-flex;
+  text-decoration: none;
 }
