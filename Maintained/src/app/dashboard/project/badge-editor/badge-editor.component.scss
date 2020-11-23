@@ -40,6 +40,11 @@
       flex: 1 1;
       width: 60px;
 
+      > img {
+        height: 17px;
+        width: 17px;
+      }
+
       &:before, &:after {
         background-color: #fff;
       }

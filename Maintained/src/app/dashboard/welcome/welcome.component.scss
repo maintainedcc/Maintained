@@ -24,6 +24,22 @@
 
   .welcome-content {
     flex: 1 1;
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+
+    > div {
+      grid-column: 1;
+      grid-row: 1;
+      opacity: 0;
+      visibility: hidden;
+      transition-duration: 0.2s;
+    }
+
+    > div.step-visible {
+      transition-delay: 0.1s;
+      opacity: 1;
+      visibility: visible;
+    }
   }
 
   .action-bar {
