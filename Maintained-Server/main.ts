@@ -43,7 +43,7 @@ for await (const req of s) {
       req.respond({ 
         status: 302, 
         headers: new Headers({
-          "Set-Cookie": `token=${token}; Max-Age=86400; SameSite=Strict; Path=/;`,
+          "Set-Cookie": `token=${token}; Max-Age=864000; SameSite=Strict; Path=/;`,
           "Location": "/dashboard"
         })
       });
@@ -86,11 +86,17 @@ for await (const req of s) {
     })();
     continue;
       
-    
+    // Load the main file (Angular will sort routing)
     case "/dashboard":
       req.url = "index.html";
       break;
 
+    // Alias for root (Angular app)
+    case "/start":
+      req.url = "index.html";
+      break;
+
+    // Root start page
     case "/":
       req.url = "index.html";
       break;

@@ -167,6 +167,7 @@ export class DataService {
     const user = await this.dUsers.findOne({ name: uId });
     if (!user || !project) return undefined;
 
+    project = project.replaceAll(" ", "-").replaceAll("/", "-");
     if (user.projects.find(p => p.title === project)) return undefined;
 
     const newBadge: Badge = {
@@ -184,7 +185,7 @@ export class DataService {
       style: BadgeStyle.Plastic
     }
     const newProject: Project = {
-      title: project.replaceAll(" ", "-").replaceAll("/", "-"),
+      title: project,
       badges: [ newBadge ]
     }
 

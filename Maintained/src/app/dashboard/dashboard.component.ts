@@ -33,7 +33,8 @@ export class DashboardComponent implements OnInit {
 
   async createProject(): Promise<void> {
     let newProject = await this.api.createProject("New Project");
-    this.projects.push(newProject);
+    if (newProject)
+      this.projects.push(newProject);
   }
 
   deleteProject(name: string): void {
