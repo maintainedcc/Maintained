@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+
+import { Badge } from 'src/app/core/schemas';
 
 @Component({
   selector: 'project-badge-editor',
@@ -6,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./badge-editor.component.scss']
 })
 export class BadgeEditorComponent implements OnInit {
+  @Input() badge?: Badge;
 
   constructor() { }
 

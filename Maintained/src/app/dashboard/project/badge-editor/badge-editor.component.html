@@ -1,7 +1,11 @@
 
 <div class="badge-editor">
-  <div class="editor-primary"></div>
-  <div class="editor-secondary"></div>
+  <div class="editor-primary">
+    <input type="text" [value]="badge?.title?.content" spellcheck="false">
+  </div>
+  <div class="editor-secondary">
+    <input *ngFor="let val of badge?.values" type="text" [value]="val.content" spellcheck="false">
+  </div>
   <div class="editor-actions">
     <button class="action" aria-label="Badge Settings"><img src="assets/icn/maintained_settings.svg" alt="⚙"/></button>
     <button class="action icon-md"></button>

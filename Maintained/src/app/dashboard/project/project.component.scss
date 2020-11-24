@@ -83,19 +83,24 @@
   }
 
   .project-actions button {
-    border: none;
+    border: 2px solid #555;
     border-radius: 2px;
     background-color: transparent;
-    box-shadow: #0006 2px 2px 5px;
     cursor: pointer;
     margin-left: auto;
     height: 30px;
     width: 30px;
-    transition-duration: 0.1s;
+
+    &:before, &:after {
+      transition-duration: 0.15s;
+    }
 
     &:hover, &:focus {
-      background-color: #eee;
       outline: none;
+
+      &:before, &:after {
+        background-color: #f15a24;
+      }
     }
 
     &:not(:last-of-type) {

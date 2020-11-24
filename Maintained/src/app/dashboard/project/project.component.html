@@ -14,7 +14,7 @@
   </div>
   <ul class="badges">
     <li *ngFor="let badge of project?.badges">
-      <project-badge-editor></project-badge-editor>
+      <project-badge-editor [badge]="badge"></project-badge-editor>
     </li>
   </ul>
 </section>

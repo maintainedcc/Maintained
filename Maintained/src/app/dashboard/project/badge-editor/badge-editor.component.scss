@@ -8,20 +8,50 @@
   height: 50px;
   overflow: hidden;
 
-  .editor-primary {
-    background-color: #655;
+  .editor-primary, .editor-secondary {
+    display: flex;
+    align-items: center;
     flex: 1 1;
+
     margin-right: -5px;
     padding-right: 5px;
+
+    input {
+      background-color: transparent;
+      border: none;
+      color: #fff;
+
+      font-size: 1rem;
+      text-shadow: #0006 1px 1px 5px;
+      flex: 1 1;
+      padding: 20px;
+
+      &:not(:focus) {
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .editor-primary {
+    background-color: #655;
+
+    input {
+      font-family: roboto, sans-serif;
+      font-weight: 500;
+    }
   }
 
   .editor-secondary {
     background-color: #AB2;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
-    flex: 1 1;
-    margin-right: -5px;
-    padding-right: 5px;
+
+    input {
+      letter-spacing: 2px;
+      font-family: montserrat, sans-serif;
+      font-weight: 800;
+      font-size: 0.9rem;
+    }
   }
 
   .editor-actions {
@@ -32,6 +62,7 @@
       border: none;
       border-left: 1px solid white;
       border-radius: 5px;
+      cursor: pointer;
 
       display: flex;
       justify-content: center;
