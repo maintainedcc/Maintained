@@ -1,7 +1,7 @@
 <main class="dashboard">
   <header class="dashboard-section">
     <nav class="dashboard-nav">
-      <app-badge-btn leftText="Create" rightText="New"></app-badge-btn>
+      <app-badge-btn leftText="Create" rightText="New" (click)="createProject()"></app-badge-btn>
       <dashboard-profile></dashboard-profile>
     </nav>
   </header>
@@ -22,7 +22,7 @@
         <span class="loader-badge"></span>
       </div>
       <dashboard-welcome *ngIf="firstTime"></dashboard-welcome>
-      <dashboard-project *ngFor="let project of projects" [user]="userId" [project]="project"></dashboard-project>
+      <dashboard-project *ngFor="let project of projects" [user]="userId" [project]="project" (deleteThis)="deleteProject($event)"></dashboard-project>
       <section id="dov" class="collapsed" onmousedown="hideDialog()">
         <div class="dialog-wrapper">
           <div id="dialog" class="dialog" onmousedown="stopPropagation(event)"></div>

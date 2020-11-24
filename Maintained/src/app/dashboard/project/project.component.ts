@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { Project } from '../../core/schemas';
 
@@ -7,13 +7,16 @@ import { Project } from '../../core/schemas';
   templateUrl: './project.component.html',
   styleUrls: ['./project.component.scss']
 })
-export class ProjectComponent implements OnInit {
+export class ProjectComponent {
   @Input() project?: Project;
   @Input() user?: string;
 
+  @Output() deleteThis = new EventEmitter<string>();
+
   constructor() { }
 
-  ngOnInit(): void {
+  delete(): void {
+    this.deleteThis.emit(this.project?.title);
   }
 
 }

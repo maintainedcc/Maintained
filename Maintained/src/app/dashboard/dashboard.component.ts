@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { ApiService } from '../core/services';
 import { Project } from '../core/schemas';
 
 @Component({
@@ -12,7 +13,7 @@ export class DashboardComponent implements OnInit {
   projects: Project[] = [];
   userId: string = "";
 
-  constructor() { }
+  constructor(private api: ApiService) { }
 
   ngOnInit(): void {
     // Build dashboard using fetched user data
@@ -28,6 +29,19 @@ export class DashboardComponent implements OnInit {
 
   hideWelcome(): void {
     this.firstTime = false;
+  }
+
+  async createProject(): Promise<void> {
+    let newProject = await this.api.createProject("New Project");
+    this.projects.push(newProject);
+  }
+
+  deleteProject(name: string): void {
+    // Delete project from backend
+    this.api.deleteProject(name);
+    // Removes project from local array
+    this.projects.splice(this.projects.findIndex(p => p.title === name), 1);
+    console.log("Deleted project "+name);
   }
 
 }
