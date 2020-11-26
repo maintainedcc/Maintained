@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 
-import { ApiService } from '../core/services';
+import { ApiService, ModalService } from '../core/services';
 import { Project } from '../core/schemas';
 
 @Component({
@@ -12,6 +12,10 @@ export class DashboardComponent implements OnInit {
   firstTime: boolean = false;
   projects: Project[] = [];
   userId: string = "";
+
+  currentProj?: Project;
+
+  @ViewChild('createProject', { static: true }) public template?: TemplateRef<any>;
 
   constructor(private api: ApiService) { }
 
@@ -25,6 +29,8 @@ export class DashboardComponent implements OnInit {
       this.projects = data.projects;
       this.firstTime = data.firstTime;
     });
+
+    console.log(this.template);
   }
 
   hideWelcome(): void {

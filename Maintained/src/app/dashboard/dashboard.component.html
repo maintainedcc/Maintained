@@ -1,7 +1,7 @@
 <main class="dashboard">
   <header class="dashboard-section">
     <nav class="dashboard-nav">
-      <app-badge-btn leftText="Create" rightText="New" (click)="createProject()"></app-badge-btn>
+      <dashboard-project-create></dashboard-project-create>
       <dashboard-profile></dashboard-profile>
     </nav>
   </header>
@@ -16,19 +16,13 @@
       </ul>
     </section>
     <section class="dashboard-content">
-      <div id="loader" class="dashboard-section loader" *ngIf="!projects" aria-hidden="true">
+      <div id="loader" class="dashboard-section loader" *ngIf="projects.length === 0" aria-hidden="true">
         <span class="loader-title"></span>
         <span class="loader-badge"></span>
         <span class="loader-badge"></span>
       </div>
       <dashboard-welcome *ngIf="firstTime"></dashboard-welcome>
-      <dashboard-project *ngFor="let project of projects" [user]="userId" [project]="project" (deleteThis)="deleteProject($event)"></dashboard-project>
-      <section id="dov" class="collapsed" onmousedown="hideDialog()">
-        <div class="dialog-wrapper">
-          <div id="dialog" class="dialog" onmousedown="stopPropagation(event)"></div>
-          <div id="adv-dialog" class="dialog" onmousedown="stopPropagation(event)"></div>
-        </div>
-      </section>
+      <dashboard-project *ngFor="let project of projects" [user]="userId" [project]="project"></dashboard-project>
       <footer class="dashboard-section">
         <b>&copy; 2020 Maintained</b><br>
         <b><a href="https://sdbagel.com">SDBagel</a> | <a href="https://forthebadge.com">For the Badge</a> | <a href="https://shields.io">Shields</a></b>

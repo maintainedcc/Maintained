@@ -3,7 +3,7 @@
   <span class="badge-left" *ngIf="leftText">{{leftText}}</span>
   <span class="badge-right" *ngIf="rightText">{{rightText}}</span>
 </a>
-<button class="badge-btn" *ngIf="!href">
+<button class="badge-btn" [style]="styles" *ngIf="!href">
   <span class="badge-left" *ngIf="leftText">{{leftText}}</span>
   <span class="badge-right" *ngIf="rightText">{{rightText}}</span>
 </button>
