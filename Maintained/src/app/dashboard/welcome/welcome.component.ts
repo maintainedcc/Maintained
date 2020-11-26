@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'dashboard-welcome',
@@ -7,19 +7,20 @@ import { Component } from '@angular/core';
 })
 export class WelcomeComponent {
   stepsSeen = 0;
+  @Output() completed = new EventEmitter<void>();
 
   constructor() { }
 
-  incrementStep() {
+  incrementStep(): void {
     this.stepsSeen++;
   }
 
-  decrementStep() {
+  decrementStep(): void {
     this.stepsSeen--;
   }
 
-  hideWelcome() {
-    
+  hideWelcome(): void {
+    this.completed.emit();
   }
 
 }

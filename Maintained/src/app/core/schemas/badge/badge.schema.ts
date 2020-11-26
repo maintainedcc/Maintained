@@ -1,20 +1,20 @@
 
 export interface Badge {
-  id: number
-  title: BadgeField
-  values?: BadgeFieldDynamic[]
-  redirect?: string
-  style: BadgeStyle
+  id: number;
+  title: BadgeField;
+  values?: BadgeFieldDynamic[];
+  redirect?: string;
+  style: BadgeStyle;
 }
 
 export interface BadgeField {
-  content: string
-  color: BadgeColor
-  width: number
+  content: string;
+  color: BadgeColor;
+  width: number;
 }
 
 export interface BadgeFieldDynamic extends BadgeField {
-  source?: string // Dynamic Value Sources URI
+  source?: string; // Dynamic Value Sources URI
 }
 
 export enum BadgeColor {

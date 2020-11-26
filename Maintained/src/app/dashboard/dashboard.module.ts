@@ -14,10 +14,10 @@ import { ProjectDeleteComponent } from './project-delete/project-delete.componen
 
 @NgModule({
   declarations: [
-    DashboardComponent, 
-    ProfileComponent, 
-    ProjectComponent, 
-    WelcomeComponent, 
+    DashboardComponent,
+    ProfileComponent,
+    ProjectComponent,
+    WelcomeComponent,
     BadgeEditorComponent, ProjectCreateComponent, ProjectDeleteComponent
   ],
   imports: [CommonModule, SharedModule, DashboardRoutingModule]

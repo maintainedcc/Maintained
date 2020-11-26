@@ -9,9 +9,9 @@ import { Project } from '../core/schemas';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  firstTime: boolean = false;
+  firstTime = false;
   projects: Project[] = [];
-  userId: string = "";
+  userId = '';
 
   currentProj?: Project;
 
@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     // Build dashboard using fetched user data
-    fetch("/api/user/data")
+    fetch('/api/user/data')
     .then(res => res.text())
     .then(res => {
       const data = JSON.parse(res);
@@ -35,12 +35,14 @@ export class DashboardComponent implements OnInit {
 
   hideWelcome(): void {
     this.firstTime = false;
+    this.api.setUserWelcomed();
   }
 
   async createProject(): Promise<void> {
-    let newProject = await this.api.createProject("New Project");
-    if (newProject)
+    const newProject = await this.api.createProject('New Project');
+    if (newProject) {
       this.projects.push(newProject);
+    }
   }
 
   deleteProject(name: string): void {
@@ -48,7 +50,7 @@ export class DashboardComponent implements OnInit {
     this.api.deleteProject(name);
     // Removes project from local array
     this.projects.splice(this.projects.findIndex(p => p.title === name), 1);
-    console.log("Deleted project "+name);
+    console.log('Deleted project ' + name);
   }
 
 }

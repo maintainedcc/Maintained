@@ -9,12 +9,18 @@ export class ApiService {
 
   constructor() { }
 
+  // API SECTION: USER MANAGEMENT
+  async setUserWelcomed(): Promise<void> {
+    fetch('/api/user/welcome', { method: 'POST' });
+  }
+
+  // API SECTION: PROJECT MANAGEMENT
   async createProject(name: string): Promise<Project | void> {
     return await fetch(`/api/projects/create?project=${name}`)
       .then(res => res.text())
       .then(res => {
         res = JSON.parse(res);
-        return <unknown>res as Project;
+        return res as unknown as Project;
       })
       .catch(ex => {
         console.error(ex);

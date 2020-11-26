@@ -2,6 +2,6 @@
 import { Badge } from '../';
 
 export interface Project {
-  title: string
-  badges: Badge[]
+  title: string;
+  badges: Badge[];
 }

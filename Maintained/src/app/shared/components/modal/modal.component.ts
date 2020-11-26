@@ -16,7 +16,7 @@ export class ModalComponent implements OnInit {
   ngOnInit(): void {
     this.modal.modalOpened.subscribe({
       next: this.show.bind(this)
-    })
+    });
   }
 
   show(ref: TemplateRef<any>|null): void {
