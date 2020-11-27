@@ -4,11 +4,24 @@
   <div class="profile-options" [ngClass]="{'collapsed' : collapsed}">
     <h2>Account</h2>
     <br>
+    <app-badge-btn
+      leftText="Manage Account"
+      styles="width: 220px;margin-bottom:10px;"
+      (click)="openAccountSettings()">
+    </app-badge-btn>
+    <app-badge-btn href="/oauth/logout" leftText="Log Out" styles="width: 220px;"></app-badge-btn>
+  </div>
+  <ng-template #manageAccount>
+    <h2>Account Settings</h2>
     <app-badge-btn 
       href="/oauth/manage" 
       leftText="Manage Token" 
-      [styles]="'width: 220px;margin-bottom:10px;'">
+      styles="width: 100%;margin-bottom:10px;">
     </app-badge-btn>
-    <app-badge-btn href="/oauth/logout" leftText="Log Out" [styles]="'width: 220px;'"></app-badge-btn>
-  </div>
+    <app-badge-btn 
+      href="/privacy" 
+      leftText="Privacy and Data" 
+      styles="width: 100%;margin-bottom:10px;">
+    </app-badge-btn>
+  </ng-template>
 </div>

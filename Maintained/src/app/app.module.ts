@@ -7,6 +7,7 @@ import { SharedModule } from './shared/shared.module';
 
 import { HomeModule } from './home/home.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { PrivacyModule } from './privacy/privacy.module';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     SharedModule,
     HomeModule,
     DashboardModule,
+    PrivacyModule,
     AppRoutingModule
   ],
   providers: [],
