@@ -9,8 +9,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { ProjectComponent } from './project/project.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { BadgeEditorComponent } from './project/badge-editor/badge-editor.component';
-import { ProjectCreateComponent } from './project-create/project-create.component';
-import { ProjectDeleteComponent } from './project-delete/project-delete.component';
+import { ProjectCreateComponent } from './project/project-create/project-create.component';
+import { ProjectDeleteComponent } from './project/project-delete/project-delete.component';
 
 @NgModule({
   declarations: [

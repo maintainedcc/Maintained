@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, ViewChild, TemplateRef } from '@angular/core';
 import { ModalService } from 'src/app/core/services';
 
 @Component({
