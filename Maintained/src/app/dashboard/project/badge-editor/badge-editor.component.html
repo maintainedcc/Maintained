@@ -1,14 +1,48 @@
 
 <div class="badge-editor">
   <div class="editor-primary">
-    <input type="text" [value]="badge?.title?.content" spellcheck="false">
+    <input type="text" [(ngModel)]="badge.title.content" spellcheck="false">
   </div>
   <div class="editor-secondary">
-    <input *ngFor="let val of badge?.values" type="text" [value]="val.content" spellcheck="false">
+    <input *ngFor="let val of badge?.values" type="text" [(ngModel)]="val.content" spellcheck="false">
   </div>
   <div class="editor-actions">
-    <button class="action" aria-label="Badge Settings"><img src="assets/icn/maintained_settings.svg" alt="⚙"/></button>
+    <button class="action" aria-label="Badge Settings" (click)="openEditorModal('badge')">
+      <img src="assets/icn/maintained_settings.svg" alt="⚙"/>
+    </button>
     <button class="action icon-md"></button>
     <button class="action icon-close"></button>
   </div>
 </div>
+
+<ng-template #badgeEditorModal>
+  <div class="modal-tabs">
+    <button [ngClass]="{'active': selectedModalTab === 'badge'}" (click)="setTab('badge')">Badge</button>
+    <button [ngClass]="{'active': selectedModalTab === 'fields'}" (click)="setTab('fields')">Fields</button>
+  </div>
+  <div class="modal-tab-group">
+    <div class="modal-tab-content" [ngClass]="{'active': selectedModalTab === 'badge'}">
+      <h2>Badge Settings</h2>
+      <label for="editor-style">Style</label>
+      <select id="editor-style" [(ngModel)]="badge.style">
+        <option value="0">Plastic</option>
+        <option value="1">Flat</option>
+        <option value="2">For the Badge</option>
+      </select>
+      <label for="editor-redirect">Link Direct</label>
+      <input type="url" id="editor-redirect" placeholder="Dynamic Redirect URL" [(ngModel)]="badge.redirect">
+      <span class="spacer"></span>
+      <app-badge-btn leftText="Apply Settings" styles="width: 100%;"></app-badge-btn>
+    </div>
+    <div class="modal-tab-content" [ngClass]="{'active': selectedModalTab === 'fields'}">
+      <h2>Badge Fields</h2>
+      <label for="editor-title">Title</label>
+      <input type="text" id="editor-title" placeholder="Title Text" [(ngModel)]="badge.title.content" spellcheck="false">
+      <ng-container *ngFor="let val of badge?.values;index as i">
+        <label>Value {{ i }}</label>
+        <input type="text" [(ngModel)]="val.content" spellcheck="false">
+      </ng-container>
+      <app-badge-btn leftText="Save Fields" styles="width: 100%;margin-top:10px;"></app-badge-btn>
+    </div>
+  </div>
+</ng-template>

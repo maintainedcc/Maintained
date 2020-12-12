@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
 
@@ -18,8 +19,15 @@ import { ProjectDeleteComponent } from './project/project-delete/project-delete.
     ProfileComponent,
     ProjectComponent,
     WelcomeComponent,
-    BadgeEditorComponent, ProjectCreateComponent, ProjectDeleteComponent
+    BadgeEditorComponent,
+    ProjectCreateComponent,
+    ProjectDeleteComponent
   ],
-  imports: [CommonModule, SharedModule, DashboardRoutingModule]
+  imports: [
+    CommonModule,
+    SharedModule,
+    FormsModule,
+    DashboardRoutingModule
+  ]
 })
 export class DashboardModule {}
