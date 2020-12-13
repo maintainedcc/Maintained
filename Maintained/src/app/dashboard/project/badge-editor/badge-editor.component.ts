@@ -9,10 +9,10 @@ import { ModalService } from 'src/app/core/services';
   styleUrls: ['./badge-editor.component.scss']
 })
 export class BadgeEditorComponent {
-  @Input() badge: Badge = { id: -1, title: { content: "", color: 0, width: 0 }, style: 0 };
-  selectedModalTab = "badge";
-
+  @Input() badge: Badge = { id: -1, title: { content: '', color: 0, width: 0 }, style: 0 };
   @ViewChild('badgeEditorModal', { static: true }) template?: TemplateRef<any>;
+  
+  selectedModalTab = 'badge';
 
   constructor(private modal: ModalService) { }
 
