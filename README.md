@@ -1,18 +1,18 @@
-<p align="center"><a href="https://maintained.cc" target="_blank" rel="noopener noreferrer"><img width="200" src="app/img/favicon.png" alt="Maintained logo"></a></p>
+<p align="center"><a href="https://maintained.cc" target="_blank" rel="noopener noreferrer"><img width="200" src="https://maintained.cc/img/favicon.png" alt="Maintained logo"></a></p>
 <h1 align="center">Maintained</h1>
 <p align="center">
   <a href="https://maintained.cc"><img src="https://maintained.cc/SDBagel/Maintained/1?" alt="Status Badge"></a>
   <a href="https://maintained.cc"><img src="https://maintained.cc/SDBagel/Maintained/2?" alt="Get Started Now"></a>
 </p>
 <p align="center">
-  Manage and maintain your badges in style.
-  <br>
   <a href="https://maintained.cc">https://maintained.cc</a>
 </p>
 <hr>
 
 ## [Maintained Nightly]
 This is the unstable or nightly branch of Maintained. Expect things to not work at best on this branch.
+
+The nightly branch is no longer a monorepo project. The server code can be found at [maintainedcc/Maintained-API](https://github.com/maintainedcc/Maintained-API).
 
 ## Use Cases
 Some cool stuff you can do with Maintained:
