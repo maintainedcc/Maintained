@@ -14,6 +14,11 @@ This is the unstable or nightly branch of Maintained. Expect things to not work 
 
 The nightly branch is no longer a monorepo project. The server code can be found at [maintainedcc/Maintained-API](https://github.com/maintainedcc/Maintained-API).
 
+## [Maintained Legacy (Deployed)]
+The legacy version of Maintained can be found at [origin/legacy](https://github.com/maintainedcc/Maintained/tree/legacy). This is the version in production.
+
+In the future, Maintained will be updated to tagged releases on this branch.
+
 ## Use Cases
 Some cool stuff you can do with Maintained:
 
