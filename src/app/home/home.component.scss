@@ -46,12 +46,19 @@
 
   .title {
     font-size: 2rem;
-    font-weight: 100;
+    font-weight: 200;
     padding-bottom: 20vh;
 
     h1 {
-      font-weight: 200;
+      font-weight: 300;
       margin: 0;
+			margin-bottom: 5px;
+
+			span {
+				background-color: #fff;
+				color: #c1272d;
+				padding: 0 10px;
+			}
     }
 
     p {
@@ -81,4 +88,8 @@
   &.bg {
     z-index: -1;
   }
+}
+
+.section {
+	background-color: #fff;
 }
