@@ -1,6 +1,0 @@
-{
-  "name": "maintained",
-  "private": true,
-	"description": "https://angular.io/config/app-package-json.",
-  "sideEffects": false
-}
