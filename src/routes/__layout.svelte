@@ -4,9 +4,13 @@
 </main>
 
 <style lang="scss" global>
+	:root {
+		font-size: 20px;
+	}
+
 	main {
 		font-family: "Urbanist", sans-serif;
-		max-width: 1600px;
+		max-width: 1800px;
 		margin: auto;
 	}
 
