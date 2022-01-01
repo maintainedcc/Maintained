@@ -2,11 +2,9 @@
 <section>
 	<h1 data-badge="Dev">Maintained</h1>
 	<h2>Overengineered repository management</h2>
-	<a class="cta" href="">Get Started With GitHub</a>
+	<a class="cta" href="http://localhost:8999/oauth/login">Get Started With GitHub</a>
 </section>
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
-<p>variable: <code>var</code></p>
-<pre>wrapped code</pre>
 
 <style lang="scss">
 	section {
