@@ -10,7 +10,7 @@
 
 	main {
 		font-family: "Urbanist", sans-serif;
-		max-width: 1800px;
+		max-width: 1500px;
 		margin: auto;
 	}
 
@@ -26,5 +26,12 @@
 		font-family: "Fira Mono", monospace;
 		font-size: 0.85em;
 		padding: 1px 6px;
+	}
+
+	a {
+		color: #e73;
+		font-weight: bold;
+		text-decoration: none;
+		text-transform: lowercase;
 	}
 </style>
