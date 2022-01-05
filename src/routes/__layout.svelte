@@ -8,6 +8,11 @@
 		font-size: 20px;
 	}
 
+	html {
+		background-color: #ffe;
+		overflow-x: hidden;
+	}
+
 	main {
 		font-family: "Urbanist", sans-serif;
 		max-width: 1500px;

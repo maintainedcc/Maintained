@@ -1,15 +1,16 @@
 
-<section>
-	<h1 data-badge="Dev">Maintained</h1>
+<section class="hero">
+	<h1 data-shadow="MNTMNT">Maintained</h1>
 	<h2>Overengineered repository management</h2>
-	<a class="cta" href="http://localhost:8999/oauth/login">Get Started With GitHub</a>
+	<a class="cta" href="http://localhost:8999/oauth/login"><b>Get Started</b> With <b>GitHub</b></a>
 </section>
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
 
 <style lang="scss">
-	section {
+	.hero {
 		display: flex;
 		flex-direction: column;
+		align-items: flex-end;
 		justify-content: center;
 		min-height: 70vh;
 	}
@@ -20,31 +21,29 @@
 		color: transparent;
 		line-height: 1;
 		font-size: 8rem;
-		margin-bottom: 0;
+		margin: 0;
 		
 		transition-duration: 0.6s;
 
 		width: max-content;
 		position: relative;
 
-		&::after {
-			background: #000;
-			border-radius: 0.4rem;
-			box-shadow: 0 0 0.5rem #eb3;
-			content: attr(data-badge);
-			color: #eb3;
-			font-size: 1.5rem;
-			font-weight: bold;
-			text-transform: uppercase;
-			padding: 0.5rem 1rem;
+		&::before {
+			background-color: #ffe;
+			content: attr(data-shadow);
 			position: absolute;
-			top: 0;
-			left: calc(100% + 1rem);
+			top: 40%;
+			right: 30%;
+			color: #fb31;
+			filter: blur(2px);
+			transform: scale(5);
+			text-transform: uppercase;
+			z-index: -1;
 		}
 	}
 
 	h2 {
-		color: #779;
+		color: #668;
 		font-size: 2rem;
 		font-weight: 700;
 		margin-top: 0;
@@ -55,12 +54,17 @@
 		background-color: #000;
 		border-radius: 0.4rem;
 		color: #fff;
+		letter-spacing: 0.5px;
 		font-family: "Poppins";
-		font-size: 1rem;
-		font-weight: bold;
+		font-size: 1.1rem;
+		font-weight: 500;
 		text-decoration: none;
 		text-transform: uppercase;
 		padding: 15px 50px;
 		width: max-content;
+	}
+
+	b {
+		font-weight: 900;
 	}
 </style>
