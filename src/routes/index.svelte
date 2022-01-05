@@ -4,7 +4,10 @@
 	<h2>Overengineered repository management</h2>
 	<a class="cta" href="http://localhost:8999/oauth/login"><b>Get Started</b> With <b>GitHub</b></a>
 </section>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<h3>Maintained Workspace</h3>
+<p><b>Maintained</b> Repository Badges</p>
+<p><b>Mai</b> Environment Management <sup>soon tm</sup></p>
+<p><b>Manta</b> Cloud API Mutation Layer <sup>soon tm</sup></p>
 
 <style lang="scss">
 	.hero {
