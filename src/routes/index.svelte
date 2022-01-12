@@ -1,6 +1,6 @@
 
 <section class="hero">
-	<h1 data-shadow="MNTMNT">Maintained</h1>
+	<h1>Maintained</h1>
 	<h2>Overengineered repository management</h2>
 	<a class="cta" href="http://localhost:8999/oauth/login"><b>Get Started</b> With <b>GitHub</b></a>
 </section>
@@ -30,19 +30,6 @@
 
 		width: max-content;
 		position: relative;
-
-		&::before {
-			background-color: #ffe;
-			content: attr(data-shadow);
-			position: absolute;
-			top: 40%;
-			right: 30%;
-			color: #fb31;
-			filter: blur(2px);
-			transform: scale(5);
-			text-transform: uppercase;
-			z-index: -1;
-		}
 	}
 
 	h2 {

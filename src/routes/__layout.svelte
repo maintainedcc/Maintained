@@ -9,7 +9,7 @@
 	}
 
 	html {
-		background-color: #ffe;
+		background-color: #ffeed0;
 		overflow-x: hidden;
 	}
 
