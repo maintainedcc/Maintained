@@ -1,0 +1,39 @@
+
+<script lang="ts">
+  export let href: string;
+  export let left: string;
+  export let right: string;
+</script>
+
+<a class="badge" href="{href}">
+  <span>{left}</span>
+  <span>{right}</span>
+</a>
+
+<style lang="scss">
+  .badge {
+		border-radius: 0.4rem;
+		display: flex;
+		letter-spacing: 0.5px;
+		font-family: "Poppins";
+		font-size: 1rem;
+		font-weight: 800;
+		text-decoration: none;
+		text-transform: uppercase;
+		width: max-content;
+		overflow: hidden;
+
+		span {
+			background-color: #000;
+			color: #fff;
+			padding: 15px 45px;
+		}
+		span:first-child {
+			padding-right: 35px;
+		}
+		span:last-child {
+			background-color: #a5b800;
+			padding-left: 35px;
+		}
+	}
+</style>

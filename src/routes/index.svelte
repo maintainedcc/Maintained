@@ -1,14 +1,16 @@
 
+<script lang="ts">
+	import BadgeButton from "$lib/BadgeButton.svelte";
+</script>
+
 <section class="hero">
 	<div class="left-deco a"></div>
 	<div class="left-deco b"></div>
 	<div class="left-deco c"></div>
 	<h1>maintained</h1>
 	<h2>Overengineered repository management</h2>
-	<a class="cta" href="http://localhost:8999/oauth/login">
-		<span>Get Started</span>
-		<span>With GitHub</span>
-	</a>
+	<BadgeButton href="http://localhost:8999/oauth/login"
+		left="Get Started" right="With GitHub" />
 </section>
 <section class="overview">
 	<div>
@@ -77,32 +79,6 @@
 		font-weight: 700;
 		margin-top: 0;
 		text-transform: uppercase;
-	}
-
-	.cta {
-		border-radius: 0.4rem;
-		display: flex;
-		letter-spacing: 0.5px;
-		font-family: "Poppins";
-		font-size: 1rem;
-		font-weight: 800;
-		text-decoration: none;
-		text-transform: uppercase;
-		width: max-content;
-		overflow: hidden;
-
-		span {
-			background-color: #000;
-			color: #fff;
-			padding: 15px 45px;
-		}
-		span:first-child {
-			padding-right: 35px;
-		}
-		span:last-child {
-			background-color: rgb(165, 184, 0);
-			padding-left: 35px;
-		}
 	}
 
 	.overview {
