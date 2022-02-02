@@ -7,6 +7,7 @@
 	<div class="left-deco a"></div>
 	<div class="left-deco b"></div>
 	<div class="left-deco c"></div>
+	<div class="right-deco"></div>
 	<h1>maintained</h1>
 	<h2>Overengineered repository management</h2>
 	<BadgeButton href="http://localhost:8999/oauth/login"
@@ -49,6 +50,18 @@
 				z-index: 0;
 			}
 		}
+
+    .right-deco {
+      background-color: #fff;
+      -webkit-clip-path: polygon(100% 0, 100% 100%, 0% 100%);
+      clip-path: polygon(100% 0, 100% 100%, 0% 100%);
+      height: 3vh;
+      width: 100vw;
+			position: absolute;
+			right: 0;
+      top: 57vh;
+      z-index: 3;
+    }
 	}
 
 	h1 {
