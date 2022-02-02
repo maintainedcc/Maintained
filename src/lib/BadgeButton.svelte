@@ -1,17 +1,17 @@
 
 <script lang="ts">
-  export let href: string;
-  export let left: string;
-  export let right: string;
+	export let href: string;
+	export let left: string;
+	export let right: string;
 </script>
 
 <a class="badge" href="{href}">
-  <span>{left}</span>
-  <span>{right}</span>
+	<span>{left}</span>
+	<span>{right}</span>
 </a>
 
 <style lang="scss">
-  .badge {
+	.badge {
 		border-radius: 0.4rem;
 		display: flex;
 		letter-spacing: 0.5px;
@@ -32,8 +32,17 @@
 			padding-right: 35px;
 		}
 		span:last-child {
-			background-color: #a5b800;
+			background-image: linear-gradient(45deg, #a5b800 50%, #00b8a5 50.1%);
+			background-size: 270%;
+			background-position-x: 0%;
 			padding-left: 35px;
+			transition-duration: 0.7s;
+		}
+
+		&:hover, &:focus {
+			span:last-child {
+				background-position-x: 100%;
+			}
 		}
 	}
 </style>
