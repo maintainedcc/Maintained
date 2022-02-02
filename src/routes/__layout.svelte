@@ -9,14 +9,19 @@
 	}
 
 	html {
-		background-color: #ffeed0;
+		background-color: #c21;
 		overflow-x: hidden;
+	}
+
+	body {
+		margin: 0;
 	}
 
 	main {
 		font-family: "Urbanist", sans-serif;
 		max-width: 1500px;
 		margin: auto;
+		padding: 15px;
 	}
 
 	h1, h2, h3, h4, h5, h6 {
