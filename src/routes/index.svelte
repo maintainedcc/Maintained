@@ -4,32 +4,55 @@
 </script>
 
 <Hero />
-<section class="overview">
-	<div>
+<div class="overview">
+	<section>
 		<br>
-		<h2>Maintained Workspace</h2>
-		<p><b>Maintained</b> Repository Badges</p>
+		<h2>maintained.cc<br><span>Workspace</span></h2>
+		<p><b>Maintained</b> Repository Badging</p>
+	</section>
+	<section>
+		<h2>maintained <b>mai</b><br><span>Cloud Environments</span></h2>
 		<p><b>Mai</b> Environment Management <sup>soon tm</sup></p>
+	</section>
+	<section>
+		<h2>maintained <b>manta</b><br><span>Mutators as a Service</span></h2>
 		<p><b>Manta</b> Cloud Mutation Layer <sup>soon tm</sup></p>
-	</div>
-</section>
+	</section>
+	<section class="center">
+		<h2>explore all maintained products</h2>
+		<p>except there aren't any more right now.</p>
+	</section>
+</div>
 
 <style lang="scss">
 	.overview {
 		background-color: #fff;
-		padding: 20px 0;
+		padding: 40px 0;
 		position: absolute;
 		left: 0;
 		right: 0;
 
-		> div {
+		> section {
 			max-width: 1500px;
 			min-height: 300px;
 			margin: auto;
+			padding: 10px 0;
+
+			&:nth-child(2n) {
+				text-align: right;
+			}
+			&.center {
+				text-align: center;
+			}
 		}
 
 		h2 {
-			
+			line-height: 1.2;
+
+			span {
+				font-size: 2.5rem;
+				color: #f90;
+			}
 		}
 	}
 </style>
