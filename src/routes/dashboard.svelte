@@ -1,8 +1,10 @@
 
 <script lang="ts">
+	import DashboardBackground from "$lib/DashboardBackground.svelte";
 	import DashboardHeader from "$lib/DashboardHeader.svelte";
 </script>
 
+<DashboardBackground />
 <div class="dashboard">
 	<DashboardHeader />
 	<div class="content">
