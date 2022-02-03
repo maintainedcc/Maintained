@@ -20,7 +20,7 @@
 		flex-direction: column;
 		align-items: flex-end;
 		justify-content: center;
-		min-height: 60vh;
+		min-height: 65vh;
 
 		.left-deco {
 			-webkit-clip-path: polygon(0 0, 100% 100%, 0% 100%);
@@ -32,21 +32,21 @@
 				background-color: #fa0;
 				height: 25vh;
 				width: 40vw;
-				top: 35vh;
+				top: 40vh;
 				z-index: 2;
 			}
 			&.b {
 				background-color: #fc5;
 				height: 35vh;
 				width: 55vw;
-				top: 25vh;
+				top: 30vh;
 				z-index: 1;
 			}
 			&.c {
 				background-color: #fd9;
 				height: 45vh;
 				width: 70vw;
-				top: 15vh;
+				top: 20vh;
 				z-index: 0;
 			}
 		}
@@ -55,11 +55,11 @@
       background-color: #fff;
       -webkit-clip-path: polygon(100% 0, 100% 100%, 0% 100%);
       clip-path: polygon(100% 0, 100% 100%, 0% 100%);
-      height: 3vh;
+      height: 5vh;
       width: 100vw;
 			position: absolute;
 			right: 0;
-      top: 57vh;
+      top: calc(60vh + 1px);
       z-index: 3;
     }
 	}

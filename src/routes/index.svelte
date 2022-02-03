@@ -36,7 +36,7 @@
 			max-width: var(--max-width);
 			min-height: 300px;
 			margin: auto;
-			padding: 10px 0;
+			padding: 10px 15px;
 
 			&:nth-child(2n) {
 				text-align: right;
