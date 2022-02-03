@@ -29,21 +29,21 @@
 			left: 0;
 
 			&.a {
-				background-color: #f7951e;
+				background-color: var(--brand-a);
 				height: 25vh;
 				width: 40vw;
 				top: 40vh;
 				z-index: 2;
 			}
 			&.b {
-				background-color: #fbb03b;
+				background-color: var(--brand-b);
 				height: 35vh;
 				width: 55vw;
 				top: 30vh;
 				z-index: 1;
 			}
 			&.c {
-				background-color: #fc7;
+				background-color: var(--brand-c);
 				height: 45vh;
 				width: 70vw;
 				top: 20vh;
@@ -52,7 +52,7 @@
 		}
 
     .right-deco {
-      background-color: #fff;
+      background-color: var(--background-primary);
       -webkit-clip-path: polygon(100% 0, 100% 100%, 0% 100%);
       clip-path: polygon(100% 0, 100% 100%, 0% 100%);
       height: 5vh;
@@ -65,9 +65,7 @@
 	}
 
 	h1 {
-		background-color: #fff;
-		background-clip: text;
-		color: transparent;
+    color: #fff;
 		line-height: 1;
 		font-size: 5rem;
 		margin: 0;
@@ -78,7 +76,7 @@
 	}
 
 	h2 {
-		color: #f88;
+		color: var(--brand-secondary);
 		font-size: 1.3rem;
 		font-weight: 700;
 		margin-top: 0;

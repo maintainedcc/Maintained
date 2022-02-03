@@ -5,6 +5,19 @@
 
 <style lang="scss" global>
 	:root {
+		--brand-primary: #c21;
+		--brand-secondary: #f98;
+		--brand-a: #f7951e;
+		--brand-b: #fbb03b;
+		--brand-c: #fc7;
+
+		--background-primary: #fff;
+
+		--text-brand: var(--brand-a);
+
+		--green: #a5b800;
+		--blue: #00b8a5;
+
 		--max-width: 1200px;
 
 		font-size: 20px;
@@ -17,7 +30,7 @@
 	}
 
 	html {
-		background-color: #c21;
+		background-color: var(--brand-primary);
 		overflow-x: hidden;
 	}
 

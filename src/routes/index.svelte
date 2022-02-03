@@ -26,7 +26,7 @@
 
 <style lang="scss">
 	.overview {
-		background-color: #fff;
+		background-color: var(--background-primary);
 		padding: 40px 0;
 		position: absolute;
 		left: 0;
@@ -51,7 +51,7 @@
 
 			span {
 				font-size: 2.5rem;
-				color: #f90;
+				color: var(--text-brand);
 			}
 		}
 	}
