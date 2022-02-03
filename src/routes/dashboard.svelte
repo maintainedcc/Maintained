@@ -2,28 +2,14 @@
 <script lang="ts">
 	import DashboardBackground from "$lib/DashboardBackground.svelte";
 	import DashboardHeader from "$lib/DashboardHeader.svelte";
+	import ProjectList from "$lib/ProjectList.svelte";
 </script>
 
 <DashboardBackground />
 <div class="dashboard">
 	<DashboardHeader />
 	<div class="content">
-		<section class="projects">
-			<h3>Projects</h3>
-			<ul>
-				<li>Project A</li>
-				<li>Project B</li>
-				<li>Project C</li>
-				<li>Project D</li>
-				<li>Project E</li>
-			</ul>
-			<h3>Teams</h3>
-			<ul>
-				<li>Project F</li>
-				<li>Project G</li>
-				<li>Project H</li>
-			</ul>
-		</section>
+		<ProjectList />
 		<section>
 			<h2>Project A</h2>
 			<p>Badges</p>
@@ -48,31 +34,20 @@
 	}
 
 	.content {
-		background-color: var(--background-primary);
-		border-radius: 10px;
 		display: flex;
-		column-gap: 80px;
-		padding: 10px 50px;
+		column-gap: 30px;
 
 		section {
-			margin: 30px 0;
+			background-color: var(--background-primary);
+			border-radius: 10px;
+    	box-sizing: border-box;
+			flex: 1 1;
+			padding: 30px 50px;
 		}
 
-		.projects {
-			border-right: 3px solid var(--brand-b);
-			margin: 30px 0;
-			padding-right: 40px;
-		}
-
-		h2, h3 {
+		h2 {
 			margin: 0;
 			margin-bottom: 10px;
-		}
-
-		ul {
-			line-height: 2;
-			list-style: none;
-			padding: 0;
 		}
 	}
 </style>
