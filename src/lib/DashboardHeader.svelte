@@ -1,9 +1,14 @@
 
+<script lang="ts">
+  import IconButton from "$lib/IconButton.svelte";
+</script>
+
 <header>
   <h1>maintained.cc</h1>
   <nav>
-    <a href="">New</a>
-    <a href="">Help</a>
+    <IconButton icon="bell" />
+    <IconButton icon="help" />
+    <br>
     <a href="">Account</a>
 	</nav>
 </header>
@@ -19,7 +24,8 @@
 
 		nav {
 			display: flex;
-			column-gap: 30px;
+      align-items: center;
+			column-gap: 20px;
 		}
 
     h1 {
