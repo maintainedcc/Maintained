@@ -1,6 +1,7 @@
 
 <script lang="ts">
 	import BadgeButton from "$lib/BadgeButton.svelte";
+	const loginURL = import.meta.env.VITE_MAINTAINED_LOGIN_URL as string;
 </script>
 
 <section class="hero">
@@ -10,7 +11,7 @@
 	<div class="right-deco"></div>
 	<h1>maintained</h1>
 	<h2>Overengineered repository management</h2>
-	<BadgeButton href="http://localhost:8999/oauth/login"
+	<BadgeButton href="{loginURL}"
 		left="Get Started" right="With GitHub" />
 </section>
 
