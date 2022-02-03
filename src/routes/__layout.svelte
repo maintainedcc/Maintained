@@ -60,9 +60,14 @@
 	}
 
 	a {
-		color: #e73;
+		color: var(--green);
 		font-weight: bold;
 		text-decoration: none;
 		text-transform: lowercase;
+		transition-duration: 0.2s;
+
+		&:hover {
+			color: var(--blue);
+		}
 	}
 </style>
