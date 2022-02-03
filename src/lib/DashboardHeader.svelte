@@ -25,7 +25,7 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 25px 50px;
+		padding: 25px 30px;
 
 		nav, span {
 			display: flex;
