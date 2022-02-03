@@ -1,13 +1,10 @@
 
+<script lang="ts">
+	import DashboardHeader from "$lib/DashboardHeader.svelte";
+</script>
+
 <div class="dashboard">
-	<nav>
-		<h1>maintained</h1>
-		<div>
-			<a href="">New</a>
-			<a href="">Help</a>
-			<a href="">Account</a>
-		</div>
-	</nav>
+	<DashboardHeader />
 	<div class="content">
 		<section class="projects">
 			<h3>Projects</h3>
@@ -40,28 +37,20 @@
 
 <style lang="scss">
 	.dashboard {
-		background-color: var(--background-primary);
-		border-radius: 15px;
 		box-sizing: border-box;
-		max-width: 1100px;
-		margin: 30px auto;
-		padding: 10px 50px;
-	}
-	
-	nav {
 		display: flex;
-		justify-content: space-between;
-		align-items: center;
-
-		div {
-			display: flex;
-			column-gap: 30px;
-		}
+		flex-direction: column;
+		row-gap: 30px;
+		max-width: 1000px;
+		margin: 30px auto;
 	}
 
 	.content {
+		background-color: var(--background-primary);
+		border-radius: 10px;
 		display: flex;
 		column-gap: 80px;
+		padding: 10px 50px;
 
 		section {
 			margin: 30px 0;
