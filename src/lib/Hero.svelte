@@ -33,21 +33,21 @@
 				height: 25vh;
 				width: 40vw;
 				top: 40vh;
-				z-index: 2;
+				z-index: 0;
 			}
 			&.b {
 				background-color: var(--brand-b);
 				height: 35vh;
 				width: 55vw;
 				top: 30vh;
-				z-index: 1;
+				z-index: -1;
 			}
 			&.c {
 				background-color: var(--brand-c);
 				height: 45vh;
 				width: 70vw;
 				top: 20vh;
-				z-index: 0;
+				z-index: -2;
 			}
 		}
 
@@ -65,11 +65,13 @@
 	}
 
 	h1 {
+    background-color: var(--brand-primary);
+    border-radius: 2px;
     color: #fff;
 		line-height: 1;
-		font-size: 5rem;
+		font-size: 2.5rem;
 		margin: 0;
-		margin-top: 5vh;
+    padding-left: 2px;
 
 		width: max-content;
 		position: relative;
@@ -77,15 +79,41 @@
 
 	h2 {
 		color: var(--brand-secondary);
-		font-size: 1.3rem;
+		font-size: 0.9rem;
 		font-weight: 700;
 		margin-top: 0;
+    max-width: 300px;
+
+    text-align: right;
+    text-shadow:
+      1px 1px 0 var(--brand-primary);
 		text-transform: uppercase;
+    z-index: 2;
 	}
+
+  @media (min-width: 512px) {
+    h1 {
+      font-size: 3.5rem;
+    }
+    h2 {
+      max-width: unset;
+    }
+  }
+
+  @media (min-width: 768px) {
+    h1 {
+      font-size: 5rem;
+		  margin-top: 3vh;
+    }
+    h2 {
+      font-size: 1.3rem;
+    }
+  }
 
   @media (min-width: 1600px) {
     h1 {
       font-size: 7rem;
+		  margin-top: 5vh;
     }
     h2 {
       font-size: 1.8rem;
