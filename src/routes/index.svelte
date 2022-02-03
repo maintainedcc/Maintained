@@ -33,7 +33,7 @@
 		right: 0;
 
 		> section {
-			max-width: 1500px;
+			max-width: var(--max-width);
 			min-height: 300px;
 			margin: auto;
 			padding: 10px 0;

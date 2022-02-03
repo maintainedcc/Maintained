@@ -69,7 +69,7 @@
 		background-clip: text;
 		color: transparent;
 		line-height: 1;
-		font-size: 7rem;
+		font-size: 5rem;
 		margin: 0;
 		margin-top: 5vh;
 
@@ -79,9 +79,18 @@
 
 	h2 {
 		color: #f88;
-		font-size: 1.8rem;
+		font-size: 1.3rem;
 		font-weight: 700;
 		margin-top: 0;
 		text-transform: uppercase;
 	}
+
+  @media (min-width: 1600px) {
+    h1 {
+      font-size: 7rem;
+    }
+    h2 {
+      font-size: 1.8rem;
+    }
+  }
 </style>

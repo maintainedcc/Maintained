@@ -5,7 +5,15 @@
 
 <style lang="scss" global>
 	:root {
+		--max-width: 1200px;
+
 		font-size: 20px;
+	}
+
+	@media (min-width: 1600px) {
+		:root {
+			--max-width: 1500px;
+		}
 	}
 
 	html {
@@ -19,7 +27,7 @@
 
 	main {
 		font-family: "Urbanist", sans-serif;
-		max-width: 1500px;
+		max-width: var(--max-width);
 		margin: auto;
 		padding: 0 15px;
 	}
