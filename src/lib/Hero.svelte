@@ -29,21 +29,21 @@
 			left: 0;
 
 			&.a {
-				background-color: #fa0;
+				background-color: #f7951e;
 				height: 25vh;
 				width: 40vw;
 				top: 40vh;
 				z-index: 2;
 			}
 			&.b {
-				background-color: #fc5;
+				background-color: #fbb03b;
 				height: 35vh;
 				width: 55vw;
 				top: 30vh;
 				z-index: 1;
 			}
 			&.c {
-				background-color: #fd9;
+				background-color: #fc7;
 				height: 45vh;
 				width: 70vw;
 				top: 20vh;

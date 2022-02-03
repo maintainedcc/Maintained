@@ -18,7 +18,7 @@
 		display: flex;
 		letter-spacing: 0.5px;
 		font-family: "Poppins";
-		font-size: 1rem;
+		font-size: 0.9rem;
 		font-weight: 800;
 		text-decoration: none;
 		text-transform: uppercase;
@@ -51,6 +51,7 @@
 	@media (min-width: 1600px) {
 		.badge {
 			--badge-padding: 45px;
+			font-size: 1rem;
 		}
 	}
 </style>
