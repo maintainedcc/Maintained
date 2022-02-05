@@ -3,6 +3,7 @@
 	import DashboardBackground from "$lib/DashboardBackground.svelte";
 	import DashboardHeader from "$lib/DashboardHeader.svelte";
 	import ProjectList from "$lib/ProjectList.svelte";
+	import Project from "$lib/Project.svelte";
 </script>
 
 <DashboardBackground />
@@ -11,14 +12,9 @@
 	<div class="content">
 		<ProjectList />
 		<section>
-			<h2>Project A</h2>
-			<p>Badges</p>
-			<br>
-			<h2>Project B</h2>
-			<p>Badges</p>
-			<br>
-			<h2>Project C</h2>
-			<p>Badges</p>
+			<Project />
+			<Project />
+			<Project />
 		</section>
 	</div>
 </div>
@@ -41,14 +37,11 @@
 			background-color: var(--background-primary);
 			border-radius: 10px;
     	box-sizing: border-box;
+			display: flex;
+			flex-direction: column;
+			row-gap: 30px;
 			flex: 1 1;
 			padding: 30px 50px;
-		}
-
-		h2 {
-			font-size: 1.2rem;
-			margin: 0;
-			margin-bottom: 10px;
 		}
 	}
 </style>
