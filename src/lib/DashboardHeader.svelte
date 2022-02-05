@@ -52,8 +52,8 @@
       transition-duration: 0.2s;
 
       img {
-        width: 35px;
-        height: 35px;
+        width: 30px;
+        height: 30px;
         border-radius: 50%;
       }
 

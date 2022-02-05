@@ -1,6 +1,6 @@
 
 <section class="projects">
-  <h3>Projects</h3>
+  <h2>Projects</h2>
   <ul>
     <li>Project A</li>
     <li>Project B</li>
@@ -8,7 +8,8 @@
     <li>Project D</li>
     <li>Project E</li>
   </ul>
-  <h3>Teams</h3>
+  <br>
+  <h2>Teams</h2>
   <ul>
     <li>Project F</li>
     <li>Project G</li>
@@ -25,7 +26,8 @@
     width: 240px;
   }
 
-  h3 {
+  h2 {
+    font-size: 1.2rem;
     margin: 0;
     margin-bottom: 10px;
   }
@@ -33,6 +35,7 @@
   ul {
     line-height: 2;
     list-style: none;
+    margin: 0;
     padding: 0;
   }
 </style>
