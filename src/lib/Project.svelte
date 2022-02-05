@@ -1,6 +1,6 @@
 
 <script lang="ts">
-
+  import BadgeEditor from "$lib/BadgeEditor.svelte";
 </script>
 
 <div class="project">
@@ -10,7 +10,13 @@
   <p class="description">
     @org <b>&bull;</b> repository <b>&bull;</b> all branches
   </p>
-  <p>Badge Editors</p>
+  <div class="badges">
+    <BadgeEditor />
+    <BadgeEditor />
+    <BadgeEditor />
+    <BadgeEditor />
+    <BadgeEditor />
+  </div>
 </div>
 
 <style lang="scss">
@@ -36,12 +42,18 @@
     color: var(--blue);
     font-size: 0.6rem;
     margin: 0;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     text-transform: uppercase;
     letter-spacing: 1px;
 
     b {
     color: #999;
     }
+  }
+
+  .badges {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
   }
 </style>
