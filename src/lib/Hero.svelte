@@ -16,7 +16,7 @@
 </section>
 
 <style lang="scss">
-  .hero {
+	.hero {
 		display: flex;
 		flex-direction: column;
 		align-items: flex-end;
@@ -52,27 +52,27 @@
 			}
 		}
 
-    .right-deco {
-      background-color: var(--background-primary);
-      -webkit-clip-path: polygon(100% 0, 100% 100%, 0% 100%);
-      clip-path: polygon(100% 0, 100% 100%, 0% 100%);
-      height: 5vh;
-      width: 100vw;
+		.right-deco {
+			background-color: var(--background-primary);
+			-webkit-clip-path: polygon(100% 0, 100% 100%, 0% 100%);
+			clip-path: polygon(100% 0, 100% 100%, 0% 100%);
+			height: 5vh;
+			width: 100vw;
 			position: absolute;
 			right: 0;
-      top: calc(60vh + 1px);
-      z-index: 3;
-    }
+			top: calc(60vh + 1px);
+			z-index: 3;
+		}
 	}
 
 	h1 {
-    background-color: var(--brand-primary);
-    border-radius: 2px;
-    color: #fff;
+		background-color: var(--brand-primary);
+		border-radius: 2px;
+		color: #fff;
 		line-height: 1;
 		font-size: 2.5rem;
 		margin: 0;
-    padding-left: 2px;
+		padding-left: 2px;
 
 		width: max-content;
 		position: relative;
@@ -83,41 +83,41 @@
 		font-size: 0.9rem;
 		font-weight: 700;
 		margin-top: 0;
-    max-width: 300px;
+		max-width: 300px;
 
-    text-align: right;
-    text-shadow:
-      1px 1px 0 var(--brand-primary);
+		text-align: right;
+		text-shadow:
+			1px 1px 0 var(--brand-primary);
 		text-transform: uppercase;
-    z-index: 2;
+		z-index: 2;
 	}
 
-  @media (min-width: 512px) {
-    h1 {
-      font-size: 3.5rem;
-    }
-    h2 {
-      max-width: unset;
-    }
-  }
+	@media (min-width: 512px) {
+		h1 {
+			font-size: 3.5rem;
+		}
+		h2 {
+			max-width: unset;
+		}
+	}
 
-  @media (min-width: 768px) {
-    h1 {
-      font-size: 5rem;
-		  margin-top: 3vh;
-    }
-    h2 {
-      font-size: 1.3rem;
-    }
-  }
+	@media (min-width: 768px) {
+		h1 {
+			font-size: 5rem;
+			margin-top: 3vh;
+		}
+		h2 {
+			font-size: 1.3rem;
+		}
+	}
 
-  @media (min-width: 1600px) {
-    h1 {
-      font-size: 7rem;
-		  margin-top: 5vh;
-    }
-    h2 {
-      font-size: 1.8rem;
-    }
-  }
+	@media (min-width: 1600px) {
+		h1 {
+			font-size: 7rem;
+			margin-top: 5vh;
+		}
+		h2 {
+			font-size: 1.8rem;
+		}
+	}
 </style>

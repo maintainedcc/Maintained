@@ -1,65 +1,66 @@
 
 <script lang="ts">
-  import IconButton from "$lib/IconButton.svelte";
+	import IconButton from "$lib/IconButton.svelte";
 </script>
 
 <header>
-  <span>
-    <IconButton icon="grid" />
-    <h1>maintained <b>workspace</b></h1>
-  </span>
-  <nav>
-    <IconButton icon="bell" />
-    <IconButton icon="help" />
-    <br>
-    <button class="account">
-      <img src="/favicon.png" alt="Account">
-    </button>
+	<span>
+		<IconButton icon="grid" />
+		<h1>maintained <b>workspace</b></h1>
+	</span>
+	<nav>
+		<IconButton icon="bell" />
+		<IconButton icon="help" />
+		<br>
+		<button class="account">
+			<img src="/favicon.png" alt="Account">
+		</button>
 	</nav>
 </header>
 
 <style lang="scss">
 	header {
-    background-color: var(--background-primary);
-    border-radius: 10px;
+		background-color: var(--background-primary);
+		border-radius: 10px;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 25px 30px;
+		padding: 25px 40px;
+		padding-left: 30px;
 
 		nav, span {
 			display: flex;
-      align-items: center;
+			align-items: center;
 			column-gap: 10px;
 		}
-    span {
-      column-gap: 5px;
-    }
+		span {
+			column-gap: 5px;
+		}
 
-    h1 {
-      font-size: 1.5rem;
-      margin: 0;
-    }
+		h1 {
+			font-size: 1.5rem;
+			margin: 0;
+		}
 
-    .account {
-      background-color: transparent;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      display: grid;
-      place-items: center;
-      padding: 5px;
-      transition-duration: 0.2s;
+		.account {
+			background-color: transparent;
+			border: none;
+			border-radius: 50%;
+			cursor: pointer;
+			display: grid;
+			place-items: center;
+			padding: 5px;
+			transition-duration: 0.2s;
 
-      img {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-      }
+			img {
+				width: 30px;
+				height: 30px;
+				border-radius: 50%;
+			}
 
-      &:hover {
-        background-color: #eee;
-      }
-    }
+			&:hover {
+				background-color: #eee;
+			}
+		}
 	}
 </style>

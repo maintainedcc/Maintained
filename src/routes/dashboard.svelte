@@ -44,12 +44,12 @@
 		section {
 			background-color: var(--background-primary);
 			border-radius: 10px;
-    	box-sizing: border-box;
+			box-sizing: border-box;
 			display: flex;
 			flex-direction: column;
 			row-gap: 40px;
 			flex: 1 1;
-			padding: 30px 50px;
+			padding: 30px 40px;
 		}
 	}
 </style>

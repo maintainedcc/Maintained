@@ -48,7 +48,7 @@
 		}
 	}
 
-  @media (min-width: 768px) {
+	@media (min-width: 768px) {
 		.badge {
 			--badge-padding: 35px;
 			font-size: 0.9rem;
@@ -56,7 +56,7 @@
 		.badge span {
 			padding: calc(var(--badge-padding)/3) var(--badge-padding);
 		}
-  }
+	}
 
 	@media (min-width: 1600px) {
 		.badge {
