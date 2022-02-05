@@ -6,9 +6,8 @@
     <button>+3</button>
   </div>
   <div class="controls">
-    <button>S</button>
-    <button>C</button>
-    <button>O</button>
+    <button><svg><use xlink:href="/img/icon.svg#clipboard"></use></svg></button>
+    <button><svg><use xlink:href="/img/icon.svg#settings"></use></svg></button>
   </div>
 </div>
 
@@ -30,12 +29,14 @@
   input {
     background-color: #000;
     border: none;
+    box-sizing: border-box;
     color: #fff;
     font-family: inherit;
     font-size: 0.7rem;
     flex: 1 1;
     margin: 0;
     padding: 12px 20px;
+    height: 45px;
   }
 
   button {
@@ -43,12 +44,20 @@
     border: none;
     color: #fff;
     cursor: pointer;
+    display: grid;
+    place-items: center;
     font-family: inherit;
     font-size: 0.7rem;
     font-weight: bold;
     margin: 0;
-    padding: 12px;
-    width: 45px;
+    padding: 0;
+    height: 45px;
+    width: 48px;
+
+    svg {
+      height: 16px;
+      width: 16px;
+    }
   }
 
   input:first-child, button:first-child {
