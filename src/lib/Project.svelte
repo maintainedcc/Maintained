@@ -1,15 +1,17 @@
 
 <script lang="ts">
 	import BadgeEditor from "$lib/BadgeEditor.svelte";
+	import IconButton from "./IconButton.svelte";
 	import type { Project } from "./util/schema";
 
 	export let project: Project;
 </script>
 
 <div class="project">
-	<a name="{project.title}"><h2>
-		<span>{project.title}</span>
-	</h2></a>
+	<a name="{project.title}">
+		<h2><span>{project.title}</span></h2>
+		<IconButton icon="kebab" />
+	</a>
 	<p class="description">
 		@org <b>&bull;</b> repository <b>&bull;</b> all branches
 	</p>
@@ -21,6 +23,12 @@
 </div>
 
 <style lang="scss">
+	a {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
 	h2 {
 		display: flex;
 		align-items: center;
@@ -37,6 +45,16 @@
 			height: 25px;
 			width: 25px;
 		}
+
+		&::after {
+			background-color: #eee;
+			border-radius: 5px;
+			content: "Saving";
+			font-size: 0.6rem;
+			text-transform: lowercase;
+			margin-left: 10px;
+			padding: 2px 8px;
+		}
 	}
 
 	.description {
@@ -48,7 +66,7 @@
 		letter-spacing: 1px;
 
 		b {
-		color: #999;
+			color: #999;
 		}
 	}
 
