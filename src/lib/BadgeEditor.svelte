@@ -1,8 +1,15 @@
 
+<script lang="ts">
+  import type { Badge } from "./util/schema";
+
+  export let badge: Badge;
+</script>
+
 <div class="group">
   <div class="editor">
-    <input type="text" name="" id="" placeholder="Badge Content">
-    <input type="text" name="" id="" placeholder="Badge Content">
+    {#each badge.fields as field}
+    <input type="text" placeholder="Badge Content" bind:value="{field.content}">
+    {/each}
     <button>+3</button>
   </div>
   <div class="controls">

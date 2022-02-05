@@ -1,6 +1,10 @@
 
-<a class="project-link">
-  Project Links
+<script lang="ts">
+
+</script>
+
+<a class="project-link" href="">
+  <slot></slot>
 </a>
 
 <style lang="scss">

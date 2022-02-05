@@ -4,17 +4,25 @@
 	import DashboardHeader from "$lib/DashboardHeader.svelte";
 	import ProjectList from "$lib/ProjectList.svelte";
 	import Project from "$lib/Project.svelte";
+
+	import { onMount } from "svelte";
+	import { getUser } from "$lib/util/api";
+	import { user } from "$lib/util/data";
+
+	onMount(async () => {
+		$user = await getUser();
+	});
 </script>
 
 <DashboardBackground />
 <div class="dashboard">
 	<DashboardHeader />
 	<div class="content">
-		<ProjectList />
+		<ProjectList projects="{$user.projects}" />
 		<section>
-			<Project />
-			<Project />
-			<Project />
+			{#each $user.projects as project}
+			<Project project="{project}" />
+			{/each}
 		</section>
 	</div>
 </div>

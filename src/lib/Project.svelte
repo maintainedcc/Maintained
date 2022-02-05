@@ -1,21 +1,22 @@
 
 <script lang="ts">
   import BadgeEditor from "$lib/BadgeEditor.svelte";
+  import type { Project } from "./util/schema";
+
+  export let project: Project;
 </script>
 
 <div class="project">
   <h2>
-    <span>Project Name</span>
+    <span>{project.title}</span>
   </h2>
   <p class="description">
     @org <b>&bull;</b> repository <b>&bull;</b> all branches
   </p>
   <div class="badges">
-    <BadgeEditor />
-    <BadgeEditor />
-    <BadgeEditor />
-    <BadgeEditor />
-    <BadgeEditor />
+    {#each project.badges as badge}
+    <BadgeEditor badge="{badge}" />
+    {/each}
   </div>
 </div>
 

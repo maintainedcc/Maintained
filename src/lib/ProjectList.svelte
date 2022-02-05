@@ -1,18 +1,17 @@
 
 <script lang="ts">
   import ProjectLink from "$lib/ProjectLink.svelte";
+  import type { Project } from "./util/schema";
 
-
+  export let projects: Project[];
 </script>
 
 <section class="projects">
   <h2>Projects</h2>
   <ul>
-    <li><ProjectLink /></li>
-    <li><ProjectLink /></li>
-    <li><ProjectLink /></li>
-    <li><ProjectLink /></li>
-    <li><ProjectLink /></li>
+    {#each projects as project}
+    <li><ProjectLink>{project.title}</ProjectLink></li>
+    {/each}
   </ul>
   <br>
   <h2>Teams</h2>
