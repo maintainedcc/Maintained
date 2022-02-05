@@ -10,7 +10,9 @@
 	<h2>Projects</h2>
 	<ul>
 		{#each projects as project}
-		<li><ProjectLink>{project.title}</ProjectLink></li>
+		<li><ProjectLink href="#{project.title}">
+			{project.title}
+		</ProjectLink></li>
 		{/each}
 	</ul>
 	<br>

@@ -7,9 +7,9 @@
 </script>
 
 <div class="project">
-	<h2>
+	<a name="{project.title}"><h2>
 		<span>{project.title}</span>
-	</h2>
+	</h2></a>
 	<p class="description">
 		@org <b>&bull;</b> repository <b>&bull;</b> all branches
 	</p>

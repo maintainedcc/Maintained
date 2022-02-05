@@ -1,9 +1,9 @@
 
 <script lang="ts">
-
+	export let href: string;
 </script>
 
-<a class="project-link" href="">
+<a class="project-link" href="{href}">
 	<slot></slot>
 </a>
 
@@ -11,6 +11,7 @@
 	.project-link {
 		border-radius: 5px;
 		box-sizing: border-box;
+		color: var(--green);
 		cursor: pointer;
 		display: flex;
 		align-items: center;
@@ -32,6 +33,7 @@
 
 		&:hover {
 			background-color: #eee;
+			color: var(--blue);
 		}
 		&:hover::before {
 			background-color: var(--blue);
