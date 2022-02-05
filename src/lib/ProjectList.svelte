@@ -1,12 +1,18 @@
 
+<script lang="ts">
+  import ProjectLink from "$lib/ProjectLink.svelte";
+
+
+</script>
+
 <section class="projects">
   <h2>Projects</h2>
   <ul>
-    <li>Project A</li>
-    <li>Project B</li>
-    <li>Project C</li>
-    <li>Project D</li>
-    <li>Project E</li>
+    <li><ProjectLink /></li>
+    <li><ProjectLink /></li>
+    <li><ProjectLink /></li>
+    <li><ProjectLink /></li>
+    <li><ProjectLink /></li>
   </ul>
   <br>
   <h2>Teams</h2>
@@ -22,7 +28,7 @@
 		background-color: var(--background-primary);
 		border-radius: 10px;
     box-sizing: border-box;
-		padding: 30px 40px;
+		padding: 30px 30px;
     width: 240px;
   }
 
@@ -33,6 +39,9 @@
   }
 
   ul {
+    display: flex;
+    flex-direction: column;
+    row-gap: 6px;
     line-height: 2;
     list-style: none;
     margin: 0;

@@ -63,7 +63,6 @@
 		color: var(--green);
 		font-weight: bold;
 		text-decoration: none;
-		text-transform: lowercase;
 		transition-duration: 0.2s;
 
 		&:hover {
