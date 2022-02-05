@@ -1,6 +1,7 @@
 
 <script lang="ts">
 	import ProjectLink from "$lib/ProjectLink.svelte";
+	import { createProject } from "./util/api";
 	import type { Project } from "./util/schema";
 
 	export let projects: Project[];
@@ -14,6 +15,7 @@
 			{project.title}
 		</ProjectLink></li>
 		{/each}
+		<button on:click="{() => createProject("New Project")}">Create Project</button>
 	</ul>
 	<br>
 	<h2>Teams</h2>

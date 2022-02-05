@@ -9,9 +9,7 @@
 	import { getUser } from "$lib/util/api";
 	import { user } from "$lib/util/data";
 
-	onMount(async () => {
-		$user = await getUser();
-	});
+	onMount(async () => await getUser());
 </script>
 
 <DashboardBackground />
