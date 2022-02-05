@@ -13,7 +13,7 @@
 
 <style lang="scss">
   .group {
-    column-gap: 30px;
+    column-gap: 20px;
     justify-content: space-between;
   }
 

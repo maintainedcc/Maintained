@@ -28,7 +28,7 @@
 		background-color: var(--background-primary);
 		border-radius: 10px;
     box-sizing: border-box;
-		padding: 30px 30px;
+		padding: 30px;
     width: 240px;
   }
 

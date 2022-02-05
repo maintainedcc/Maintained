@@ -39,7 +39,7 @@
     	box-sizing: border-box;
 			display: flex;
 			flex-direction: column;
-			row-gap: 30px;
+			row-gap: 40px;
 			flex: 1 1;
 			padding: 30px 50px;
 		}
