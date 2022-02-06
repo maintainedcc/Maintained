@@ -1,7 +1,7 @@
 
 <script lang="ts">
 	import BadgeEditor from "$lib/BadgeEditor.svelte";
-	import IconButton from "./IconButton.svelte";
+	import ModalButton from "./ModalButton.svelte";
 	import type { Project } from "./util/schema";
 
 	export let project: Project;
@@ -10,7 +10,9 @@
 <div class="project">
 	<a name="{project.title}">
 		<h2><span>{project.title}</span></h2>
-		<IconButton icon="kebab" />
+		<ModalButton icon="kebab">
+			<h2>{project.title}</h2>
+		</ModalButton>
 	</a>
 	<p class="description">
 		@org <b>&bull;</b> repository <b>&bull;</b> all branches
@@ -33,7 +35,7 @@
 		display: flex;
 		align-items: center;
 		column-gap: 10px;
-		font-size: 1.2rem;
+		font-size: 1rem;
 		margin: 0;
 		margin-bottom: 8px;
 
