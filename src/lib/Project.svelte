@@ -1,18 +1,20 @@
 
 <script lang="ts">
 	import BadgeEditor from "$lib/BadgeEditor.svelte";
-	import ModalButton from "./ModalButton.svelte";
+	import IconButton from "./IconButton.svelte";
+	import Modal from "./Modal.svelte";
+	import ProjectSettings from "./ProjectSettings.svelte";
 	import type { Project } from "./util/schema";
 
 	export let project: Project;
+	let show: () => any; // Opens project settings modal
 </script>
 
 <div class="project">
 	<a name="{project.title}">
 		<h2><span>{project.title}</span></h2>
-		<ModalButton icon="kebab">
-			<h2>{project.title}</h2>
-		</ModalButton>
+		<IconButton icon="kebab" on:click="{show}" />
+		<Modal bind:show><ProjectSettings project={project} /></Modal>
 	</a>
 	<p class="description">
 		@org <b>&bull;</b> repository <b>&bull;</b> all branches

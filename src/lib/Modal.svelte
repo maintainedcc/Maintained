@@ -1,15 +1,11 @@
 
 <script lang="ts">
-  import IconButton from "$lib/IconButton.svelte";
   import { sineInOut } from "svelte/easing";
   import { fly } from "svelte/transition";
 
-  export let icon: string;
   let shown = false;
-
-  function toggleShown() {
-    shown = !shown;
-  }
+  export const show = () => shown = true;
+  const hide = () => shown = false;
   
   export function beam(n: Node, ..._: any[]) {
     return {
@@ -24,9 +20,8 @@
   }
 </script>
 
-<IconButton icon={icon} on:click="{toggleShown}" />
 {#if shown}
-<div class="cover" transition:beam on:click="{toggleShown}" />
+<div class="cover" transition:beam on:click="{hide}" />
 <div class="flyout"
   in:fly="{{y:25, delay: 100, duration:750}}"
   out:fly="{{y:25, delay: 100, duration:750}}">
@@ -62,5 +57,10 @@
     right: 0;
     bottom: 0;
     overflow-y: auto;
+
+    :global(h2) {
+      font-size: 1rem;
+      margin: 0;
+    }
   }
 </style>
