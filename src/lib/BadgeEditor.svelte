@@ -8,7 +8,7 @@
 <div class="group">
 	<div class="editor">
 		{#each badge.fields as field}
-		<input type="text" placeholder="Badge Content" bind:value="{field.content}">
+		<input data-color="{field.color}" type="text" placeholder="Badge Content" bind:value="{field.content}">
 		{/each}
 		<button>+3</button>
 	</div>
@@ -74,5 +74,27 @@
 	input:last-child, button:last-child {
 		border-top-right-radius: 5px;
 		border-bottom-right-radius: 5px;
+	}
+
+	[data-color="0"] {
+		background-color: #555;
+	}
+	[data-color="1"] {
+		background-color: #556;
+	}
+	[data-color="2"] {
+		background-color: #013;
+	}
+	[data-color="3"] {
+		background-color: #111;
+	}
+	[data-color="4"] {
+		background-color: #AB2;
+	}
+	[data-color="5"] {
+		background-color: #F80;
+	}
+	[data-color="6"] {
+		background-color: #F20;
 	}
 </style>
