@@ -8,7 +8,8 @@ export interface User {
 
 export interface Project {
 	title: string
-	badges: Badge[]
+	badges: Badge[],
+	defaultBadge: Badge
 }
 
 export interface Badge {
