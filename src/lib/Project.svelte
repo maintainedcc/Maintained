@@ -4,6 +4,7 @@
 	import IconButton from "./IconButton.svelte";
 	import Modal from "./Modal.svelte";
 	import ProjectSettings from "./ProjectSettings.svelte";
+	import { createBadge } from "./util/api";
 	import type { Project } from "./util/schema";
 
 	export let project: Project;
@@ -13,6 +14,8 @@
 <div class="project">
 	<a name="{project.title}">
 		<h2><span>{project.title}</span></h2>
+		<span class="spacer" />
+		<IconButton icon="add" on:click="{()=>createBadge(project.title)}" />
 		<IconButton icon="kebab" on:click="{show}" />
 		<Modal bind:show><ProjectSettings project={project} /></Modal>
 	</a>
@@ -30,7 +33,11 @@
 	a {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
+		column-gap: 10px;
+		
+		.spacer {
+			flex: 1 1;
+		}
 	}
 
 	h2 {
