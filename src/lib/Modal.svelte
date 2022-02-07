@@ -1,11 +1,16 @@
 
 <script lang="ts">
+  import { closeModal } from "./util/modal";
   import { sineInOut } from "svelte/easing";
   import { fly } from "svelte/transition";
+  import { onDestroy, onMount } from "svelte";
 
   let shown = false;
   export const show = () => shown = true;
   const hide = () => shown = false;
+
+  let unsub = closeModal.subscribe(hide);
+  onDestroy(unsub);
   
   export function beam(n: Node, ..._: any[]) {
     return {
@@ -43,13 +48,12 @@
   .flyout {
     background-color: var(--background-primary);
     border-radius: 10px;
-    box-sizing: border-box;
 
     margin: auto;
     padding: 30px;
     max-height: calc(100vh - 60px);
-    height: max-content;
-    width: 500px;
+    height: min-content;
+    width: 360px;
 
     position: fixed;
     top: 0;

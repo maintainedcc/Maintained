@@ -12,6 +12,7 @@
 		--brand-c: #fc7;
 
 		--background-primary: #fff;
+		--background-secondary: #eee;
 
 		--text-brand: var(--brand-a);
 
