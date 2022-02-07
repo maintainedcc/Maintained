@@ -1,10 +1,12 @@
 
 <script lang="ts">
 	import ProjectLink from "$lib/ProjectLink.svelte";
-	import { createProject } from "./util/api";
+	import Modal from "./Modal.svelte";
+	import ProjectCreate from "./ProjectCreate.svelte";
 	import type { Project } from "./util/schema";
 
 	export let projects: Project[];
+	let show: () => any; // Show project creation modal
 </script>
 
 <section class="projects">
@@ -15,7 +17,8 @@
 			{project.title}
 		</ProjectLink></li>
 		{/each}
-		<button on:click="{() => createProject("New Project")}">Create Project</button>
+		<button on:click="{show}">Create Project</button>
+		<Modal bind:show><ProjectCreate /></Modal>
 	</ul>
 	<br>
 	<h2>Teams</h2>

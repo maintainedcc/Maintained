@@ -1,8 +1,11 @@
 
 <script lang="ts">
+	import BadgeManager from "./BadgeManager.svelte";
+	import Modal from "./Modal.svelte";
 	import type { Badge } from "./util/schema";
 
 	export let badge: Badge;
+	let show: () => any; // Opens badge manager modal
 </script>
 
 <div class="group">
@@ -14,7 +17,8 @@
 	</div>
 	<div class="controls">
 		<button><svg><use xlink:href="/img/icon.svg#clipboard"></use></svg></button>
-		<button><svg><use xlink:href="/img/icon.svg#settings"></use></svg></button>
+		<button on:click="{show}"><svg><use xlink:href="/img/icon.svg#settings" /></svg></button>
+		<Modal bind:show><BadgeManager badge="{badge}" /></Modal>
 	</div>
 </div>
 
