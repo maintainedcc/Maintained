@@ -3,7 +3,7 @@
   import { closeModal } from "./util/modal";
   import { sineInOut } from "svelte/easing";
   import { fly } from "svelte/transition";
-  import { onDestroy, onMount } from "svelte";
+  import { onDestroy } from "svelte";
 
   let shown = false;
   export const show = () => shown = true;
