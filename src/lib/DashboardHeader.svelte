@@ -59,7 +59,7 @@
 			}
 
 			&:hover {
-				background-color: #eee;
+				background-color: var(--background-secondary);
 			}
 		}
 	}

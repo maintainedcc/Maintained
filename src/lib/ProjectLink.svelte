@@ -11,7 +11,7 @@
 	.project-link {
 		border-radius: 5px;
 		box-sizing: border-box;
-		color: inherit;
+		color: var(--text-secondary);
 		cursor: pointer;
 		display: flex;
 		align-items: center;

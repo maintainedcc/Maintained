@@ -32,6 +32,10 @@
 			Shared Project
 		</ProjectLink></li>
 	</ul>
+	<span class="spacer" />
+	<footer>
+		&copy; maintained.cc 2022
+	</footer>
 </section>
 
 <style lang="scss">
@@ -39,6 +43,8 @@
 		background-color: var(--background-primary);
 		border-radius: 10px;
 		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
 		padding: 30px;
 		width: 240px;
 
@@ -63,5 +69,17 @@
 		list-style: none;
 		margin: 0;
 		padding: 0;
+	}
+
+	.spacer {
+		display: block;
+		flex: 1 1;
+		min-height: 30px;
+	}
+
+	footer {
+		color: var(--text-secondary);
+		font-size: 0.6rem;
+		letter-spacing: 1px;
 	}
 </style>

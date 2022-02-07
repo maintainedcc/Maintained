@@ -14,6 +14,8 @@
 		--background-primary: #fff;
 		--background-secondary: #eee;
 
+		--text-primary: #000;
+		--text-secondary: #555;
 		--text-brand: var(--brand-a);
 
 		--green: #a5b800;
@@ -32,6 +34,7 @@
 
 	html {
 		background-color: var(--brand-primary);
+		color: var(--text-primary);
 		overflow-x: hidden;
 	}
 

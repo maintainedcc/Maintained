@@ -29,8 +29,9 @@
     }
 
     &::after {
-      background-color: #eee;
+      background-color: var(--background-secondary);
       border-radius: 5px;
+			color: var(--text-secondary);
       content: "Saving";
       font-size: 0.6rem;
       text-transform: lowercase;
