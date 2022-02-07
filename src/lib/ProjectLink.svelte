@@ -11,14 +11,14 @@
 	.project-link {
 		border-radius: 5px;
 		box-sizing: border-box;
-		color: var(--green);
+		color: inherit;
 		cursor: pointer;
 		display: flex;
 		align-items: center;
 		column-gap: 10px;
 		font-size: 0.85rem;
 		font-weight: normal;
-		padding: 0 10px;
+		padding: 0 8px;
 		transition-duration: 0.3s;
 		
 		&::before {
@@ -32,11 +32,7 @@
 		}
 
 		&:hover {
-			background-color: #eee;
-			color: var(--blue);
-		}
-		&:hover::before {
-			background-color: var(--blue);
+			background-color: var(--background-secondary);
 		}
 	}
 </style>

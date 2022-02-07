@@ -24,11 +24,13 @@
 		{/each}
 	</ul>
 	<br>
-	<h2>Teams</h2>
+	<div class="header">
+		<h2>Teams</h2>
+	</div>
 	<ul>
-		<li>Project F</li>
-		<li>Project G</li>
-		<li>Project H</li>
+		<li><ProjectLink href="#">
+			Shared Project
+		</ProjectLink></li>
 	</ul>
 </section>
 
@@ -44,7 +46,7 @@
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			margin-bottom: 10px;
+			margin-bottom: 12px;
 		}
 	}
 
