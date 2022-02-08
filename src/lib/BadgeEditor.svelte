@@ -2,6 +2,7 @@
 <script lang="ts">
 	import BadgeManager from "./BadgeManager.svelte";
 	import Modal from "./Modal.svelte";
+	import { updateBadge } from "./util/api";
 	import { user } from "./util/data";
 	import type { Badge, Project } from "./util/schema";
 
@@ -15,12 +16,19 @@
 		const text = `![${url}](${url})`;
 		navigator.clipboard.writeText(text);
 	}
+
+	let timeout: NodeJS.Timer;
+	function update() {
+		if (timeout) clearTimeout(timeout);
+		timeout = setTimeout(() => updateBadge(project.title, badge), 300);
+	}
 </script>
 
 <div class="group">
 	<div class="editor">
 		{#each badge.fields.slice(0, 2) as field}
-		<input data-color="{field.color}" type="text" placeholder="Badge Content" bind:value="{field.content}">
+		<input data-color="{field.color}" type="text" placeholder="Badge Content"
+			bind:value="{field.content}" on:keypress="{update}" on:change="{update}">
 		{/each}
 		{#if badge.fields.length > 2}
 		<button>+{badge.fields.length - 2}</button>
@@ -29,7 +37,7 @@
 	<div class="controls">
 		<button on:click="{copy}"><svg><use xlink:href="/img/icon.svg#clipboard"></use></svg></button>
 		<button on:click="{show}"><svg><use xlink:href="/img/icon.svg#settings" /></svg></button>
-		<Modal bind:show><BadgeManager bind:badge="{badge}" project="{project}" /></Modal>
+		<Modal bind:show><BadgeManager bind:badge="{badge}" project="{project}" on:update="{update}" /></Modal>
 	</div>
 </div>
 

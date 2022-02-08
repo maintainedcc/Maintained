@@ -1,6 +1,6 @@
 
 import { user } from "$lib/util/data";
-import type { User } from "$lib/util/schema";
+import type { Badge, User } from "$lib/util/schema";
 
 // https://stackoverflow.com/a/15724300
 function getCookie(name: string): string {
@@ -36,6 +36,13 @@ export async function createProject(project: string): Promise<void> {
 	const query = `${baseUrl}/v1/project/create?project=${project}`;
 	await fetch(query, options("POST"))
 		.then(() => getUser());
+}
+
+/* updating stuff */
+
+export async function updateBadge(project: string, badge: Badge): Promise<void> {
+	const query = `${baseUrl}/v1/badge/update?project=${project}`;
+	await fetch(query, {...options("POST"), body: JSON.stringify(badge)});
 }
 
 /* deleting stuff */

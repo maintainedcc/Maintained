@@ -1,13 +1,17 @@
 
 <script lang="ts">
 	import IconButton from "./IconButton.svelte";
+	import { createEventDispatcher } from "svelte";
 	import type { BadgeField } from "./util/schema";
 
 	export let field: BadgeField;
+
+	const dispatch = createEventDispatcher();
 </script>
 
 <div class="field">
-	<input type="text" data-color="{field.color}" bind:value="{field.content}">
+	<input type="text" data-color="{field.color}" bind:value="{field.content}"
+		on:keypress="{()=>dispatch("update")}" on:change="{()=>dispatch("update")}">
 	<IconButton icon="color" medium="{true}" />
 	<IconButton icon="plugin" medium="{true}" />
 	<IconButton icon="trash" medium="{true}" />

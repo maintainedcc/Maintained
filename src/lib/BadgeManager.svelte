@@ -1,12 +1,15 @@
 
 <script lang="ts">
   import BadgeField from "./BadgeField.svelte";
+  import { createEventDispatcher } from "svelte";
   import { deleteBadge } from "./util/api";
   import { closeModal } from "./util/modal";
   import type { Badge, Project } from "./util/schema";
 
   export let badge: Badge;
   export let project: Project;
+
+  const dispatch = createEventDispatcher();
 
   function addField() {
     badge.fields.push({
@@ -15,6 +18,7 @@
       width: 70
     });
     badge.fields = badge.fields;
+    dispatch("update");
   }
 
   let delStage = 0;
@@ -47,7 +51,7 @@
   <input type="text" placeholder="Link Direct URL" />
   <h3>Badge Fields</h3>
   {#each badge.fields as field}
-  <BadgeField bind:field="{field}" />
+  <BadgeField bind:field="{field}" on:update />
   {/each}
   <button on:click="{addField}">add badge field</button>
   <br>
