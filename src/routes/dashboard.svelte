@@ -41,13 +41,14 @@
 
 		section {
 			background-color: var(--background-primary);
-			border-radius: 10px;
+			border-radius: 5px;
 			box-sizing: border-box;
 			display: flex;
 			flex-direction: column;
 			row-gap: 40px;
 			flex: 1 1;
-			padding: 30px 40px;
+			padding: 25px 40px;
+			padding-bottom: 35px;
 		}
 	}
 </style>

@@ -41,7 +41,7 @@
 <style lang="scss">
 	.projects {
 		background-color: var(--background-primary);
-		border-radius: 10px;
+		border-radius: 5px;
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;

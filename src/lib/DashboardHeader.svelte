@@ -21,11 +21,11 @@
 <style lang="scss">
 	header {
 		background-color: var(--background-primary);
-		border-radius: 10px;
+		border-radius: 5px;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 25px 40px;
+		padding: 25px 35px;
 		padding-left: 30px;
 
 		nav, span {
