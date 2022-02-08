@@ -22,54 +22,21 @@
       type="text" placeholder="New Project"
       required bind:value="{projectName}">
   </div>
-  <div class="group">
-    <button on:click="{create}">Create Project</button>
-  </div>
+  <button on:click="{create}">Create Project</button>
 </form>
 
 <style lang="scss">
   .group, form {
     display: flex;
     flex-direction: column;
-    row-gap: 15px;
   }
   .group {
+    margin-bottom: 15px;
     row-gap: 5px;
-  }
-
-  label {
-    color: var(--blue);
-    display: block;
-    font-size: 0.6rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-  
-  input, button {
-    background-color: transparent;
-    border: 1px solid var(--blue);
-    border-radius: 3px;
-    box-sizing: border-box;
-    display: block;
-    font-family: inherit;
-    font-size: 0.8rem;
-    padding: 0.5rem 0.8rem;
-    width: 100%;
   }
 
   button {
     align-self: flex-end;
-    cursor: pointer;
-    font-family: inherit;
-    font-size: 0.6rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    padding: 0.5rem 1.5rem;
     width: fit-content;
-    transition-duration: 0.3s;
-
-    &:hover {
-      background-color: var(--background-secondary);
-    }
   }
 </style>

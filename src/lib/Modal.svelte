@@ -62,9 +62,63 @@
     bottom: 0;
     overflow-y: auto;
 
-    :global(h2) {
-      font-size: 1rem;
-      margin: 0;
+    :global {
+      h2 {
+        font-size: 1rem;
+        margin: 0;
+      }
+
+      h3, label {
+        color: var(--blue);
+        display: block;
+        font-family: "Urbanist", sans-serif;
+        font-size: 0.6rem;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin: 0;
+        margin-top: 16px;
+      }
+
+      p {
+        display: block;
+        font-size: 0.65rem;
+        letter-spacing: 1px;
+        line-height: 1.5;
+        text-transform: uppercase;
+        margin: 0;
+        margin-top: 16px;
+      }
+
+      button, input {
+        background-color: transparent;
+        border: var(--blue) 1px solid;
+        border-radius: 3px;
+        box-sizing: border-box;
+
+        font-family: inherit;
+        font-size: 0.65rem;
+        letter-spacing: 1px;
+
+        margin: 0;
+        padding: 8px 15px;
+
+        transition-duration: 0.2s;
+      }
+
+      input {
+        padding: 9px 19px;
+      }
+
+      button {
+        cursor: pointer;
+        font-size: 0.6rem;
+        text-transform: uppercase;
+        
+        &:hover {
+          background-color: var(--blue);
+          color: white;
+        }
+      }
     }
   }
 </style>

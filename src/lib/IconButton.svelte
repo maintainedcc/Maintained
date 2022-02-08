@@ -5,12 +5,12 @@
 	export let small = false;
 </script>
 
-<button on:click class:small class:medium>
+<button class="icon-btn" on:click class:small class:medium>
 	<svg><use xlink:href="/img/icon.svg#{icon}"></use></svg>
 </button>
 
 <style lang="scss">
-	button {
+	.icon-btn {
 		background-color: transparent;
 		border: none;
 		border-radius: 50%;
@@ -30,7 +30,8 @@
 		}
 
 		&:hover, &:focus {
-			background-color: #eee;
+			background-color: var(--background-secondary);
+			color: var(--text-primary);
 		}
 
 		&:active {

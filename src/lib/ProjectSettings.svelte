@@ -16,8 +16,4 @@
 </section>
 
 <style lang="scss">
-  p {
-    line-height: 1.5;
-    font-size: 0.8rem;
-  }
 </style>
