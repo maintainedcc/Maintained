@@ -1,10 +1,11 @@
 
 <script lang="ts">
 	export let icon: string;
+	export let medium = false;
 	export let small = false;
 </script>
 
-<button on:click class:small>
+<button on:click class:small class:medium>
 	<svg><use xlink:href="/img/icon.svg#{icon}"></use></svg>
 </button>
 
@@ -36,10 +37,26 @@
 			transform: scale(0.95);
 		}
 
+		&.medium {
+			padding: 5px;
+			height: 35px;
+			width: 35px;
+
+			> svg {
+				height: 18px;
+				width: 18px;
+			}
+		}
+
 		&.small {
 			padding: 5px;
 			height: 30px;
 			width: 30px;
+
+			> svg {
+				height: 18px;
+				width: 18px;
+			}
 		}
 	}
 </style>
