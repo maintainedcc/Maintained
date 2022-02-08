@@ -19,7 +19,7 @@
 		<ProjectList projects="{$user.projects}" />
 		<section>
 			{#each $user.projects as project}
-			<Project project="{project}" />
+			<Project bind:project="{project}" />
 			{/each}
 		</section>
 	</div>
