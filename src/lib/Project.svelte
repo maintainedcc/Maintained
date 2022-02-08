@@ -23,7 +23,7 @@
 	</p>
 	<div class="badges">
 		{#each project.badges as badge}
-		<BadgeEditor badge="{badge}" />
+		<BadgeEditor badge="{badge}" project="{project}" />
 		{/each}
 	</div>
 </div>

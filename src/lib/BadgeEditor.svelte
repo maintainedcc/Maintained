@@ -2,10 +2,19 @@
 <script lang="ts">
 	import BadgeManager from "./BadgeManager.svelte";
 	import Modal from "./Modal.svelte";
-	import type { Badge } from "./util/schema";
+	import { user } from "./util/data";
+	import type { Badge, Project } from "./util/schema";
 
 	export let badge: Badge;
+	export let project: Project;
 	let show: () => any; // Opens badge manager modal
+
+	function copy() {
+		const host = import.meta.env.VITE_MAINTAINED_API_BASE;
+		const url = `${host}/${$user.name}/${project.title}/${badge.id}`;
+		const text = `![${url}](${url})`;
+		navigator.clipboard.writeText(text);
+	}
 </script>
 
 <div class="group">
@@ -16,7 +25,7 @@
 		<button>+3</button>
 	</div>
 	<div class="controls">
-		<button><svg><use xlink:href="/img/icon.svg#clipboard"></use></svg></button>
+		<button on:click="{copy}"><svg><use xlink:href="/img/icon.svg#clipboard"></use></svg></button>
 		<button on:click="{show}"><svg><use xlink:href="/img/icon.svg#settings" /></svg></button>
 		<Modal bind:show><BadgeManager badge="{badge}" /></Modal>
 	</div>
