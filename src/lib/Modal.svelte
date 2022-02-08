@@ -51,7 +51,7 @@
 
     margin: auto;
     padding: 30px;
-    max-height: calc(100vh - 60px);
+    max-height: calc(100vh - 120px);
     height: min-content;
     width: 360px;
 
