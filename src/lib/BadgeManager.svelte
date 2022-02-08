@@ -1,9 +1,26 @@
 
 <script lang="ts">
   import BadgeField from "./BadgeField.svelte";
-  import type { Badge } from "./util/schema";
+  import { deleteBadge } from "./util/api";
+  import { closeModal } from "./util/modal";
+  import type { Badge, Project } from "./util/schema";
 
   export let badge: Badge;
+  export let project: Project;
+
+  let delStage = 0;
+  let delText = "Delete Badge";
+  async function del(e: Event) {
+    if (delStage === 0) {
+      delText = "Confirm Delete?";
+      delStage = 1;
+    }
+    else {
+      delStage = 0;
+      await deleteBadge(project.title, badge.id);
+      closeModal.set(e);
+    }
+  }
 </script>
 
 <section class="manager">
@@ -21,10 +38,11 @@
   <input type="text" placeholder="Link Direct URL" />
   <h3>Badge Fields</h3>
   {#each badge.fields as field}
-  <BadgeField field="{field}" />
+  <BadgeField bind:field="{field}" />
   {/each}
   <button>add badge field</button>
-  <p>{JSON.stringify(badge)}</p>
+  <br>
+  <button class="delete" on:click="{del}">{delText}</button>
 </section>
 
 <style lang="scss">
@@ -32,5 +50,15 @@
     display: flex;
     flex-direction: column;
     row-gap: 8px;
+  }
+
+  button.delete {
+    border-color: var(--brand-primary);
+    align-self: flex-end;
+    width: fit-content;
+
+    &:hover {
+      background-color: var(--brand-primary);
+    }
   }
 </style>

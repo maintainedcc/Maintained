@@ -27,7 +27,7 @@
 	<div class="controls">
 		<button on:click="{copy}"><svg><use xlink:href="/img/icon.svg#clipboard"></use></svg></button>
 		<button on:click="{show}"><svg><use xlink:href="/img/icon.svg#settings" /></svg></button>
-		<Modal bind:show><BadgeManager bind:badge="{badge}" /></Modal>
+		<Modal bind:show><BadgeManager bind:badge="{badge}" project="{project}" /></Modal>
 	</div>
 </div>
 

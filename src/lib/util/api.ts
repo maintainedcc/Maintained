@@ -24,6 +24,8 @@ export async function getUser(): Promise<void> {
 		.then(r => user.set(r as User));
 }
 
+/* creating stuff */
+
 export async function createBadge(project: string): Promise<void> {
 	const query = `${baseUrl}/v1/badge/create?project=${project}`;
 	await fetch(query, options("POST"))
@@ -32,6 +34,14 @@ export async function createBadge(project: string): Promise<void> {
 
 export async function createProject(project: string): Promise<void> {
 	const query = `${baseUrl}/v1/project/create?project=${project}`;
+	await fetch(query, options("POST"))
+		.then(() => getUser());
+}
+
+/* deleting stuff */
+
+export async function deleteBadge(project: string, id: number): Promise<void> {
+	const query = `${baseUrl}/v1/badge/delete?project=${project}&id=${id}`;
 	await fetch(query, options("POST"))
 		.then(() => getUser());
 }
