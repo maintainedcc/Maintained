@@ -45,3 +45,9 @@ export async function deleteBadge(project: string, id: number): Promise<void> {
 	await fetch(query, options("POST"))
 		.then(() => getUser());
 }
+
+export async function deleteProject(project: string): Promise<void> {
+	const query = `${baseUrl}/v1/project/delete?project=${project}`;
+	await fetch(query, options("POST"))
+		.then(() => getUser());
+}
