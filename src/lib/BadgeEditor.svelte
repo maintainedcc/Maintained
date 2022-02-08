@@ -19,10 +19,12 @@
 
 <div class="group">
 	<div class="editor">
-		{#each badge.fields as field}
+		{#each badge.fields.slice(0, 2) as field}
 		<input data-color="{field.color}" type="text" placeholder="Badge Content" bind:value="{field.content}">
 		{/each}
-		<button>+3</button>
+		{#if badge.fields.length > 2}
+		<button>+{badge.fields.length - 2}</button>
+		{/if}
 	</div>
 	<div class="controls">
 		<button on:click="{copy}"><svg><use xlink:href="/img/icon.svg#clipboard"></use></svg></button>

@@ -8,6 +8,15 @@
   export let badge: Badge;
   export let project: Project;
 
+  function addField() {
+    badge.fields.push({
+      content: "New Field",
+      color: 4,
+      width: 70
+    });
+    badge.fields = badge.fields;
+  }
+
   let delStage = 0;
   let delText = "Delete Badge";
   async function del(e: Event) {
@@ -40,7 +49,7 @@
   {#each badge.fields as field}
   <BadgeField bind:field="{field}" />
   {/each}
-  <button>add badge field</button>
+  <button on:click="{addField}">add badge field</button>
   <br>
   <button class="delete" on:click="{del}">{delText}</button>
 </section>
