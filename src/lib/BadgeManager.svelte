@@ -39,13 +39,14 @@
 <section class="manager">
   <h2>Badge Manager</h2>
   <h3>Primary Style</h3>
-  <select name="" id="">
-    <option value="">Maintained Default</option>
+  <select bind:value="{badge.style}" on:change="{()=>dispatch("update")}">
+    <option value="{0}">Plastic</option>
+    <option value="{1}">Flat</option>
+    <option value="{2}">FTB</option>
   </select>
   <h3>Secondary Effects</h3>
-  <select name="" id="">
+  <select>
     <option value="">None</option>
-    <option value="">Border Glow</option>
   </select>
   <h3>Link Direct</h3>
   <input type="text" placeholder="Link Direct URL" />
