@@ -18,6 +18,11 @@ function options(method = "GET") {
 	};
 };
 
+export async function ensureUser(jwt: string): Promise<{ok: boolean, message: string}> {
+	return fetch(`${baseUrl}/v1/user/ensure?jwt=${jwt}`)
+		.then(r => r.json());
+}
+
 export async function getUser(): Promise<void> {
 	await fetch(`${baseUrl}/v1/user/data`, options())
 		.then(r => r.json())
