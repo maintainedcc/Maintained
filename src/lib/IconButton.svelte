@@ -1,11 +1,12 @@
 
 <script lang="ts">
 	export let icon: string;
+	export let active = false;
 	export let medium = false;
 	export let small = false;
 </script>
 
-<button class="icon-btn" on:click class:small class:medium>
+<button class="icon-btn" on:click class:small class:medium class:active>
 	<svg><use xlink:href="/img/icon.svg#{icon}"></use></svg>
 </button>
 
@@ -36,6 +37,10 @@
 
 		&:active {
 			transform: scale(0.95);
+		}
+
+		&.active {
+			background-color: var(--background-secondary);
 		}
 
 		&.medium {

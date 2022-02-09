@@ -7,15 +7,61 @@
 	export let field: BadgeField;
 
 	const dispatch = createEventDispatcher();
+
+	// Extra options per badge field
+	let optsShown = false;
+	function toggleOpts() {
+		if (!optsShown) dispatch("toggle");
+		optsShown = !optsShown;
+	}
+	export function collapseOpts() {
+		optsShown = false;
+	}
+
+	// Deletes badge field
+	export let enableDelete = false;
+	function del() {
+		dispatch("delete");
+	}
+
+	// Updates individual badge field color
+	function setColor(num: number) {
+		field.color = num;
+		dispatch("update");
+	}
+	function colorToName(num: number) {
+		switch(num) {
+			case 0: return "Simple";
+			case 1: return "Slate";
+			case 2: return "Seabed";
+			case 3: return "Subterranean";
+			case 4: return "Savannah";
+			case 5: return "Sahara";
+			case 6: return "Sunset";
+		}
+	}
 </script>
 
 <div class="field">
 	<input type="text" data-color="{field.color}" bind:value="{field.content}"
 		on:keypress="{()=>dispatch("update")}" on:change="{()=>dispatch("update")}">
-	<IconButton icon="color" medium="{true}" />
+	<IconButton icon="color" medium="{true}" on:click="{toggleOpts}" active="{optsShown}" />
 	<IconButton icon="plugin" medium="{true}" />
-	<IconButton icon="trash" medium="{true}" />
+	{#if enableDelete}
+	<IconButton icon="trash" medium="{true}" on:click="{del}" />
+	{/if}
 </div>
+{#if optsShown}
+<div class="options">
+	<p>{colorToName(field.color)}</p>
+	{#each Array(7) as _, i}
+	<button
+		class="color-opt" class:active="{field.color === i}"
+		data-color="{i}" on:click="{()=>setColor(i)}">
+	</button>
+	{/each}
+</div>
+{/if}
 
 <style lang="scss">
 	.field {
@@ -37,27 +83,63 @@
 			padding: 6px 20px;
 			height: 35px;
 		}
+	}
 
+	.options {
+		border-left: var(--blue) 2px solid;
+		border-radius: 1px;
+		display: flex;
+		align-items: center;
+		column-gap: 10px;
+		margin-bottom: 5px;
+		padding: 2px 10px;
+
+		p {
+			flex: 1 1;
+			margin: 0;
+		}
+
+		button {
+			border: 3px solid;
+			border-radius: 5px;
+			padding: 0;
+			height: 20px;
+			width: 20px;
+
+			&.active {
+				background-color: transparent;
+			}
+		}
+	}
+
+	.field, .options {
 		[data-color="0"] {
 			background-color: #555;
+			border-color: #555;
 		}
 		[data-color="1"] {
 			background-color: #556;
+			border-color: #556;
 		}
 		[data-color="2"] {
 			background-color: #013;
+			border-color: #013;
 		}
 		[data-color="3"] {
 			background-color: #111;
+			border-color: #111;
 		}
 		[data-color="4"] {
 			background-color: #AB2;
+			border-color: #AB2;
 		}
 		[data-color="5"] {
 			background-color: #F80;
+			border-color: #F80;
 		}
 		[data-color="6"] {
 			background-color: #F20;
+			border-color: #F20;
 		}
 	}
 </style>

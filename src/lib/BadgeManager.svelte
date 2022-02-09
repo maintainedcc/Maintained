@@ -11,6 +11,11 @@
 
   const dispatch = createEventDispatcher();
 
+  // Only allows one field to have expanded options at a time
+  let collapseOpts: (() => void)[] = [];
+  const collapseAll = () => collapseOpts.forEach(collapse => collapse());
+
+  // Adds a new default field to the badge
   function addField() {
     badge.fields.push({
       content: "New Field",
@@ -21,6 +26,13 @@
     dispatch("update");
   }
 
+  function deleteField(id: number) {
+    badge.fields.splice(id, 1);
+    badge.fields = badge.fields;
+    dispatch("update");
+  }
+
+  // Handles delete confirmation of badge
   let delStage = 0;
   let delText = "Delete Badge";
   async function del(e: Event) {
@@ -51,8 +63,10 @@
   <h3>Link Direct</h3>
   <input type="text" placeholder="Link Direct URL" />
   <h3>Badge Fields</h3>
-  {#each badge.fields as field}
-  <BadgeField bind:field="{field}" on:update />
+  {#each badge.fields as field, i}
+  <BadgeField bind:field="{field}" on:update
+    on:delete="{()=>deleteField(i)}" enableDelete="{badge.fields.length > 1}"
+    on:toggle="{collapseAll}" bind:collapseOpts="{collapseOpts[i]}" />
   {/each}
   <button on:click="{addField}">add badge field</button>
   <br>
