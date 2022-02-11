@@ -5,6 +5,7 @@
 	import type { BadgeField } from "./util/schema";
 
 	export let field: BadgeField;
+	$: iconURL = `https://unpkg.com/simple-icons@v6/icons/${field.iconURI}.svg`;
 
 	const dispatch = createEventDispatcher();
 
@@ -16,6 +17,13 @@
 	}
 	export function collapseOpts() {
 		optsShown = false;
+	}
+
+	function upd() {
+		const icon = field.content.match(/^:(.+):/);
+		if (icon) field.iconURI = icon[1];
+		else field.iconURI = "";
+		dispatch("update");
 	}
 
 	// Deletes badge field
@@ -43,8 +51,16 @@
 </script>
 
 <div class="field">
-	<input type="text" data-color="{field.color}" bind:value="{field.content}"
-		on:keypress="{()=>dispatch("update")}" on:change="{()=>dispatch("update")}">
+	<span class="input" class:hasIcon="{!!field.iconURI}">
+		{#if field.iconURI}
+		<object data="{iconURL}" title="{field.iconURI}">ERR</object>
+		{/if}
+		<input type="text" spellcheck="false"
+			data-color="{field.color}"
+			bind:value="{field.content}"
+			on:keyup="{upd}"
+			on:change="{upd}">
+	</span>
 	<IconButton icon="color" medium="{true}" on:click="{toggleOpts}" active="{optsShown}" />
 	<IconButton icon="plugin" medium="{true}" />
 	{#if enableDelete}
@@ -68,6 +84,29 @@
 		display: flex;
 		align-items: center;
 		column-gap: 2px;
+
+		.input {
+			flex: 1 1;
+			margin-right: 10px;
+			position: relative;
+		}
+
+		object {
+			display: grid;
+			place-items: center;
+			font-size: 0.5rem;
+			font-weight: 700;
+			line-height: 1;
+
+			filter: invert(1);
+			margin: auto;
+			height: 18px;
+			width: 18px;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 15px;
+		}
 		
 		input {
 			background-color: #000;
@@ -77,11 +116,16 @@
 			color: #fff;
 			font-family: inherit;
 			font-size: 0.65rem;
-			flex: 1 1;
 			margin: 0;
-			margin-right: 10px;
 			padding: 6px 20px;
 			height: 35px;
+			width: 100%;
+		}
+
+		.input.hasIcon {
+			input {
+				padding-left: 45px;
+			}
 		}
 	}
 
