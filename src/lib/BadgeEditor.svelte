@@ -20,16 +20,7 @@
 	let timeout: NodeJS.Timer;
 	function update() {
 		if (timeout) clearTimeout(timeout);
-		badge.fields.forEach(f => f.width = getStringPixelWidth(f.content, "11px Verdana") + 15)
 		timeout = setTimeout(() => updateBadge(project.title, badge), 300);
-	}
-
-	function getStringPixelWidth(string, font) {
-		string = string.replace(/:.+:/, "");
-		var canvas = document.createElement('canvas');
-		var ctx = canvas.getContext("2d");
-		ctx.font = font;        
-		return Math.ceil(ctx.measureText(string).width);
 	}
 </script>
 

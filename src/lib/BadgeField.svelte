@@ -5,9 +5,12 @@
 	import type { BadgeField } from "./util/schema";
 
 	export let field: BadgeField;
+	$: field.iconURI = field.content.match(/^:(.+):/)?.[1];
+	$: field.width = calculateWidth(field.content, "11px Verdana") + 15;
 	$: iconURL = `https://unpkg.com/simple-icons@v6/icons/${field.iconURI}.svg`;
 
 	const dispatch = createEventDispatcher();
+	function upd() { dispatch("update"); }
 
 	// Extra options per badge field
 	let optsShown = false;
@@ -19,11 +22,11 @@
 		optsShown = false;
 	}
 
-	function upd() {
-		const icon = field.content.match(/^:(.+):/);
-		if (icon) field.iconURI = icon[1];
-		else field.iconURI = "";
-		dispatch("update");
+	function calculateWidth(content: string, font: string) {
+		content = content.replace(/:.+:/, "");
+		let ctx = document.createElement('canvas').getContext("2d");
+		ctx.font = font;        
+		return Math.ceil(ctx.measureText(content).width);
 	}
 
 	// Deletes badge field
