@@ -6,7 +6,7 @@
 
 	export let field: BadgeField;
 	$: field.iconURI = field.content.match(/^:(.+):/)?.[1];
-	$: field.width = calculateWidth(field.content, "11px Verdana") + 15;
+	$: field.width = calculateWidth(field.content, "11px Verdana");
 	$: iconURL = `https://unpkg.com/simple-icons@v6/icons/${field.iconURI}.svg`;
 
 	const dispatch = createEventDispatcher();
