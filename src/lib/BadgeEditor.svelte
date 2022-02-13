@@ -11,7 +11,7 @@
 	let show: () => any; // Opens badge manager modal
 
 	function copy() {
-		const host = import.meta.env.VITE_MAINTAINED_API_BASE;
+		const host = import.meta.env.VITE_MAINTAINED_TAI_BASE;
 		const url = `${host}/${$user.name}/${project.title}/${badge.id}`;
 		const text = `![${url}](${url})`;
 		navigator.clipboard.writeText(text);
