@@ -1,13 +1,14 @@
-name: Build Maintained Nightly
+name: Nightly
 
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   docker:
     runs-on: ubuntu-latest
-    environment: nightly
+    environment: Nightly
     steps:
       -
         name: Checkout
