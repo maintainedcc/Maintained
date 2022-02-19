@@ -8,7 +8,6 @@ on:
 jobs:
   docker:
     runs-on: ubuntu-latest
-    environment: Nightly
     steps:
       -
         name: Checkout
@@ -23,6 +22,10 @@ jobs:
       -
         name: Build & Push
         uses: docker/build-push-action@v2
+        env:
+          MAINTAINED_LOGIN_URL: ${{ secrets.MAINTAINED_LOGIN_URL }}
+          MAINTAINED_API_BASE: ${{ secrets.MAINTAINED_API_BASE }}
+          MAINTAINED_TAI_BASE: ${{ secrets.MAINTAINED_TAI_BASE }}
         with:
           context: .
           push: true
