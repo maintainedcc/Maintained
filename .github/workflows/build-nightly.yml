@@ -17,7 +17,7 @@ jobs:
         name: Login to Registry
         uses: docker/login-action@v1
         with:
-          registry: ${{ secrets.REGISTRY_URL }}
+          registry: registry.sdbagel.com
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
       -
@@ -26,4 +26,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.REGISTRY_URL }}/maintained:nightly
+          tags: registry.sdbagel.com/maintained:nightly
