@@ -19,13 +19,16 @@ jobs:
           registry: registry.sdbagel.com
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
+      - 
+        name: Make envfile
+        uses: SpicyPizza/create-envfile@v1.3
+        with:
+          envkey_VITE_MAINTAINED_LOGIN_URL: ${{ secrets.MAINTAINED_LOGIN_URL }}
+          envkey_VITE_MAINTAINED_API_BASE: ${{ secrets.MAINTAINED_API_BASE }}
+          envkey_VITE_MAINTAINED_TAI_BASE: ${{ secrets.MAINTAINED_TAI_BASE }}
       -
         name: Build & Push
         uses: docker/build-push-action@v2
-        env:
-          MAINTAINED_LOGIN_URL: ${{ secrets.MAINTAINED_LOGIN_URL }}
-          MAINTAINED_API_BASE: ${{ secrets.MAINTAINED_API_BASE }}
-          MAINTAINED_TAI_BASE: ${{ secrets.MAINTAINED_TAI_BASE }}
         with:
           context: .
           push: true
