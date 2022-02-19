@@ -1,14 +1,20 @@
 
-FROM amd64/node:16-alpine
-
+FROM amd64/node:16-alpine as builder
 WORKDIR /app
-
+EXPOSE 3000
 COPY . .
 RUN npm install
-ENV VITE_MAINTAINED_LOGIN_URL=${MAINTAINED_LOGIN_URL}
-ENV VITE_MAINTAINED_API_BASE=${MAINTAINED_API_BASE}
-ENV VITE_MAINTAINED_TAI_BASE=${MAINTAINED_TAI_BASE}
-RUN npm run build
 
-EXPOSE 3000
+FROM builder as nightly
+ENV VITE_MAINTAINED_LOGIN_URL=https://nightly.id.maintained.cc/oauth/login
+ENV VITE_MAINTAINED_API_BASE=https://nightly.api.maintained.cc
+ENV VITE_MAINTAINED_TAI_BASE=https://nightly.tai.maintained.cc
+RUN npm run build
+CMD ["node", "./build"]
+
+FROM builder as production
+ENV VITE_MAINTAINED_LOGIN_URL=https://id.maintained.cc/oauth/login
+ENV VITE_MAINTAINED_API_BASE=https://api.maintained.cc
+ENV VITE_MAINTAINED_TAI_BASE=https://tai.maintained.cc
+RUN npm run build
 CMD ["node", "./build"]
