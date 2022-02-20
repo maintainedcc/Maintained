@@ -1,20 +1,15 @@
-<p align="center"><a href="https://maintained.cc" target="_blank" rel="noopener noreferrer"><img width="200" src="https://maintained.cc/img/favicon.png" alt="Maintained logo"></a></p>
-<h1 align="center">Maintained</h1>
-<p align="center">
+<p align="center"><a href="https://maintained.cc" target="_blank" rel="noopener noreferrer"><img src=".github/readme/banner.png" width="100%" alt="Maintained"></a></p>
+<p>
   <a href="https://maintained.cc"><img src="https://maintained.cc/SDBagel/Maintained/1?" alt="Status Badge"></a>
   <a href="https://maintained.cc"><img src="https://maintained.cc/SDBagel/Maintained/2?" alt="Get Started Now"></a>
 </p>
-<p align="center">
-  <a href="https://maintained.cc">https://maintained.cc</a>
-</p>
+<p><b><a href="https://maintained.cc">https://maintained.cc</a></b></p>
 <hr>
 
-## [Maintained Nightly]
-This is the unstable or nightly branch of Maintained. Expect things to not work at best on this branch.
+## Maintained Nightly
+The nightly branch is no longer a monorepo project. The API can be found at [maintainedcc/Maintained-API](https://github.com/maintainedcc/Maintained-API).
 
-The nightly branch is no longer a monorepo project. The server code can be found at [maintainedcc/Maintained-API](https://github.com/maintainedcc/Maintained-API).
-
-## [Maintained Legacy (Deployed)]
+## Maintained Legacy (Deployed)
 The legacy version of Maintained can be found at [origin/legacy](https://github.com/maintainedcc/Maintained/tree/legacy). This is the version in production.
 
 In the future, Maintained will be updated to tagged releases on this branch.
@@ -22,6 +17,7 @@ In the future, Maintained will be updated to tagged releases on this branch.
 ## Use Cases
 Some cool stuff you can do with Maintained:
 
+- Show a specific badge (e.g. build status) per-branch in READMEs
 - Live development status (like this README!)
 - Repository support status
 - Showcase an API endpoint / data from an API (Soon!)
@@ -30,6 +26,9 @@ Some cool stuff you can do with Maintained:
 <hr>
 
 ## Features
+
+### Per-Branch Badging
+[![https://maintained.cc/SDBagel/Maintained/9](https://maintained.cc/SDBagel/Maintained/9)](https://maintained.cc/SDBagel/Maintained/9/redirect)
 
 ### Live Update
 ![https://maintained.cc/SDBagel/Maintained/3](https://maintained.cc/SDBagel/Maintained/3?)
