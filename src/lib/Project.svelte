@@ -21,10 +21,17 @@
 	<p class="description">
 		@org <b>&bull;</b> repository <b>&bull;</b> all branches
 	</p>
-	<div class="badges">
-		{#each project.badges as badge}
-		<BadgeEditor bind:badge="{badge}" project="{project}" />
-		{/each}
+	<div class="nav-split">
+		<nav>
+			<button>Badge</button>
+			<button>Mai</button>
+			<button>Manta</button>
+		</nav>
+		<div class="badges">
+			{#each project.badges as badge}
+			<BadgeEditor bind:badge="{badge}" project="{project}" />
+			{/each}
+		</div>
 	</div>
 </div>
 
@@ -42,9 +49,35 @@
 		}
 	}
 
-	.badges {
+	.nav-split {
 		display: flex;
-		flex-direction: column;
-		row-gap: 10px;
+		column-gap: 20px;
+		
+		nav {
+			border-radius: 3px;
+			display: flex;
+			flex-direction: column;
+			overflow: hidden;
+
+			button {
+				background-color: #000;
+				border: none;
+				color: #fff;
+				font-family: inherit;
+				text-align: left;
+
+				margin: 0;
+				padding: 0 10px;
+				height: 35px;
+				width: 55px;
+			}
+		}
+
+		.badges {
+			display: flex;
+			flex-direction: column;
+			row-gap: 10px;
+			flex: 1 1;
+		}
 	}
 </style>
