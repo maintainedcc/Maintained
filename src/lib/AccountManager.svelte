@@ -60,7 +60,6 @@
   button.delete {
     border-color: var(--brand-primary);
     align-self: flex-end;
-    margin-top: 15px;
     width: fit-content;
 
     &:hover {
