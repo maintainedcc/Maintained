@@ -4,6 +4,7 @@
 	import DashboardHeader from "$lib/DashboardHeader.svelte";
 	import ProjectList from "$lib/ProjectList.svelte";
 	import Project from "$lib/Project.svelte";
+	import WelcomeCard from "$lib/WelcomeCard.svelte";
 
 	import { onMount } from "svelte";
 	import { getUser } from "$lib/util/api";
@@ -17,11 +18,14 @@
 	<DashboardHeader />
 	<div class="content">
 		<ProjectList projects="{$user.projects}" />
-		<section>
-			{#each $user.projects as project}
-			<Project bind:project="{project}" />
-			{/each}
-		</section>
+		<div>
+			<WelcomeCard />
+			<section>
+				{#each $user.projects as project}
+				<Project bind:project="{project}" />
+				{/each}
+			</section>
+		</div>
 	</div>
 </div>
 
@@ -40,6 +44,13 @@
 	.content {
 		display: flex;
 		column-gap: 10px;
+
+		> div {
+			display: flex;
+			flex-direction: column;
+			row-gap: 10px;
+			flex: 1 1;
+		}
 
 		section {
 			@include dash-card;
