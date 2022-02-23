@@ -5,8 +5,9 @@
 
 <header>
 	<span>
-		<IconButton icon="grid" />
+		<img src="/favicon.png" alt="logo">
 		<h1>maintained <b>workspace</b></h1>
+		<code>v0.1.0</code>
 	</span>
 	<nav>
 		<IconButton icon="bell" />
@@ -34,7 +35,12 @@
 			column-gap: 10px;
 		}
 		span {
-			column-gap: 5px;
+			column-gap: 15px;
+
+			img {
+				height: 35px;
+				width: 35px;
+			}
 		}
 
 		h1 {
