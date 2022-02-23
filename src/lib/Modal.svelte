@@ -43,6 +43,7 @@
     left: -100vmax;
     bottom: -100vmax;
     right: -100vmax;
+    z-index: 20;
   }
   
   .flyout {
@@ -60,6 +61,7 @@
     left: 0;
     right: 0;
     bottom: 0;
+    z-index: 20;
     overflow-y: auto;
 
     :global {

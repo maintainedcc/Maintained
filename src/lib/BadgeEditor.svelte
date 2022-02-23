@@ -1,5 +1,6 @@
 
 <script lang="ts">
+	import BadgeField from "./BadgeField.svelte";
 	import BadgeManager from "./BadgeManager.svelte";
 	import Modal from "./Modal.svelte";
 	import { updateBadge } from "./util/api";
@@ -27,8 +28,7 @@
 <div class="group">
 	<div class="editor">
 		{#each badge.fields.slice(0, 2) as field}
-		<input data-color="{field.color}" type="text" placeholder="Badge Content"
-			bind:value="{field.content}" on:keypress="{update}" on:change="{update}">
+		<BadgeField bind:field="{field}" on:update showExtras="{false}" />
 		{/each}
 		{#if badge.fields.length > 2}
 		<button>+{badge.fields.length - 2}</button>
@@ -37,8 +37,8 @@
 	<div class="controls">
 		<button on:click="{copy}"><svg><use xlink:href="/img/icon.svg#clipboard"></use></svg></button>
 		<button on:click="{show}"><svg><use xlink:href="/img/icon.svg#settings" /></svg></button>
-		<Modal bind:show><BadgeManager bind:badge="{badge}" project="{project}" on:update="{update}" /></Modal>
 	</div>
+	<Modal bind:show><BadgeManager bind:badge="{badge}" project="{project}" on:update="{update}" /></Modal>
 </div>
 
 <style lang="scss">
@@ -52,21 +52,13 @@
 		align-items: center;
 	}
 
-	.editor {
-		flex: 1 1;
+	.editor, .controls {
+		border-radius: 5px;
+		overflow: hidden;
 	}
 
-	input {
-		background-color: #000;
-		border: none;
-		box-sizing: border-box;
-		color: #fff;
-		font-family: inherit;
-		font-size: 0.7rem;
+	.editor {
 		flex: 1 1;
-		margin: 0;
-		padding: 12px 20px;
-		height: 45px;
 	}
 
 	button {
@@ -88,36 +80,5 @@
 			height: 16px;
 			width: 16px;
 		}
-	}
-
-	input:first-child, button:first-child {
-		border-top-left-radius: 5px;
-		border-bottom-left-radius: 5px;
-	}
-	input:last-child, button:last-child {
-		border-top-right-radius: 5px;
-		border-bottom-right-radius: 5px;
-	}
-
-	[data-color="0"] {
-		background-color: #555;
-	}
-	[data-color="1"] {
-		background-color: #556;
-	}
-	[data-color="2"] {
-		background-color: #013;
-	}
-	[data-color="3"] {
-		background-color: #111;
-	}
-	[data-color="4"] {
-		background-color: #AB2;
-	}
-	[data-color="5"] {
-		background-color: #F80;
-	}
-	[data-color="6"] {
-		background-color: #F20;
 	}
 </style>

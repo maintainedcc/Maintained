@@ -5,6 +5,7 @@
 	import type { BadgeField } from "./util/schema";
 
 	export let field: BadgeField;
+	export let showExtras = true;
 	$: field.iconURI = field.content.match(/^:(.+):/)?.[1];
 	$: field.width = calculateWidth(field.content, "11px Verdana");
 	$: iconURL = `https://unpkg.com/simple-icons@v6/icons/${field.iconURI}.svg`;
@@ -53,7 +54,7 @@
 	}
 </script>
 
-<div class="field">
+<div class="field" class:full="{!showExtras}">
 	<span class="input" class:hasIcon="{!!field.iconURI}">
 		{#if field.iconURI}
 		<object data="{iconURL}" title="{field.iconURI}">ERR</object>
@@ -64,10 +65,12 @@
 			on:keyup="{upd}"
 			on:change="{upd}">
 	</span>
-	<IconButton icon="color" medium="{true}" on:click="{toggleOpts}" active="{optsShown}" />
-	<IconButton icon="plugin" medium="{true}" />
-	{#if enableDelete}
-	<IconButton icon="trash" medium="{true}" on:click="{del}" />
+	{#if showExtras}
+		<IconButton icon="color" medium="{true}" on:click="{toggleOpts}" active="{optsShown}" />
+		<IconButton icon="plugin" medium="{true}" />
+		{#if enableDelete}
+		<IconButton icon="trash" medium="{true}" on:click="{del}" />
+		{/if}
 	{/if}
 </div>
 {#if optsShown}
@@ -87,6 +90,21 @@
 		display: flex;
 		align-items: center;
 		column-gap: 2px;
+		flex: 1 1;
+
+		&.full {
+			.input {
+				margin-right: 0;
+			}
+			
+			input {
+				border-radius: 0;
+				font-size: 0.7rem;
+				flex: 1 1;
+				padding: 12px 20px;
+				height: 45px;
+			}
+		}
 
 		.input {
 			flex: 1 1;
