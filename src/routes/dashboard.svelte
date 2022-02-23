@@ -26,13 +26,15 @@
 </div>
 
 <style lang="scss">
+  @import "../lib/scss/mixins.scss";
+
 	.dashboard {
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
 		row-gap: 10px;
 		max-width: 1000px;
-		margin: 30px auto;
+		margin: 20px auto;
 	}
 
 	.content {
@@ -40,15 +42,10 @@
 		column-gap: 10px;
 
 		section {
-			background-color: var(--background-primary);
-			border-radius: 5px;
-			box-sizing: border-box;
+			@include dash-card;
 			display: flex;
 			flex-direction: column;
 			row-gap: 40px;
-			flex: 1 1;
-			padding: 25px 40px;
-			padding-bottom: 35px;
 		}
 	}
 </style>

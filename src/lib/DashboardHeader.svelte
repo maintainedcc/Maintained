@@ -20,9 +20,10 @@
 </header>
 
 <style lang="scss">
+  @import "./scss/mixins.scss";
+
 	header {
-		background-color: var(--background-primary);
-		border-radius: 5px;
+		@include dash-card;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;

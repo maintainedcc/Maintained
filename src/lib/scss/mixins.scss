@@ -1,4 +1,13 @@
 
+@mixin dash-card {
+  background-color: var(--background-primary);
+  border-radius: 3px;
+  box-shadow: 8px 8px 20px #0003;
+  box-sizing: border-box;
+  padding: 25px 40px;
+  padding-bottom: 35px;
+}
+
 @mixin data-color {
   [data-color="0"] {
     background-color: #555;

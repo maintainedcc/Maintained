@@ -39,9 +39,10 @@
 </section>
 
 <style lang="scss">
+  @import "./scss/mixins.scss";
+
 	.projects {
-		background-color: var(--background-primary);
-		border-radius: 5px;
+		@include dash-card;
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
