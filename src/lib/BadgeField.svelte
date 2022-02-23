@@ -9,7 +9,7 @@
 	export let showExtras = true;
 	$: field.iconURI = field.content.match(/^:(.+):/)?.[1];
 	$: field.width = calculateWidth(field.content, "11px Verdana");
-	$: iconURL = `https://unpkg.com/simple-icons@v6/icons/${field.iconURI}.svg`;
+	$: iconURL = `${import.meta.env.VITE_MAINTAINED_TAI_BASE}/icon/${field.iconURI}`;
 
 	const dispatch = createEventDispatcher();
 	function upd() { dispatch("update"); }
