@@ -1,6 +1,9 @@
 
 <script lang="ts">
 	import IconButton from "$lib/IconButton.svelte";
+	import { user } from "$lib/util/data";
+
+	$: username = $user.name;
 </script>
 
 <header>
@@ -12,9 +15,8 @@
 	<nav>
 		<IconButton icon="bell" />
 		<IconButton icon="help" />
-		<br>
 		<button class="account">
-			<img src="/favicon.png" alt="Account">
+			<img src="https://github.com/{username}.png" alt="Account">
 		</button>
 	</nav>
 </header>
@@ -56,12 +58,13 @@
 			cursor: pointer;
 			display: grid;
 			place-items: center;
+			margin-left: 10px;
 			padding: 5px;
 			transition-duration: 0.2s;
 
 			img {
-				width: 30px;
-				height: 30px;
+				width: 35px;
+				height: 35px;
 				border-radius: 50%;
 			}
 
