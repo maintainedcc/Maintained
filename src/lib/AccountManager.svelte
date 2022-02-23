@@ -1,6 +1,7 @@
 
 <script lang="ts">
   import { user } from "$lib/util/data";
+  import { preferences } from "./util/preferences";
 </script>
 
 <section class="account">
@@ -22,6 +23,11 @@
   </div>
   <h3>GitHub Token</h3>
   <p>The token Maintained uses to verify you only uses the public data scope. You may revoke your token <a href="">on GitHub</a> if you wish. <b>This does not delete your data.</b></p>
+  <h3>Preferences</h3>
+  <select bind:value="{$preferences.appTheme}">
+    <option value="light">Maintained Light</option>
+    <option value="red">Maintained Red</option>
+  </select>
   <br>
   <button class="delete">Close My Account</button>
 </section>
@@ -30,7 +36,6 @@
   .account, div {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     row-gap: 8px;
 
     h2 {
@@ -55,6 +60,7 @@
   button.delete {
     border-color: var(--brand-primary);
     align-self: flex-end;
+    margin-top: 15px;
     width: fit-content;
 
     &:hover {

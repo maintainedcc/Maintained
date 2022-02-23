@@ -23,7 +23,7 @@
 	</p>
 	<div class="nav-split">
 		<nav>
-			<button>Badge</button>
+			<button>Tai</button>
 			<button>Mai</button>
 			<button>Manta</button>
 		</nav>
@@ -65,6 +65,7 @@
 				color: #fff;
 				font-family: inherit;
 				text-align: left;
+				text-transform: uppercase;
 
 				margin: 0;
 				padding: 0 10px;

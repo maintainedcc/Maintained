@@ -1,4 +1,16 @@
 
+<script lang="ts">
+	import { preferences } from "$lib/util/preferences";
+	import { onMount } from "svelte";
+
+	onMount(() => {
+		$preferences = JSON.parse(localStorage.getItem("preferences") || "{}");
+		preferences.subscribe(p => {
+			localStorage.setItem("preferences", JSON.stringify(p));
+		});
+	});
+</script>
+
 <main>
 	<slot />
 </main>
@@ -6,6 +18,7 @@
 <style lang="scss" global>
 	:root {
 		--brand-primary: #c21;
+		--brand-primary-light: #fed;
 		--brand-secondary: #f98;
 		--brand-a: #f7951e;
 		--brand-b: #fbb03b;
@@ -18,8 +31,11 @@
 		--text-secondary: #555;
 		--text-brand: var(--brand-a);
 
+		--red: #b80000;
+		--orange: #dc8400;
 		--green: #a5b800;
 		--blue: #00b8a5;
+		--purple: #a500b8;
 
 		--max-width: 1200px;
 
