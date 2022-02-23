@@ -6,10 +6,12 @@
 <p><b><a href="https://maintained.cc">https://maintained.cc</a></b></p>
 <hr>
 
-## Maintained Nightly
-The nightly branch is no longer a monorepo project. The API can be found at [maintainedcc/Maintained-API](https://github.com/maintainedcc/Maintained-API).
+## Nightly
+The nightly branch is no longer a monorepo project. Other Maintained projects can be found on the GitHub org [maintainedcc](https://github.com/maintainedcc).
 
-## Maintained Legacy (Deployed)
+Nightly preview builds can be found at [https://nightly.maintained.cc](https://nightly.maintained.cc). They are not guaranteed to be stable or have 100% uptime, and the data is not synchronized with Maintained in production.
+
+## Legacy (Deployed)
 The legacy version of Maintained can be found at [origin/legacy](https://github.com/maintainedcc/Maintained/tree/legacy). This is the version in production.
 
 In the future, Maintained will be updated to tagged releases on this branch.
@@ -17,17 +19,15 @@ In the future, Maintained will be updated to tagged releases on this branch.
 ## Use Cases
 Some cool stuff you can do with Maintained:
 
-- Show a specific badge (e.g. build status) per-branch in READMEs
 - Live development status (like this README!)
 - Repository support status
-- Showcase an API endpoint / data from an API (Soon!)
-- Custom, privately-updated dynamic badges for your app (Soon!)
+- Make any API endpoint into a badge (Preview)
 
 <hr>
 
 ## Features
 
-### Per-Branch Badging
+### (Better) Per-Branch Badging
 [![https://maintained.cc/SDBagel/Maintained/9](https://maintained.cc/SDBagel/Maintained/9)](https://maintained.cc/SDBagel/Maintained/9/redirect)
 
 ### Live Update
