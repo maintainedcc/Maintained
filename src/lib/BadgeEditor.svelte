@@ -49,11 +49,9 @@
 	@include data-color;
 
 	.group, .editor, .controls {
+		border-radius: 5px;
 		display: flex;
 		align-items: center;
-	}
-	.editor, .controls {
-		border-radius: 5px;
 		overflow: hidden;
 	}
 	.group {

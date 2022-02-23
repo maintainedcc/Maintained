@@ -65,6 +65,18 @@
 		column-gap: 2px;
 		flex: 1 1;
 
+		&:first-child {
+			border-top-left-radius: 5px;
+			border-bottom-left-radius: 5px;
+			max-width: 50%;
+			min-width: 50%;
+		}
+
+		&:last-child {
+			border-top-right-radius: 5px;
+			border-bottom-right-radius: 5px;
+		}
+
 		&.full {
 			.input {
 				margin-right: 0;
