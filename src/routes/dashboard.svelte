@@ -30,14 +30,14 @@
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
-		row-gap: 30px;
+		row-gap: 10px;
 		max-width: 1000px;
 		margin: 30px auto;
 	}
 
 	.content {
 		display: flex;
-		column-gap: 30px;
+		column-gap: 10px;
 
 		section {
 			background-color: var(--background-primary);
