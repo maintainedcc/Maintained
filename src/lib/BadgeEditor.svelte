@@ -28,7 +28,7 @@
 <div class="group">
 	<div class="editor">
 		{#each badge.fields.slice(0, 2) as field}
-		<BadgeField bind:field="{field}" on:update showExtras="{false}" />
+		<BadgeField bind:field="{field}" on:update="{update}" showExtras="{false}" />
 		{/each}
 		{#if badge.fields.length > 2}
 		<button>+{badge.fields.length - 2}</button>
