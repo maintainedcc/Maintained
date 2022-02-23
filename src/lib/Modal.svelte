@@ -86,9 +86,7 @@
         font-size: 0.65rem;
         letter-spacing: 1px;
         line-height: 1.5;
-        text-transform: uppercase;
         margin: 0;
-        margin-top: 16px;
       }
 
       button, input {

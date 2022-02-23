@@ -1,9 +1,12 @@
 
 <script lang="ts">
 	import IconButton from "$lib/IconButton.svelte";
+	import Popover from "./Popover.svelte";
 	import { user } from "$lib/util/data";
 
 	$: username = $user.name;
+	let accountPopover = false;
+	const toggleAccountPopover = () => { accountPopover = !accountPopover; };
 </script>
 
 <header>
@@ -15,9 +18,12 @@
 	<nav>
 		<IconButton icon="bell" />
 		<IconButton icon="help" />
-		<button class="account">
-			<img src="https://github.com/{username}.png" alt="Account">
-		</button>
+		<div class="account">
+			<button on:click="{toggleAccountPopover}">
+				<img src="https://github.com/{username}.png" alt="Account">
+			</button>
+			<Popover bind:shown="{accountPopover}" />
+		</div>
 	</nav>
 </header>
 
@@ -53,23 +59,32 @@
 
 		.account {
 			background-color: transparent;
-			border: none;
-			border-radius: 50%;
-			cursor: pointer;
-			display: grid;
-			place-items: center;
 			margin-left: 10px;
-			padding: 5px;
+
+			position: relative;
 			transition-duration: 0.2s;
+
+			button {
+				background-color: transparent;
+				border: none;
+				border-radius: 50%;
+				box-sizing: border-box;
+				cursor: pointer;
+				display: grid;
+				place-items: center;
+				padding: 5px;
+				position: relative;
+				z-index: 4;
+
+				&:hover {
+					background-color: var(--background-secondary);
+				}
+			}
 
 			img {
 				width: 35px;
 				height: 35px;
 				border-radius: 50%;
-			}
-
-			&:hover {
-				background-color: var(--background-secondary);
 			}
 		}
 	}
