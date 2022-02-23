@@ -31,7 +31,7 @@
 		<BadgeField bind:field="{field}" on:update="{update}" showExtras="{false}" />
 		{/each}
 		{#if badge.fields.length > 2}
-		<button>+{badge.fields.length - 2}</button>
+		<button on:click="{show}">+{badge.fields.length - 2}</button>
 		{/if}
 	</div>
 	<div class="controls">
