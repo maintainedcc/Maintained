@@ -31,6 +31,9 @@
 		<BadgeField bind:field="{field}" on:update="{update}" showExtras="{false}" />
 		{/each}
 		{#if badge.fields.length > 2}
+		{#each badge.fields.slice(2) as field}
+		<div class="color-stripe" data-color="{field.color}"></div>
+		{/each}
 		<button on:click="{show}">+{badge.fields.length - 2}</button>
 		{/if}
 	</div>
@@ -42,23 +45,29 @@
 </div>
 
 <style lang="scss">
-	.group {
-		column-gap: 20px;
-		justify-content: space-between;
-	}
+	@import "./scss/mixins.scss";
+	@include data-color;
 
 	.group, .editor, .controls {
 		display: flex;
 		align-items: center;
 	}
-
 	.editor, .controls {
 		border-radius: 5px;
 		overflow: hidden;
 	}
-
+	.group {
+		column-gap: 20px;
+		justify-content: space-between;
+	}
 	.editor {
 		flex: 1 1;
+	}
+
+	.color-stripe {
+		display: block;
+		height: 45px;
+		width: 5px;
 	}
 
 	button {
