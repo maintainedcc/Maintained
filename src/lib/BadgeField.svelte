@@ -1,5 +1,6 @@
 
 <script lang="ts">
+	import FieldColorOptions from "./FieldColorOptions.svelte";
 	import IconButton from "./IconButton.svelte";
 	import { createEventDispatcher } from "svelte";
 	import type { BadgeField } from "./util/schema";
@@ -19,9 +20,7 @@
 		if (!optsShown) dispatch("toggle");
 		optsShown = !optsShown;
 	}
-	export function collapseOpts() {
-		optsShown = false;
-	}
+	export const collapseOpts = () => { optsShown = false };
 
 	function calculateWidth(content: string, font: string) {
 		content = content.replace(/:.+:/, "");
@@ -32,26 +31,7 @@
 
 	// Deletes badge field
 	export let enableDelete = false;
-	function del() {
-		dispatch("delete");
-	}
-
-	// Updates individual badge field color
-	function setColor(num: number) {
-		field.color = num;
-		dispatch("update");
-	}
-	function colorToName(num: number) {
-		switch(num) {
-			case 0: return "Simple";
-			case 1: return "Slate";
-			case 2: return "Seabed";
-			case 3: return "Subterranean";
-			case 4: return "Savannah";
-			case 5: return "Sahara";
-			case 6: return "Sunset";
-		}
-	}
+	const del = () => dispatch("delete");
 </script>
 
 <div class="field" class:full="{!showExtras}">
@@ -73,22 +53,13 @@
 		{/if}
 	{/if}
 </div>
-{#if optsShown}
-<div class="options">
-	<p>{colorToName(field.color)}</p>
-	{#each Array(7) as _, i}
-	<button
-		class="color-opt" class:active="{field.color === i}"
-		data-color="{i}" on:click="{()=>setColor(i)}">
-	</button>
-	{/each}
-</div>
-{/if}
+<FieldColorOptions bind:field="{field}" bind:shown="{optsShown}" on:update />
 
 <style lang="scss">
 	@import "./scss/mixins.scss";
 
 	.field {
+		@include data-color;
 		display: flex;
 		align-items: center;
 		column-gap: 2px;
@@ -150,36 +121,5 @@
 				padding-left: 45px;
 			}
 		}
-	}
-
-	.options {
-		border-left: var(--blue) 2px solid;
-		border-radius: 1px;
-		display: flex;
-		align-items: center;
-		column-gap: 10px;
-		margin-bottom: 5px;
-		padding: 2px 10px;
-
-		p {
-			flex: 1 1;
-			margin: 0;
-		}
-
-		button {
-			border: 3px solid;
-			border-radius: 5px;
-			padding: 0;
-			height: 20px;
-			width: 20px;
-
-			&.active {
-				background-color: transparent;
-			}
-		}
-	}
-
-	.field, .options {
-		@include data-color;
 	}
 </style>
