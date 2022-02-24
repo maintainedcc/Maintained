@@ -21,7 +21,14 @@
 	let timeout: NodeJS.Timer;
 	function update() {
 		if (timeout) clearTimeout(timeout);
-		timeout = setTimeout(() => updateBadge(project.title, badge), 300);
+		timeout = setTimeout(async () => {
+			const noHashBadge = {...badge, hash: undefined};
+			await updateBadge(project.title, noHashBadge);
+			const msgUint8 = new TextEncoder().encode(JSON.stringify(noHashBadge));
+			const hashBuffer = await crypto.subtle.digest("SHA-1", msgUint8);
+			const hashArray = Array.from(new Uint8Array(hashBuffer));
+			badge.hash = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+		}, 200);
 	}
 </script>
 

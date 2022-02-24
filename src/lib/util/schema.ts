@@ -17,6 +17,8 @@ export interface Badge {
 	fields: BadgeField[]
 	redirect?: string
 	style: BadgeStyle
+	// Frontend only
+	hash?: string
 }
 
 export interface BadgeField {

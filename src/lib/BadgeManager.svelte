@@ -4,10 +4,15 @@
   import { createEventDispatcher } from "svelte";
   import { deleteBadge } from "./util/api";
   import { closeModal } from "./util/modal";
+  import { fade } from "svelte/transition";
+  import { user } from "./util/data";
   import type { Badge, Project } from "./util/schema";
 
   export let badge: Badge;
   export let project: Project;
+
+  const tai = import.meta.env.VITE_MAINTAINED_TAI_BASE;
+  $: previewURL = `${tai}/${$user.name}/${project.title}/${badge.id}?${badge.hash}`;
 
   const dispatch = createEventDispatcher();
 
@@ -50,6 +55,8 @@
 
 <section class="manager">
   <h2>Badge Manager</h2>
+  <h3>Preview</h3>
+  <span class="preview"><img src="{previewURL}" alt="Badge Preview"></span>
   <h3>Primary Style</h3>
   <select bind:value="{badge.style}" on:change="{()=>dispatch("update")}">
     <option value="{0}">Plastic</option>
@@ -70,7 +77,12 @@
   {/each}
   <button on:click="{addField}">add badge field</button>
   <br>
-  <button class="delete" on:click="{del}">{delText}</button>
+  <div class="row">
+    {#if badge.hash}
+    <p class="hash" transition:fade>Hash: {badge.hash.substring(0, 12)}</p>
+    {/if}
+    <button class="delete" on:click="{del}">{delText}</button>
+  </div>
 </section>
 
 <style lang="scss">
@@ -80,9 +92,30 @@
     row-gap: 8px;
   }
 
+  .preview {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  img {
+    width: fit-content;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .hash {
+      flex: 1 1;
+      font-size: 0.5em;
+      text-transform: uppercase;
+      opacity: 0.5;
+    }
+  }
+
   button.delete {
     border-color: var(--brand-primary);
-    align-self: flex-end;
     width: fit-content;
 
     &:hover {
