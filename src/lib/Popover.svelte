@@ -10,7 +10,7 @@
 {#if shown}
 <div class="popover">
   <button on:click="{show}">Account</button>
-  <a href="">Log Out</a>
+  <a href="/auth/logout" rel="external">Log Out</a>
   <Modal bind:show="{show}"><AccountManager /></Modal>
 </div>
 {/if}

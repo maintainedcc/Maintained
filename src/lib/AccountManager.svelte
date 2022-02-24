@@ -2,6 +2,8 @@
 <script lang="ts">
   import { user } from "$lib/util/data";
   import { preferences } from "./util/preferences";
+
+  const managementURL = import.meta.env.VITE_MAINTAINED_ID_BASE + "/oauth/manage";
 </script>
 
 <section class="account">
@@ -22,7 +24,7 @@
     </div>
   </div>
   <h3>GitHub Token</h3>
-  <p>The token Maintained uses to verify you only uses the public data scope. You may revoke your token <a href="">on GitHub</a> if you wish. <b>This does not delete your data.</b></p>
+  <p>The token Maintained uses to verify you only uses the public data scope. You may revoke your token <a target="_blank" href="{managementURL}">on GitHub</a> if you wish. <b>This does not delete your data.</b></p>
   <h3>Preferences</h3>
   <select bind:value="{$preferences.appTheme}">
     <option value="light">Maintained Light</option>
@@ -37,7 +39,9 @@
     display: flex;
     flex-direction: column;
     row-gap: 8px;
+  }
 
+  .account {
     h2 {
       display: flex;
       align-items: center;
