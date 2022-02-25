@@ -68,7 +68,13 @@
     <option value="">None</option>
   </select>
   <h3>Link Direct</h3>
-  <input type="text" placeholder="Link Direct URL" />
+  <input type="url" placeholder="Link Direct URL"
+    bind:value="{badge.redirect}"
+    on:keyup="{()=>dispatch("update")}"
+    on:change="{()=>dispatch("update")}" />
+  {#if badge.redirect}
+  <a href="/redirect" target="_blank" class="caption">test redirect in new tab</a>
+  {/if}
   <h3>Badge Fields</h3>
   {#each badge.fields as field, i}
   <BadgeField bind:field="{field}" on:update
@@ -112,6 +118,13 @@
       text-transform: uppercase;
       opacity: 0.5;
     }
+  }
+
+  .caption {
+    align-self: flex-end;
+    color: var(--text-secondary);
+    font-size: 0.6rem;
+    text-decoration: underline;
   }
 
   button.delete {
