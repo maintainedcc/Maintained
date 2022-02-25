@@ -1,7 +1,8 @@
 
 <script lang="ts">
-  import BadgeField from "$lib/Tai/Field.svelte";
-  import { createEventDispatcher } from "svelte";
+  import ManageFields from "./ManageFields.svelte";
+  import ManageLinkDirect from "./ManageLinkDirect.svelte";
+  import ManagePrimaryStyle from "./ManagePrimaryStyle.svelte";
   import { deleteBadge } from "$lib/util/api";
   import { closeModal } from "$lib/util/modal";
   import { fade } from "svelte/transition";
@@ -14,35 +15,12 @@
   const tai = import.meta.env.VITE_MAINTAINED_TAI_BASE;
   $: previewURL = `${tai}/${$user.name}/${project.title}/${badge.id}?${badge.hash}`;
 
-  const dispatch = createEventDispatcher();
-
-  // Only allows one field to have expanded options at a time
-  let collapseOpts: (() => void)[] = [];
-  const collapseAll = () => collapseOpts.forEach(collapse => collapse());
-
-  // Adds a new default field to the badge
-  function addField() {
-    badge.fields.push({
-      content: "New Field",
-      color: 4,
-      width: 70
-    });
-    badge.fields = badge.fields;
-    dispatch("update");
-  }
-
-  function deleteField(id: number) {
-    badge.fields.splice(id, 1);
-    badge.fields = badge.fields;
-    dispatch("update");
-  }
-
   // Handles delete confirmation of badge
   let delStage = 0;
   let delText = "Delete Badge";
   async function del(e: Event) {
     if (delStage === 0) {
-      delText = "Confirm Delete?";
+      delText = "Confirm Deletion";
       delStage = 1;
     }
     else {
@@ -58,30 +36,15 @@
   <h3>Preview</h3>
   <span class="preview"><img src="{previewURL}" alt="Badge Preview"></span>
   <h3>Primary Style</h3>
-  <select bind:value="{badge.style}" on:change="{()=>dispatch("update")}">
-    <option value="{0}">Plastic</option>
-    <option value="{1}">Flat</option>
-    <option value="{2}">FTB</option>
-  </select>
+  <ManagePrimaryStyle bind:badge="{badge}" on:update />
   <h3>Secondary Effects</h3>
   <select>
     <option value="">None</option>
   </select>
   <h3>Link Direct</h3>
-  <input type="url" placeholder="Link Direct URL"
-    bind:value="{badge.redirect}"
-    on:keyup="{()=>dispatch("update")}"
-    on:change="{()=>dispatch("update")}" />
-  {#if badge.redirect}
-  <a href="/redirect" target="_blank" class="caption">test redirect in new tab</a>
-  {/if}
+  <ManageLinkDirect bind:badge="{badge}" on:update />
   <h3>Badge Fields</h3>
-  {#each badge.fields as field, i}
-  <BadgeField bind:field="{field}" on:update
-    on:delete="{()=>deleteField(i)}" enableDelete="{badge.fields.length > 1}"
-    on:toggle="{collapseAll}" bind:collapseOpts="{collapseOpts[i]}" />
-  {/each}
-  <button on:click="{addField}">add badge field</button>
+  <ManageFields bind:badge="{badge}" on:update />
   <br>
   <div class="row">
     {#if badge.hash}
@@ -101,10 +64,10 @@
   .preview {
     max-width: 100%;
     overflow-x: auto;
-  }
 
-  img {
-    width: fit-content;
+    img {
+      width: fit-content;
+    }
   }
 
   .row {
@@ -118,13 +81,6 @@
       text-transform: uppercase;
       opacity: 0.5;
     }
-  }
-
-  .caption {
-    align-self: flex-end;
-    color: var(--text-secondary);
-    font-size: 0.6rem;
-    text-decoration: underline;
   }
 
   button.delete {
