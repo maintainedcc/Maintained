@@ -1,9 +1,9 @@
 
 <script lang="ts">
-	import FieldColorOptions from "./FieldColorOptions.svelte";
-	import IconButton from "./IconButton.svelte";
+	import FieldColorOptions from "$lib/Tai/FieldColorOptions.svelte";
+	import IconButton from "$lib/IconButton.svelte";
 	import { createEventDispatcher } from "svelte";
-	import type { BadgeField } from "./util/schema";
+	import type { BadgeField } from "$lib/util/schema";
 
 	export let field: BadgeField;
 	export let showExtras = true;
@@ -56,7 +56,7 @@
 <FieldColorOptions bind:field="{field}" bind:shown="{optsShown}" on:update />
 
 <style lang="scss">
-	@import "./scss/mixins.scss";
+	@import "../scss/mixins.scss";
 
 	.field {
 		@include data-color;

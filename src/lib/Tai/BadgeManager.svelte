@@ -1,12 +1,12 @@
 
 <script lang="ts">
-  import BadgeField from "./BadgeField.svelte";
+  import BadgeField from "$lib/Tai/Field.svelte";
   import { createEventDispatcher } from "svelte";
-  import { deleteBadge } from "./util/api";
-  import { closeModal } from "./util/modal";
+  import { deleteBadge } from "$lib/util/api";
+  import { closeModal } from "$lib/util/modal";
   import { fade } from "svelte/transition";
-  import { user } from "./util/data";
-  import type { Badge, Project } from "./util/schema";
+  import { user } from "$lib/util/data";
+  import type { Badge, Project } from "$lib/util/schema";
 
   export let badge: Badge;
   export let project: Project;

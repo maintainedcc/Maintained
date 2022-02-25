@@ -1,6 +1,6 @@
 
 <script lang="ts">
-	import BadgeEditor from "$lib/BadgeEditor.svelte";
+	import BadgeEditor from "$lib/Tai/BadgeEditor.svelte";
 	import IconButton from "$lib/IconButton.svelte";
 	import Modal from "$lib/Modal.svelte";
 	import ProjectSettings from "$lib/ProjectSettings.svelte";

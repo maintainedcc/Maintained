@@ -1,11 +1,11 @@
 
 <script lang="ts">
-	import BadgeField from "./BadgeField.svelte";
-	import BadgeManager from "./BadgeManager.svelte";
-	import Modal from "./Modal.svelte";
-	import { updateBadge } from "./util/api";
-	import { user } from "./util/data";
-	import type { Badge, Project } from "./util/schema";
+	import BadgeField from "$lib/Tai/Field.svelte";
+	import BadgeManager from "$lib/Tai/BadgeManager.svelte";
+	import Modal from "$lib/Modal.svelte";
+	import { updateBadge } from "$lib/util/api";
+	import { user } from "$lib/util/data";
+	import type { Badge, Project } from "$lib/util/schema";
 
 	export let badge: Badge;
 	export let project: Project;
@@ -52,7 +52,7 @@
 </div>
 
 <style lang="scss">
-	@import "./scss/mixins.scss";
+	@import "../scss/mixins.scss";
 	@include data-color;
 
 	.group, .editor, .controls {

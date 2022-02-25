@@ -1,7 +1,7 @@
 
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
-  import type { BadgeField } from "./util/schema";
+  import type { BadgeField } from "$lib/util/schema";
 
   const dispatch = createEventDispatcher();
   export let field: BadgeField;
@@ -40,7 +40,7 @@
 {/if}
 
 <style lang="scss">
-	@import "./scss/mixins.scss";
+	@import "../scss/mixins.scss";
 
 	.options {
     @include data-color;
