@@ -1,4 +1,3 @@
-
 <script lang="ts">
 	import DashboardBackground from "$lib/DashboardBackground.svelte";
 	import DashboardHeader from "$lib/DashboardHeader.svelte";
@@ -17,12 +16,12 @@
 <div class="dashboard">
 	<DashboardHeader />
 	<div class="content">
-		<ProjectList projects="{$user.projects}" />
+		<ProjectList projects={$user.projects} />
 		<div>
 			<WelcomeCard />
 			<section>
 				{#each $user.projects as project}
-				<Project bind:project="{project}" />
+					<Project bind:project />
 				{/each}
 			</section>
 		</div>
@@ -30,7 +29,7 @@
 </div>
 
 <style lang="scss">
-  @import "../lib/scss/mixins.scss";
+	@import "../lib/scss/mixins.scss";
 
 	.dashboard {
 		box-sizing: border-box;

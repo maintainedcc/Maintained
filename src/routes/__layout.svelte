@@ -1,11 +1,10 @@
-
 <script lang="ts">
 	import { preferences } from "$lib/util/preferences";
 	import { onMount } from "svelte";
 
 	onMount(() => {
 		$preferences = JSON.parse(localStorage.getItem("preferences") || "{}");
-		preferences.subscribe(p => {
+		preferences.subscribe((p) => {
 			localStorage.setItem("preferences", JSON.stringify(p));
 		});
 	});
@@ -65,12 +64,18 @@
 		padding: 0 15px;
 	}
 
-	h1, h2, h3, h4, h5, h6 {
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
 		font-family: "Poppins", sans-serif;
 		font-weight: 500;
 	}
 
-	code, pre {
+	code,
+	pre {
 		background-color: #0001;
 		border-radius: 5px;
 		color: #555;

@@ -1,10 +1,9 @@
-
 <script lang="ts">
 	export let href: string;
 </script>
 
-<a class="project-link" href="{href}">
-	<slot></slot>
+<a class="project-link" {href}>
+	<slot />
 </a>
 
 <style lang="scss">
@@ -20,7 +19,7 @@
 		font-weight: normal;
 		padding: 0 8px;
 		transition-duration: 0.3s;
-		
+
 		&::before {
 			background-color: var(--green);
 			border-radius: 3px;

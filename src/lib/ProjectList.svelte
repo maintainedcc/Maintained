@@ -1,4 +1,3 @@
-
 <script lang="ts">
 	import ProjectLink from "$lib/ProjectLink.svelte";
 	import IconButton from "$lib/IconButton.svelte";
@@ -13,33 +12,31 @@
 <section class="projects">
 	<div class="header">
 		<h2>Projects</h2>
-		<IconButton icon="add" small="{true}" on:click="{show}" />
+		<IconButton icon="add" small={true} on:click={show} />
 		<Modal bind:show><ProjectCreate /></Modal>
 	</div>
 	<ul>
 		{#each projects as project}
-		<li><ProjectLink href="#{project.title}">
-			{project.title}
-		</ProjectLink></li>
+			<li>
+				<ProjectLink href="#{project.title}">
+					{project.title}
+				</ProjectLink>
+			</li>
 		{/each}
 	</ul>
-	<br>
+	<br />
 	<div class="header">
 		<h2>Teams</h2>
 	</div>
 	<ul>
-		<li><ProjectLink href="#">
-			Shared Project
-		</ProjectLink></li>
+		<li><ProjectLink href="#">Shared Project</ProjectLink></li>
 	</ul>
 	<span class="spacer" />
-	<footer>
-		&copy; maintained.cc 2022
-	</footer>
+	<footer>&copy; maintained.cc 2022</footer>
 </section>
 
 <style lang="scss">
-  @import "./scss/mixins.scss";
+	@import "./scss/mixins.scss";
 
 	.projects {
 		@include dash-card;

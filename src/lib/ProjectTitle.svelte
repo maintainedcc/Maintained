@@ -1,28 +1,27 @@
-
 <script lang="ts">
-  import { fly } from "svelte/transition";
-  import type { Project } from "$lib/util/schema";
+	import { fly } from "svelte/transition";
+	import type { Project } from "$lib/util/schema";
 
-  export let project: Project;
-  export let status = "";
+	export let project: Project;
+	export let status = "";
 </script>
 
-<a name="{project.title}">
-  <h2>{project.title}</h2>
-  {#if status}
-  <span class="status" transition:fly="{{y:5}}">{status}</span>
-  {/if}
-  <span class="spacer" />
-  <slot />
+<a name={project.title}>
+	<h2>{project.title}</h2>
+	{#if status}
+		<span class="status" transition:fly={{ y: 5 }}>{status}</span>
+	{/if}
+	<span class="spacer" />
+	<slot />
 </a>
 
 <style lang="scss">
-  a {
+	a {
 		display: flex;
 		align-items: center;
 		column-gap: 10px;
 		margin-bottom: 2px;
-		
+
 		.spacer {
 			flex: 1 1;
 		}

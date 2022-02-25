@@ -1,6 +1,4 @@
-
 <script lang="ts">
-
 	let link = "https://github.com/maintainedcc";
 </script>
 
@@ -10,15 +8,15 @@
 <div class="redirect">
 	<div class="card">
 		<h1><b>USER/PROJECT</b> is redirecting you:</h1>
-		<a class="link" href="{link}">{link}</a>
-		<p class="caption"></p>
+		<a class="link" href={link}>{link}</a>
+		<p class="caption" />
 		<p class="caption">
-			<img src="/favicon.png" alt="Maintained">
-			<br><span>&bull;</span><br>
+			<img src="/favicon.png" alt="Maintained" />
+			<br /><span>&bull;</span><br />
 			<span><a href="/">&copy; 2022 Maintained</a></span>
-			<br><span>&bull;</span><br>
+			<br /><span>&bull;</span><br />
 			<span>Link Direct</span>
-			<br><span>&bull;</span><br>
+			<br /><span>&bull;</span><br />
 			<span>Beware of suspicious URLs. Never click on a link you don't trust.</span>
 		</p>
 	</div>
@@ -88,7 +86,7 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		
+
 		height: 100vh;
 	}
 

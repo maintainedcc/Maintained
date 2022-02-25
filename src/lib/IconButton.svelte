@@ -1,4 +1,3 @@
-
 <script lang="ts">
 	export let icon: string;
 	export let active = false;
@@ -7,7 +6,7 @@
 </script>
 
 <button class="icon-btn" on:click class:small class:medium class:active>
-	<svg><use xlink:href="/img/icon.svg#{icon}"></use></svg>
+	<svg><use xlink:href="/img/icon.svg#{icon}" /></svg>
 </button>
 
 <style lang="scss">
@@ -30,7 +29,8 @@
 			width: 20px;
 		}
 
-		&:hover, &:focus {
+		&:hover,
+		&:focus {
 			background-color: var(--background-secondary);
 			color: var(--text-primary);
 		}

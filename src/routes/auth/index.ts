@@ -1,8 +1,7 @@
-
 import { ensureUser } from "$lib/util/api";
 import type { EndpointOutput } from "@sveltejs/kit";
 
-export async function get({url}): Promise<EndpointOutput> {
+export async function get({ url }): Promise<EndpointOutput> {
 	const jwt = url.searchParams.get("jwt");
 	if (!jwt) return { status: 302, headers: { location: "/" } };
 
@@ -15,15 +14,15 @@ export async function get({url}): Promise<EndpointOutput> {
 	// Ensures user exists in API
 	const res = await ensureUser(jwt);
 	console.log(`[EVT] Ensure user exists: ${res.ok} (${res.message})`);
-	
-	const expiry = new Date(Date.now() + (7 * 24 * 60 * 60 * 1000));
+
+	const expiry = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 	const cookie = `jwt=${url.searchParams.get("jwt")}; expires=${expiry.toUTCString()}; path=/`;
 
 	return {
 		status: 302,
 		headers: {
-			"location": "/dashboard",
+			location: "/dashboard",
 			"set-cookie": cookie
 		}
-	}
+	};
 }

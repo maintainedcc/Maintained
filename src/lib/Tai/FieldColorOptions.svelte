@@ -1,11 +1,10 @@
-
 <script lang="ts">
-  import { createEventDispatcher } from "svelte";
-  import type { BadgeField } from "$lib/util/schema";
+	import { createEventDispatcher } from "svelte";
+	import type { BadgeField } from "$lib/util/schema";
 
-  const dispatch = createEventDispatcher();
-  export let field: BadgeField;
-  export let shown = false;
+	const dispatch = createEventDispatcher();
+	export let field: BadgeField;
+	export let shown = false;
 
 	// Updates individual badge field color
 	function setColor(num: number) {
@@ -13,37 +12,46 @@
 		dispatch("update");
 	}
 
-  // Translates color enum to readable name
+	// Translates color enum to readable name
 	function colorToName(num: number) {
-		switch(num) {
-			case 0: return "Simple";
-			case 1: return "Slate";
-			case 2: return "Seabed";
-			case 3: return "Subterranean";
-			case 4: return "Savannah";
-			case 5: return "Sahara";
-			case 6: return "Sunset";
+		switch (num) {
+			case 0:
+				return "Simple";
+			case 1:
+				return "Slate";
+			case 2:
+				return "Seabed";
+			case 3:
+				return "Subterranean";
+			case 4:
+				return "Savannah";
+			case 5:
+				return "Sahara";
+			case 6:
+				return "Sunset";
 		}
 	}
 </script>
 
 {#if shown}
-<div class="options">
-	<p>{colorToName(field.color)}</p>
-	{#each Array(7) as _, i}
-	<button
-		class="color-opt" class:active="{field.color === i}"
-		data-color="{i}" on:click="{()=>setColor(i)}">
-	</button>
-	{/each}
-</div>
+	<div class="options">
+		<p>{colorToName(field.color)}</p>
+		{#each Array(7) as _, i}
+			<button
+				class="color-opt"
+				class:active={field.color === i}
+				data-color={i}
+				on:click={() => setColor(i)}
+			/>
+		{/each}
+	</div>
 {/if}
 
 <style lang="scss">
 	@import "../scss/mixins.scss";
 
 	.options {
-    @include data-color;
+		@include data-color;
 		border-left: var(--blue) 2px solid;
 		border-radius: 1px;
 		display: flex;

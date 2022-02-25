@@ -1,4 +1,3 @@
-
 <script lang="ts">
 	import FieldColorOptions from "$lib/Tai/FieldColorOptions.svelte";
 	import IconButton from "$lib/IconButton.svelte";
@@ -12,7 +11,9 @@
 	$: iconURL = `${import.meta.env.VITE_MAINTAINED_TAI_BASE}/icon/${field.iconURI}`;
 
 	const dispatch = createEventDispatcher();
-	function upd() { dispatch("update"); }
+	function upd() {
+		dispatch("update");
+	}
 
 	// Extra options per badge field
 	let optsShown = false;
@@ -20,12 +21,14 @@
 		if (!optsShown) dispatch("toggle");
 		optsShown = !optsShown;
 	}
-	export const collapseOpts = () => { optsShown = false };
+	export const collapseOpts = () => {
+		optsShown = false;
+	};
 
 	function calculateWidth(content: string, font: string) {
 		content = content.replace(/:.+:/, "");
-		let ctx = document.createElement('canvas').getContext("2d");
-		ctx.font = font;        
+		let ctx = document.createElement("canvas").getContext("2d");
+		ctx.font = font;
 		return Math.ceil(ctx.measureText(content).width);
 	}
 
@@ -34,26 +37,29 @@
 	const del = () => dispatch("delete");
 </script>
 
-<div class="field" class:full="{!showExtras}">
-	<span class="input" class:hasIcon="{!!field.iconURI}">
+<div class="field" class:full={!showExtras}>
+	<span class="input" class:hasIcon={!!field.iconURI}>
 		{#if field.iconURI}
-		<object data="{iconURL}" title="{field.iconURI}">ERR</object>
+			<object data={iconURL} title={field.iconURI}>ERR</object>
 		{/if}
-		<input type="text" spellcheck="false"
-			data-color="{field.color}"
-			bind:value="{field.content}"
-			on:keyup="{upd}"
-			on:change="{upd}">
+		<input
+			type="text"
+			spellcheck="false"
+			data-color={field.color}
+			bind:value={field.content}
+			on:keyup={upd}
+			on:change={upd}
+		/>
 	</span>
 	{#if showExtras}
-		<IconButton icon="color" medium="{true}" on:click="{toggleOpts}" active="{optsShown}" />
-		<IconButton icon="plugin" medium="{true}" />
+		<IconButton icon="color" medium={true} on:click={toggleOpts} active={optsShown} />
+		<IconButton icon="plugin" medium={true} />
 		{#if enableDelete}
-		<IconButton icon="trash" medium="{true}" on:click="{del}" />
+			<IconButton icon="trash" medium={true} on:click={del} />
 		{/if}
 	{/if}
 </div>
-<FieldColorOptions bind:field="{field}" bind:shown="{optsShown}" on:update />
+<FieldColorOptions bind:field bind:shown={optsShown} on:update />
 
 <style lang="scss">
 	@import "../scss/mixins.scss";
@@ -81,7 +87,7 @@
 			.input {
 				margin-right: 0;
 			}
-			
+
 			input {
 				border-radius: 0;
 				font-size: 0.7rem;
@@ -113,7 +119,7 @@
 			bottom: 0;
 			left: 15px;
 		}
-		
+
 		input {
 			background-color: #000;
 			border: none;

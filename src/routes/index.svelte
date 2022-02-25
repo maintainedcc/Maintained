@@ -1,4 +1,3 @@
-
 <script lang="ts">
 	import Hero from "$lib/Hero.svelte";
 </script>
@@ -6,16 +5,16 @@
 <Hero />
 <div class="overview">
 	<section>
-		<br>
-		<h2>maintained.cc<br><span>Workspace</span></h2>
+		<br />
+		<h2>maintained.cc<br /><span>Workspace</span></h2>
 		<p><b>Maintained</b> Repository Badging</p>
 	</section>
 	<section>
-		<h2>maintained <b>mai</b><br><span>Cloud Environments</span></h2>
+		<h2>maintained <b>mai</b><br /><span>Cloud Environments</span></h2>
 		<p><b>Mai</b> Environment Management <sup>soon tm</sup></p>
 	</section>
 	<section>
-		<h2>maintained <b>manta</b><br><span>Mutators as a Service</span></h2>
+		<h2>maintained <b>manta</b><br /><span>Mutators as a Service</span></h2>
 		<p><b>Manta</b> Cloud Mutation Layer <sup>soon tm</sup></p>
 	</section>
 	<section class="center">

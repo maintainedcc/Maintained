@@ -1,13 +1,12 @@
-
 <script lang="ts">
 	import { preferences } from "$lib/util/preferences";
 </script>
 
-<div class="bg" class:red="{$preferences.appTheme === "red"}">
-	<div class="left-deco"></div>
-	<div class="left-deco a"></div>
-	<div class="left-deco b"></div>
-	<div class="left-deco c"></div>
+<div class="bg" class:red={$preferences.appTheme === "red"}>
+	<div class="left-deco" />
+	<div class="left-deco a" />
+	<div class="left-deco b" />
+	<div class="left-deco c" />
 </div>
 
 <style lang="scss">

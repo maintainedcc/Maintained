@@ -1,4 +1,3 @@
-
 <script lang="ts">
 	import BadgeEditor from "$lib/Tai/BadgeEditor.svelte";
 	import IconButton from "$lib/IconButton.svelte";
@@ -13,10 +12,10 @@
 </script>
 
 <div class="project">
-	<ProjectTitle project="{project}">
-		<IconButton icon="add" on:click="{()=>createBadge(project.title)}" />
-		<IconButton icon="kebab" on:click="{show}" />
-		<Modal bind:show><ProjectSettings project={project} /></Modal>
+	<ProjectTitle {project}>
+		<IconButton icon="add" on:click={() => createBadge(project.title)} />
+		<IconButton icon="kebab" on:click={show} />
+		<Modal bind:show><ProjectSettings {project} /></Modal>
 	</ProjectTitle>
 	<p class="description">
 		@org <b>&bull;</b> repository <b>&bull;</b> all branches
@@ -29,7 +28,7 @@
 		</nav>
 		<div class="badges">
 			{#each project.badges as badge}
-			<BadgeEditor bind:badge="{badge}" project="{project}" />
+				<BadgeEditor bind:badge {project} />
 			{/each}
 		</div>
 	</div>
@@ -52,7 +51,7 @@
 	.nav-split {
 		display: flex;
 		column-gap: 20px;
-		
+
 		nav {
 			border-radius: 3px;
 			display: flex;

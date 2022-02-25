@@ -1,11 +1,10 @@
-
 <script lang="ts">
 	export let href: string;
 	export let left: string;
 	export let right: string;
 </script>
 
-<a class="badge" href="{href}">
+<a class="badge" {href}>
 	<span>{left}</span>
 	<span>{right}</span>
 </a>
@@ -28,7 +27,7 @@
 		span {
 			background-color: #000;
 			color: #fff;
-			padding: calc(var(--badge-padding)/2) var(--badge-padding);
+			padding: calc(var(--badge-padding) / 2) var(--badge-padding);
 		}
 		span:first-child {
 			padding-right: calc(var(--badge-padding) - 10px);
@@ -41,7 +40,8 @@
 			transition-duration: 0.7s;
 		}
 
-		&:hover, &:focus {
+		&:hover,
+		&:focus {
 			span:last-child {
 				background-position-x: 100%;
 			}
@@ -54,7 +54,7 @@
 			font-size: 0.9rem;
 		}
 		.badge span {
-			padding: calc(var(--badge-padding)/3) var(--badge-padding);
+			padding: calc(var(--badge-padding) / 3) var(--badge-padding);
 		}
 	}
 
