@@ -19,34 +19,33 @@
 		flex-direction: column;
 		align-items: flex-end;
 		justify-content: center;
-		min-height: 65vh;
+		height: 65vh;
+		min-height: 350px;
 
 		.left-deco {
 			-webkit-clip-path: polygon(0 0, 100% 100%, 0% 100%);
 			clip-path: polygon(0 0, 100% 100%, 0% 100%);
-			position: absolute;
-			left: 0;
+			position: fixed;
+			left: -5vmax;
+			bottom: -5vmax;
 
 			&.a {
 				background-color: var(--brand-a);
-				height: 25vh;
-				width: 40vw;
-				top: 40vh;
-				z-index: 0;
+				height: 40vmax;
+				width: 60vmax;
+				z-index: -2;
 			}
 			&.b {
 				background-color: var(--brand-b);
-				height: 35vh;
-				width: 55vw;
-				top: 30vh;
-				z-index: -1;
+				height: 50vmax;
+				width: 75vmax;
+				z-index: -3;
 			}
 			&.c {
 				background-color: var(--brand-c);
-				height: 45vh;
-				width: 70vw;
-				top: 20vh;
-				z-index: -2;
+				height: 60vmax;
+				width: 90vmax;
+				z-index: -4;
 			}
 		}
 
