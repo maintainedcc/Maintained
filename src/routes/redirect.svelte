@@ -17,7 +17,7 @@
 			<br /><span>&bull;</span><br />
 			<span>Link Direct</span>
 			<br /><span>&bull;</span><br />
-			<span>Beware of suspicious URLs. Never click on a link you don't trust.</span>
+			<span>Beware of suspicious URLs.</span>
 		</p>
 	</div>
 </div>
@@ -93,7 +93,7 @@
 	.card {
 		@include dash-card;
 		border-radius: 20px;
-		max-width: 750px;
+		max-width: 600px;
 		padding-bottom: 25px;
 
 		h1 {
