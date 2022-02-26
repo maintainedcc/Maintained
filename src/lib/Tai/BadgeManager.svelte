@@ -40,7 +40,7 @@
 		<option value="">None</option>
 	</select>
 	<h3>Link Direct</h3>
-	<ManageLinkDirect bind:badge on:update />
+	<ManageLinkDirect bind:badge project={project.title} on:update />
 	<h3>Badge Fields</h3>
 	<ManageFields bind:badge on:update />
 	<br />
