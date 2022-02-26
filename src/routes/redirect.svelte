@@ -1,5 +1,20 @@
+<script lang="ts" context="module">
+	export async function load({ url }) {
+		const base = import.meta.env.VITE_MAINTAINED_API_BASE;
+		const path = `${base}/${url.searchParams.get("b")}/json`;
+		const badge = await fetch(path).then((r) => r.json());
+
+		if (badge?.redirect) return { props: {
+			redirect: badge.redirect,
+			source: url.searchParams.get("b").split("/")[0]
+		}};
+		else return { error: "Could not load badge", status: 404 };
+	}
+</script>
+
 <script lang="ts">
-	let link = "https://github.com/maintainedcc";
+	export let redirect: string;
+	export let source: string;
 </script>
 
 <div class="bg">
@@ -7,8 +22,8 @@
 </div>
 <div class="redirect">
 	<div class="card">
-		<h1><b>USER/PROJECT</b> is redirecting you:</h1>
-		<a class="link" href={link}>{link}</a>
+		<h1><b>{source}</b> is redirecting you:</h1>
+		<a class="link" href={redirect}>{redirect}</a>
 		<p class="caption" />
 		<p class="caption">
 			<img src="/favicon.png" alt="Maintained" />
