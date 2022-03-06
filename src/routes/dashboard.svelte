@@ -30,32 +30,32 @@
 
 <style lang="scss">
 	@import "../lib/scss/mixins.scss";
+	$gap: 8px;
 
 	.dashboard {
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
-		row-gap: 6px;
+		row-gap: $gap;
 		max-width: 1000px;
-		margin: 10px auto;
+		margin: 12px auto;
 	}
 
 	.content {
 		display: flex;
-		column-gap: 6px;
+		column-gap: $gap;
 
 		> div {
 			display: flex;
 			flex-direction: column;
-			row-gap: 6px;
+			row-gap: $gap;
 			flex: 1 1;
 		}
 
 		section {
-			@include dash-card;
 			display: flex;
 			flex-direction: column;
-			row-gap: 40px;
+			row-gap: $gap;
 		}
 	}
 </style>

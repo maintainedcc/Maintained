@@ -45,6 +45,12 @@
 </div>
 
 <style lang="scss">
+	@import "./scss/mixins.scss";
+
+	.project {
+		@include dash-card;
+	}
+
 	.description {
 		color: var(--blue);
 		font-size: 0.6rem;
@@ -82,7 +88,7 @@
 				padding: 0;
 				padding-left: 20px;
 				height: 30px;
-				width: 85px;
+				width: 95px;
 				position: relative;
 
 				span {

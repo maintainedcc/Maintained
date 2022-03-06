@@ -14,6 +14,7 @@
 		background-color: transparent;
 		border: none;
 		border-radius: 50%;
+		color: var(--text-primary);
 		cursor: pointer;
 		display: grid;
 		place-items: center;
@@ -32,7 +33,6 @@
 		&:hover,
 		&:focus {
 			background-color: var(--background-secondary);
-			color: var(--text-primary);
 		}
 
 		&:active {
