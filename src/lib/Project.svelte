@@ -22,9 +22,9 @@
 	</p>
 	<div class="nav-split">
 		<nav>
-			<button>Tai</button>
-			<button>Mai</button>
-			<button>Manta</button>
+			<button class="active"><span>Tai</span></button>
+			<button><span>Mai</span></button>
+			<button><span>Manta</span></button>
 		</nav>
 		<div class="badges">
 			{#each project.badges as badge}
@@ -53,23 +53,65 @@
 		column-gap: 20px;
 
 		nav {
-			border-radius: 3px;
 			display: flex;
 			flex-direction: column;
-			overflow: hidden;
+			row-gap: 5px;
 
 			button {
-				background-color: #000;
+				background-color: transparent;
 				border: none;
-				color: #fff;
+				color: var(--text-secondary);
+				cursor: pointer;
 				font-family: inherit;
+				font-size: 0.65rem;
+				font-weight: 600;
 				text-align: left;
 				text-transform: uppercase;
 
 				margin: 0;
-				padding: 0 10px;
-				height: 35px;
-				width: 55px;
+				padding: 0;
+				padding-left: 20px;
+				height: 30px;
+				width: 85px;
+				position: relative;
+
+				span {
+					height: fit-content;
+					margin: auto;
+					position: absolute;
+					top: 0;
+					bottom: 0;
+					z-index: 1;
+				}
+
+				&:before,
+				&:after {
+					border-radius: 5px;
+					content: "";
+					display: block;
+					margin: auto;
+					position: absolute;
+					top: 0;
+					bottom: 0;
+					opacity: 0;
+					transition-duration: 0.2s;
+				}
+
+				&:hover:before,
+				&.active:before {
+					background-color: var(--background-secondary);
+					right: -6px;
+					left: 0px;
+					opacity: 1;
+				}
+
+				&.active:after {
+					background-color: var(--blue);
+					height: 20px;
+					width: 4px;
+					left: 6px;
+					opacity: 1;
+				}
 			}
 		}
 
