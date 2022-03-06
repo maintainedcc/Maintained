@@ -35,19 +35,19 @@
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
-		row-gap: 10px;
+		row-gap: 6px;
 		max-width: 1000px;
-		margin: 20px auto;
+		margin: 10px auto;
 	}
 
 	.content {
 		display: flex;
-		column-gap: 10px;
+		column-gap: 6px;
 
 		> div {
 			display: flex;
 			flex-direction: column;
-			row-gap: 10px;
+			row-gap: 6px;
 			flex: 1 1;
 		}
 

@@ -15,7 +15,7 @@
 		display: flex;
 		align-items: center;
 		column-gap: 10px;
-		font-size: 0.85rem;
+		font-size: 0.8rem;
 		font-weight: normal;
 		padding: 0 8px;
 		transition-duration: 0.3s;
@@ -25,8 +25,8 @@
 			border-radius: 3px;
 			content: "";
 			display: block;
-			min-height: 20px;
-			min-width: 20px;
+			min-height: 18px;
+			min-width: 18px;
 			transition-duration: 0.3s;
 		}
 
