@@ -35,6 +35,7 @@
 
 		margin: 0;
 		padding: 8px 15px;
+		max-width: calc(100% - 115px);
 
 		transition-duration: 0.2s;
 

@@ -45,7 +45,7 @@
 		flex-direction: column;
 		padding: 30px;
 		padding-right: 20px;
-		width: 220px;
+		width: 230px;
 
 		.header {
 			display: flex;
