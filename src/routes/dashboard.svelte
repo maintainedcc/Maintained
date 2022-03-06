@@ -30,7 +30,7 @@
 
 <style lang="scss">
 	@import "../lib/scss/mixins.scss";
-	$gap: 8px;
+	$gap: 5px;
 
 	.dashboard {
 		box-sizing: border-box;
@@ -38,7 +38,7 @@
 		flex-direction: column;
 		row-gap: $gap;
 		max-width: 1000px;
-		margin: 12px auto;
+		margin: 10px auto;
 	}
 
 	.content {
