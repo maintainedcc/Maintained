@@ -1,14 +1,22 @@
 <script lang="ts">
-	import BadgeEditor from "$lib/Tai/BadgeEditor.svelte";
 	import IconButton from "$lib/IconButton.svelte";
+	import MaiProject from "$lib/Mai/MaiProject.svelte";
+	import MantaProject from "$lib/Manta/MantaProject.svelte";
 	import Modal from "$lib/Modal.svelte";
 	import ProjectSettings from "$lib/ProjectSettings.svelte";
 	import ProjectTitle from "$lib/ProjectTitle.svelte";
+	import TaiProject from "$lib/Tai/TaiProject.svelte";
 	import { createBadge } from "$lib/util/api";
 	import type { Project } from "$lib/util/schema";
 
 	export let project: Project;
 	let show: () => any; // Opens project settings modal
+
+	const views = [TaiProject, MaiProject, MantaProject];
+	let selectedView = 0;
+	function switchView(view: number) {
+		selectedView = view;
+	}
 </script>
 
 <div class="project">
@@ -22,15 +30,17 @@
 	</p>
 	<div class="nav-split">
 		<nav>
-			<button class="active"><span>Tai</span></button>
-			<button><span>Mai</span></button>
-			<button><span>Manta</span></button>
+			<button class:active={selectedView === 0} on:click={() => switchView(0)}>
+				<span>Tai</span>
+			</button>
+			<button class:active={selectedView === 1} on:click={() => switchView(1)}>
+				<span>Mai</span>
+			</button>
+			<button class:active={selectedView === 2} on:click={() => switchView(2)}>
+				<span>Manta</span>
+			</button>
 		</nav>
-		<div class="badges">
-			{#each project.badges as badge}
-				<BadgeEditor bind:badge {project} />
-			{/each}
-		</div>
+		<svelte:component this={views[selectedView]} bind:project />
 	</div>
 </div>
 
@@ -94,7 +104,7 @@
 					top: 0;
 					bottom: 0;
 					opacity: 0;
-					transition-duration: 0.2s;
+					transition-duration: 0.3s;
 				}
 
 				&:hover:before,
@@ -113,13 +123,6 @@
 					opacity: 1;
 				}
 			}
-		}
-
-		.badges {
-			display: flex;
-			flex-direction: column;
-			row-gap: 10px;
-			flex: 1 1;
 		}
 	}
 </style>
