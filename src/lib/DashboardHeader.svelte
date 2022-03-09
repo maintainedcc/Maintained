@@ -14,7 +14,7 @@
 	<span>
 		<img src="/favicon.png" alt="logo" />
 		<h1>maintained <b>workspace</b></h1>
-		<code>v0.1.0</code>
+		<code>{import.meta.env.VITE_VERSION}</code>
 	</span>
 	<nav>
 		<IconButton icon="bell" />
