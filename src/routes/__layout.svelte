@@ -51,6 +51,7 @@
 		background-color: var(--brand-primary);
 		color: var(--text-primary);
 		overflow-x: hidden;
+		scroll-behavior: smooth;
 	}
 
 	body {

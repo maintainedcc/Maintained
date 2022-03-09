@@ -95,6 +95,16 @@
 				padding: 12px 20px;
 				height: 45px;
 			}
+
+			@media (max-width: 900px) {
+				&:first-child {
+					max-width: 100%;
+				}
+				&:not(:first-child) {
+					max-width: 5px;
+					overflow: hidden;
+				}
+			}
 		}
 
 		.input {

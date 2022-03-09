@@ -40,7 +40,7 @@
 			{#each badge.fields.slice(2) as field}
 				<div class="color-stripe" data-color={field.color} />
 			{/each}
-			<button on:click={show}>+{badge.fields.length - 2}</button>
+			<button class="additional-fields" on:click={show}>+{badge.fields.length - 2}</button>
 		{/if}
 	</div>
 	<div class="controls">
@@ -74,6 +74,12 @@
 		display: block;
 		height: 45px;
 		width: 5px;
+	}
+
+	@media (max-width: 900px) {
+		.additional-fields {
+			display: none;
+		}
 	}
 
 	button {

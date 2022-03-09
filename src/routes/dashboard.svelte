@@ -39,6 +39,11 @@
 		row-gap: $gap;
 		max-width: 1000px;
 		margin: 10px auto;
+		transition-duration: 0.2s;
+
+		@media (min-width: 1600px) {
+			max-width: 1100px;
+		}
 	}
 
 	.content {
