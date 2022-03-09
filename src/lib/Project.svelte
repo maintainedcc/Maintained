@@ -40,7 +40,7 @@
 				<span>Manta</span>
 			</button>
 		</nav>
-		<svelte:component this={views[selectedView]} bind:project />
+		<svelte:component this={views[selectedView]} {project} />
 	</div>
 </div>
 
