@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Nav from "./_nav.svelte";
 	import { preferences } from "$lib/util/preferences";
 	import { onMount } from "svelte";
 
@@ -10,6 +11,7 @@
 	});
 </script>
 
+<Nav />
 <main>
 	<slot />
 </main>
@@ -50,6 +52,7 @@
 	html {
 		background-color: var(--brand-primary);
 		color: var(--text-primary);
+		font-family: "Urbanist", sans-serif;
 		overflow-x: hidden;
 		scroll-behavior: smooth;
 	}
@@ -59,7 +62,6 @@
 	}
 
 	main {
-		font-family: "Urbanist", sans-serif;
 		max-width: var(--max-width);
 		margin: auto;
 		padding: 0 15px;

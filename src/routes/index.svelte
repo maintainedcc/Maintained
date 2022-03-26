@@ -25,7 +25,7 @@
 
 <style lang="scss">
 	.overview {
-		background-color: var(--background-primary);
+		background-color: var(--brand-primary-light);
 		padding: 40px 0;
 		position: absolute;
 		left: 0;

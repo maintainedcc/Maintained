@@ -11,7 +11,7 @@
 
 <style lang="scss">
 	.badge {
-		--badge-padding: 22px;
+		--badge-padding: 16px;
 
 		border-radius: calc(var(--badge-padding) / 5);
 		display: flex;
@@ -29,14 +29,10 @@
 			color: #fff;
 			padding: calc(var(--badge-padding) / 2) var(--badge-padding);
 		}
-		span:first-child {
-			padding-right: calc(var(--badge-padding) - 10px);
-		}
 		span:last-child {
 			background-image: linear-gradient(45deg, var(--green) 50%, var(--blue) 50.1%);
 			background-size: 295%;
 			background-position-x: 0%;
-			padding-left: calc(var(--badge-padding) - 10px);
 			transition-duration: 0.7s;
 		}
 
