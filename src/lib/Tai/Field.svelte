@@ -1,5 +1,6 @@
 <script lang="ts">
 	import FieldColorOptions from "$lib/Tai/FieldColorOptions.svelte";
+	import FieldDynamicOptions from "$lib/Tai/FieldDynamicOptions.svelte";
 	import IconButton from "$lib/IconButton.svelte";
 	import { createEventDispatcher } from "svelte";
 	import type { BadgeField } from "$lib/util/schema";
@@ -16,13 +17,19 @@
 	}
 
 	// Extra options per badge field
-	let optsShown = false;
-	function toggleOpts() {
-		if (!optsShown) dispatch("toggle");
-		optsShown = !optsShown;
+	let colorOptsShown = false;
+	let dynOptsShown = false;
+	function toggleColorOpts() {
+		if (!colorOptsShown) dispatch("toggle");
+		colorOptsShown = !colorOptsShown;
+	}
+	function toggleDynOpts() {
+		if (!dynOptsShown) dispatch("toggle");
+		dynOptsShown = !dynOptsShown;
 	}
 	export const collapseOpts = () => {
-		optsShown = false;
+		colorOptsShown = false;
+		dynOptsShown = false;
 	};
 
 	function calculateWidth(content: string, font: string) {
@@ -52,14 +59,15 @@
 		/>
 	</span>
 	{#if showExtras}
-		<IconButton icon="color" medium={true} on:click={toggleOpts} active={optsShown} />
-		<IconButton icon="plugin" medium={true} />
+		<IconButton icon="color" medium={true} on:click={toggleColorOpts} active={colorOptsShown} />
+		<IconButton icon="plugin" medium={true} on:click={toggleDynOpts} active={dynOptsShown} />
 		{#if enableDelete}
 			<IconButton icon="trash" medium={true} on:click={del} />
 		{/if}
 	{/if}
 </div>
-<FieldColorOptions bind:field bind:shown={optsShown} on:update />
+<FieldColorOptions bind:field bind:shown={colorOptsShown} on:update />
+<FieldDynamicOptions bind:field bind:shown={dynOptsShown} on:update />
 
 <style lang="scss">
 	@import "../scss/mixins.scss";
