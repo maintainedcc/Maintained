@@ -29,7 +29,7 @@
 </div>
 
 <style lang="scss">
-	@import "../lib/scss/mixins.scss";
+	@import "../../lib/scss/mixins.scss";
 	$gap: 5px;
 
 	.dashboard {

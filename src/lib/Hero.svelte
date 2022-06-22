@@ -1,5 +1,7 @@
 <script lang="ts">
 	import BadgeButton from "$lib/BadgeButton.svelte";
+
+	const loginURL = import.meta.env.VITE_MAINTAINED_LOGIN_URL as string;
 </script>
 
 <section class="hero">
@@ -9,9 +11,7 @@
 	<div class="left-deco c" />
 	<h1>maintain<br />everything<br />effortlessly.</h1>
 	<div class="cta">
-		<BadgeButton left="Get Started" right="With GitHub" href="/login" />
-		<button>A</button>
-		<button>G</button>
+		<BadgeButton left="Get Started" right="With GitHub" href={loginURL} />
 	</div>
 </section>
 
@@ -61,19 +61,6 @@
 		display: flex;
 		column-gap: 16px;
 		margin-top: 30px;
-
-		button {
-			background-color: #000;
-			border: none;
-			border-radius: 5px;
-			color: #fff;
-			cursor: pointer;
-			font-family: inherit;
-			font-size: 1rem;
-			font-weight: 700;
-			height: 50px;
-			width: 50px;
-		}
 	}
 
 	h1 {
