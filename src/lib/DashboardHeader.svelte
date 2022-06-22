@@ -17,7 +17,6 @@
 		<code>{import.meta.env.VITE_VERSION}</code>
 	</span>
 	<nav>
-		<IconButton icon="bell" />
 		<IconButton icon="help" />
 		<div class="account">
 			<button on:click={toggleAccountPopover}>

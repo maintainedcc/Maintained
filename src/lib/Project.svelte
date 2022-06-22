@@ -26,7 +26,7 @@
 		<Modal bind:show><ProjectSettings {project} /></Modal>
 	</ProjectTitle>
 	<p class="description">
-		@org <b>&bull;</b> repository <b>&bull;</b> all branches
+		Maintained <b>&bull;</b> Personal Project
 	</p>
 	<div class="nav-split">
 		<nav>

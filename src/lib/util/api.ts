@@ -27,6 +27,10 @@ export async function getUser(): Promise<void> {
 		.then((r) => user.set(r as User));
 }
 
+export async function setUserWelcomed(): Promise<void> {
+	await fetch(`${baseUrl}/v1/user/welcome`, options("POST")).then(() => getUser());
+}
+
 /* creating stuff */
 
 export async function createBadge(project: string): Promise<void> {

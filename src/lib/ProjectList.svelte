@@ -25,12 +25,14 @@
 		{/each}
 	</ul>
 	<br />
+	<!--
 	<div class="header">
 		<h2>Teams</h2>
 	</div>
 	<ul>
 		<li><ProjectLink href="#">Shared Project</ProjectLink></li>
 	</ul>
+	-->
 	<span class="spacer" />
 	<footer>&copy; maintained.cc 2022</footer>
 </section>
