@@ -9,7 +9,7 @@
 	<div class="left-deco a" />
 	<div class="left-deco b" />
 	<div class="left-deco c" />
-	<h1>maintain<br />everything<br />effortlessly.</h1>
+	<h1>maintain<br />repositories<br />effortlessly.</h1>
 	<div class="cta">
 		<BadgeButton left="Get Started" right="With GitHub" href={loginURL} />
 	</div>

@@ -4,36 +4,91 @@
 
 <Hero />
 <div class="overview">
-	<section>
-		<br />
-		<h2>maintained.cc<br /><span>Workspace</span></h2>
-		<p><b>Maintained</b> Repository Badging</p>
-	</section>
-	<section>
-		<h2>maintained <b>mai</b><br /><span>Cloud Environments</span></h2>
-		<p><b>Mai</b> Environment Management <sup>soon tm</sup></p>
-	</section>
-	<section>
-		<h2>maintained <b>manta</b><br /><span>Mutators as a Service</span></h2>
-		<p><b>Manta</b> Cloud Mutation Layer <sup>soon tm</sup></p>
+	<section class="cards">
+		<div>
+			<h2>maintained <b>oss</b><br /><span>Open Source Software</span></h2>
+			<p>
+				<a href="https://github.com/maintainedcc">Maintained is OSS</a> under the ISL license, allowing
+				you to deploy your own stack with Docker or another custom solution.
+			</p>
+		</div>
+		<div>
+			<h2>maintained.cc<br /><span>Workspace</span></h2>
+			<p>
+				Show off your repositories with dynamic and customizable badges with the Maintained
+				workspace editor.
+			</p>
+		</div>
+		<div>
+			<h2>maintained <b>manta</b> <code>pre-rel</code><br /><span>Serverless Mutations</span></h2>
+			<p>
+				Write API middleware in the cloud, effortlessly mutating data before your code even recieves
+				it. Use it with your own programs or write powerful dynamic badges in Maintained.
+			</p>
+		</div>
 	</section>
 	<section class="center">
-		<h2>explore all maintained products</h2>
-		<p>except there aren't any more right now.</p>
+		<h2>Pricing</h2>
+		<p>
+			Maintained will always remain 100% free and accessible for personal use.
+			<a href="https://ivy.direct/github-sponsors">Learn more for commercial uses.</a>
+		</p>
+	</section>
+	<section class="center">
+		<h2>GitHub</h2>
+		<p><a href="https://github.com/maintainedcc">maintainedcc</a></p>
+		<p><a href="https://github.com/maintainedcc/Tai">maintainedcc/Tai</a></p>
+		<p><a href="https://github.com/maintainedcc/Maintained">maintainedcc/Maintained</a></p>
+		<br /><br /><br />
+		<p>&copy; 2022</p>
 	</section>
 </div>
 
 <style lang="scss">
 	.overview {
-		background-color: var(--brand-primary-light);
+		background-color: #fff;
 		padding: 40px 0;
 		position: absolute;
 		left: 0;
 		right: 0;
 
+		.cards {
+			display: flex;
+			column-gap: 20px;
+			flex-wrap: wrap;
+			row-gap: 20px;
+
+			> div {
+				border-radius: 5px;
+				box-shadow: #0005 0 3px 5px;
+				flex: 1 1;
+				min-width: 300px;
+				padding: 5px 25px;
+				padding-bottom: 25px;
+			}
+
+			h2 {
+				border-bottom: 1px solid var(--brand-primary);
+				line-height: 1.35;
+				font-size: 1rem;
+				padding-bottom: 10px;
+
+				span {
+					font-size: 1.25rem;
+					color: var(--text-brand);
+				}
+			}
+
+			p {
+				font-size: 0.9rem;
+				letter-spacing: 0.25px;
+				line-height: 1.65;
+			}
+		}
+
 		> section {
 			max-width: var(--max-width);
-			min-height: 300px;
+			min-height: 200px;
 			margin: auto;
 			padding: 10px 15px;
 
@@ -43,15 +98,18 @@
 			&.center {
 				text-align: center;
 			}
+
+			p {
+				letter-spacing: 0.25px;
+				line-height: 1.75;
+				max-width: 500px;
+				margin: auto;
+			}
 		}
 
-		h2 {
-			line-height: 1.2;
-
-			span {
-				font-size: 2.5rem;
-				color: var(--text-brand);
-			}
+		a {
+			color: var(--brand-primary);
+			text-decoration: underline;
 		}
 	}
 </style>
