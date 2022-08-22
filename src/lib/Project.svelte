@@ -1,6 +1,5 @@
 <script lang="ts">
 	import IconButton from "$lib/IconButton.svelte";
-	import MaiProject from "$lib/Mai/MaiProject.svelte";
 	import MantaProject from "$lib/Manta/MantaProject.svelte";
 	import Modal from "$lib/Modal.svelte";
 	import ProjectSettings from "$lib/ProjectSettings.svelte";
@@ -12,7 +11,7 @@
 	export let project: Project;
 	let show: () => any; // Opens project settings modal
 
-	const views = [TaiProject, MaiProject, MantaProject];
+	const views = [TaiProject, MantaProject];
 	let selectedView = 0;
 	function switchView(view: number) {
 		selectedView = view;
@@ -32,9 +31,6 @@
 		<nav>
 			<button class:active={selectedView === 0} on:click={() => switchView(0)}>
 				<span>Tai</span>
-			</button>
-			<button class:active={selectedView === 1} on:click={() => switchView(1)}>
-				<span>Mai</span>
 			</button>
 			<button class:active={selectedView === 2} on:click={() => switchView(2)}>
 				<span>Manta</span>

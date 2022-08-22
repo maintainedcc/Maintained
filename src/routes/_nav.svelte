@@ -11,9 +11,8 @@
 			</h1>
 		</a>
 		<span class="spacer" />
-		<a href="/">docs</a>
+		<a href="/">github</a>
 		<a href="/products">products</a>
-		<a href="/pricing">pricing</a>
 		<a class="login" href={loginURL}>get started</a>
 	</span>
 </nav>
