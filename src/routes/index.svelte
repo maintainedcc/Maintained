@@ -14,13 +14,14 @@
 		</div>
 		<div>
 			<h2>maintained.cc<br /><span>Workspace</span></h2>
-			<p>
-				Show off your repositories with dynamic and customizable badges with the Maintained
-				workspace editor.
-			</p>
+			<p>Show off your repositories with dynamic and customizable badges.</p>
+			<img src="/img/workspace-1.jpg" alt="Workspace Screenshot" />
 		</div>
 		<div>
-			<h2>maintained <b>manta</b> <code>pre-rel</code><br /><span>Serverless Mutations</span></h2>
+			<h2>
+				maintained <b>manta</b> <code>soon<sup>tm</sup></code><br /><span>Serverless Mutations</span
+				>
+			</h2>
 			<p>
 				Write API middleware in the cloud, effortlessly mutating data before your code even recieves
 				it. Use it with your own programs or write powerful dynamic badges in Maintained.
@@ -33,6 +34,19 @@
 			Maintained will always remain 100% free and accessible for personal use.
 			<a href="https://ivy.direct/github-sponsors">Learn more for commercial uses.</a>
 		</p>
+	</section>
+	<section class="center">
+		<h2>Gallery</h2>
+		<section class="cards">
+			<div>
+				<h2>Workspace<br /><span>Badge Editor</span></h2>
+				<img src="/img/workspace-2.jpg" alt="Workspace Screenshot" />
+			</div>
+			<div>
+				<h2>Workspace<br /><span>Advanced Badge</span></h2>
+				<img src="/img/workspace-3.jpg" alt="Workspace Screenshot" />
+			</div>
+		</section>
 	</section>
 	<section class="center">
 		<h2>GitHub</h2>
@@ -54,6 +68,7 @@
 
 		.cards {
 			display: flex;
+			justify-content: center;
 			column-gap: 20px;
 			flex-wrap: wrap;
 			row-gap: 20px;
@@ -63,8 +78,15 @@
 				box-shadow: #0005 0 3px 5px;
 				flex: 1 1;
 				min-width: 300px;
+				max-width: 300px;
 				padding: 5px 25px;
 				padding-bottom: 25px;
+			}
+
+			img {
+				border-radius: 5px;
+				max-width: 100%;
+				margin: 15px 0;
 			}
 
 			h2 {
