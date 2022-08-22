@@ -1,6 +1,5 @@
 <script lang="ts">
 	import IconButton from "$lib/IconButton.svelte";
-	import MaiProject from "$lib/Mai/MaiProject.svelte";
 	import MantaProject from "$lib/Manta/MantaProject.svelte";
 	import Modal from "$lib/Modal.svelte";
 	import ProjectSettings from "$lib/ProjectSettings.svelte";
@@ -12,7 +11,7 @@
 	export let project: Project;
 	let show: () => any; // Opens project settings modal
 
-	const views = [TaiProject, MaiProject, MantaProject];
+	const views = [TaiProject, MantaProject];
 	let selectedView = 0;
 	function switchView(view: number) {
 		selectedView = view;
